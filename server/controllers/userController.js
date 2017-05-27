@@ -49,5 +49,45 @@ export default {
 
       createUser();
     });
+  },
+
+  login(req, res) {
+    if ((req.body.email || req.body.userName) && req.body.password) {
+      User.findOne({
+        where: {
+          $or: [
+            { email: req.body.email },
+            { userName: req.body.userName }
+          ]
+        }
+      })
+      .then((existingUser) => {
+        if (!existingUser) {
+          return res.status(400)
+          .send({
+            message: 'This user is not registered. Kindly register'
+          });
+        }
+        if (existingUser && existingUser.isPassword(req.body.password)) {
+          const token = jwt.sign({
+            userName: existingUser.userName,
+            userId: existingUser.id,
+            roleId: existingUser.roleId
+          }, secret, { expiresIn: '2 days' });
+          return res.status(200)
+            .send({
+              message: 'Login successful',
+              existingUser,
+              token,
+              expiresIn: '2 days'
+            });
+        }
+        return res.status(401)
+          .send({ message: 'Please double check email/username & password' });
+      });
+    } else {
+      return res.status(400)
+        .send({ message: 'Incomplete login details' });
+    }
   }
 };
