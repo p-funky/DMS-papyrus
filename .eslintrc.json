@@ -5,11 +5,19 @@
       "jsx-a11y",
       "import"
   ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "env": {
     "jasmine": true,
     "node": true,
     "es6": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "max-len": ["error", 80, 4],
     "one-var": 0,
