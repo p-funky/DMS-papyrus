@@ -3,6 +3,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import http from 'http';
 
+import user from './server/routes/userRoutes';
 
 const port = parseInt(process.env.PORT, 10) || 8000;
 
@@ -18,6 +19,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(user());
 // Setup a default all-route that sends back a welcome message in JSON format.
 app.get('/*', (req, res) =>
   res.status(200).send('Welcome to PAPYRUS'));
