@@ -126,4 +126,59 @@ export default {
         .catch(error => res.status(400).send({ message: error.message }));
     }
   },
+
+  retrieve(req, res) {
+    const id = req.params.id;
+    Documents.findById(id)
+      .then((document) => {
+        if (!document) {
+          return res.status(404)
+            .send({
+              message: `There is no document with id: ${id}`
+            });
+        }
+        // if admin
+        if (req.decoded.roleId === 1) {
+          return res.status(200)
+            .send(document);
+        }
+        // if document is public
+        if (document.accessId === 1) {
+          return res.status(200)
+            .send(document);
+        }
+        // if document is private and person requesting is the owner
+        if ((document.accessId === 2) &&
+          (document.ownerId === req.decoded.userId)) {
+          return res.status(200)
+            .send(document);
+        }
+        // if document has role acess
+        if (document.accessId === 3) {
+          return User.findById(document.ownerId)
+            .then((owner) => {
+              // if owner role is same as requester's role
+              if (owner.roleId === req.decoded.roleId) {
+                return res.status(200)
+                  .send(document);
+              }
+              // if owner role is different from requester's role
+              return res.status(403)
+                .send({
+                  message: 'You are not permitted to access this document.'
+                });
+            });
+        }
+      // if document is private and person requesting is neither owner nor admin
+        return res.status(403)
+          .send({
+            message: 'Private! You are not permitted to access this document. '
+            + 'Request access from admin'
+          });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
+  },
+
 };
