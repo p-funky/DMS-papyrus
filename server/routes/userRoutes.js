@@ -26,4 +26,8 @@ user.route('/users/:id')
   .get(check.verifyToken, userController.getUser)
   .put(check.verifyToken, userController.update)
   .delete(check.verifyToken, userController.destroy);
+
+user.route('/search/users')
+  .get(check.verifyToken, userController.find);
+
 module.exports = () => user;
