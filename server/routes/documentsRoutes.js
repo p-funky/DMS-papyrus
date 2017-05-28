@@ -8,4 +8,7 @@ document.route('/documents/')
   .get(check.verifyToken, documentController.list)
   .post(check.verifyToken, documentController.create);
 
+document.route('/documents/:id')
+  .get(check.verifyToken, documentController.retrieve);
+
 module.exports = () => document;
