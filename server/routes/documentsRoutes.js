@@ -5,6 +5,7 @@ import check from '../middleware/authenticate';
 const document = express.Router();
 
 document.route('/documents/')
-.post(check.verifyToken, documentController.create);
+  .get(check.verifyToken, documentController.list)
+  .post(check.verifyToken, documentController.create);
 
 module.exports = () => document;
