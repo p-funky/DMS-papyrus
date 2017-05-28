@@ -383,4 +383,87 @@ export default {
         }
       });
   },
+
+  find(req, res) {
+    const limit = req.query.limit || '10';
+    const offset = req.query.offset || '0';
+    if (req.query.limit < 0 || req.query.offset < 0) {
+      return res.status(400)
+        .send({ message: 'Only positive integers are permitted.' });
+    }
+
+    const searchInfo = req.query.search;
+    let query;
+    if (req.decoded.roleId === 1) {
+      query = {
+        include: [{
+          model: User,
+          attributes: [
+            'userName', 'roleId'
+          ]
+        }],
+        limit,
+        offset,
+        order: '"createdAt" ASC'
+      };
+      if (searchInfo) {
+        query.where = {
+          $or: [
+            { title: { $iLike: `%${searchInfo}%` } },
+            { content: { $iLike: `%${searchInfo}%` } }
+          ]
+        };
+      }
+    } else {
+      query = {
+        include: [{
+          model: User,
+          attributes: [
+            'userName', 'roleId'
+          ]
+        }],
+        where: {
+          $or: [
+            { accessId: 1 },
+            { ownerId: req.decoded.userId },
+            {
+              $and: [
+                { accessId: 3 },
+                { '$User.roleId$': req.decoded.roleId }
+              ]
+            }
+          ]
+        },
+        limit,
+        offset,
+        order: '"createdAt" ASC'
+      };
+      if (searchInfo) {
+        query.where.$and = [{
+          $or: [
+            { title: { $iLike: `%${searchInfo}%` } },
+            { content: { $iLike: `%${searchInfo}%` } }
+          ]
+        }];
+      }
+    }
+
+
+    Documents.findAndCountAll(query)
+      .then((documents) => {
+        const settings = query.limit && query.offset
+          ? {
+            totalCount: documents.count,
+            pages: Math.ceil(documents.count / query.limit),
+            currentPage: Math.floor(query.offset / query.limit) + 1,
+            pageSize: documents.rows.length
+          } : null;
+        return res.status(200).send({
+          documents: documents.rows, settings
+        });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
+  }
 };
