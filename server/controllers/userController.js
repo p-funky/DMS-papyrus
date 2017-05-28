@@ -164,4 +164,56 @@ export default {
         return res.status(200).send(existingUser);
       });
   },
+
+  update(req, res) {
+    const id = req.params.id;
+    User.findById(id)
+      .then((existingUser) => {
+        if (!existingUser) {
+          return res
+            .status(404)
+            .send({ message: `There is no user with id: ${id}` });
+        }
+        if (Number(id) !== req.decoded.userId) {
+          if (req.decoded.roleId === 1 && existingUser.id === 1) {
+            return res.status(401)
+              .send({
+                message: 'You cannot edit this admin: the OGA at the top!!!'
+              });
+          }
+          if (req.decoded.roleId === 1 && (req.body.email || req.body.firstName
+              || req.body.lastName || req.body.userName || req.body.password)) {
+            return res.status(401)
+              .send({
+                message: 'You can only promote/demote another user.'
+              });
+          }
+          if (req.decoded.roleId !== 1) {
+            return res.status(401)
+              .send({
+                message: 'You cannot edit this user'
+              });
+          }
+        }
+
+        if (req.body.roleId === '1' && existingUser.roleId !== 1) {
+          if (req.decoded.roleId !== 1) {
+            return res.status(401)
+              .send({
+                message: 'You cannot promote yourself to an admin.'
+              });
+          }
+        }
+        existingUser.update(req.body, { fields: Object.keys(req.body) })
+          .then((updatedUser) => {
+            updatedUser = userDetails(updatedUser);
+            return res
+              .status(200)
+              .send(updatedUser);
+          })
+          .catch(error => res.status(400).send({
+            Error: error.message
+          }));
+      });
+  },
 };
