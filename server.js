@@ -8,7 +8,7 @@ import user from './server/routes/userRoutes';
 const port = parseInt(process.env.PORT, 10) || 8000;
 
 // Set up the express app
-const app = express();
+var app = express();
 
 app.set('port', port);
 
