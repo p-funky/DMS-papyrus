@@ -216,4 +216,45 @@ export default {
           }));
       });
   },
+
+  destroy(req, res) {
+    const id = req.params.id;
+    User.findById(id)
+      .then((existingUser) => {
+        if (!existingUser) {
+          return res
+            .status(404)
+            .send({ message: `There is no user with id: ${id}` });
+        }
+
+        if (existingUser.id === 1) {
+          return res.status(403)
+            .send({
+              message: 'Hmmm... the OGA at the top! DON\'T TRY IT!!!'
+            });
+        }
+
+        if (existingUser.roleId === '1' && req.decoded.roleId !== 1) {
+          return res.status(401)
+            .send({
+              message: 'Cannot delete admin.'
+            });
+        }
+
+        if (id !== existingUser.id && req.decoded.roleId !== 1) {
+          return res.status(401)
+            .send({
+              message: 'You cannot delete this user'
+            });
+        }
+
+        existingUser.destroy()
+          .then(() => res.status(200)
+            .send({
+              User: existingUser,
+              Message: 'User succesfully deleted'
+            })
+          );
+      });
+  },
 };

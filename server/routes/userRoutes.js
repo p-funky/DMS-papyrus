@@ -24,5 +24,6 @@ user.route('/users/admin')
 
 user.route('/users/:id')
   .get(check.verifyToken, userController.getUser)
-  .put(check.verifyToken, userController.update);
+  .put(check.verifyToken, userController.update)
+  .delete(check.verifyToken, userController.destroy);
 module.exports = () => user;
