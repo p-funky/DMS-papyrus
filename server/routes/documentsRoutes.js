@@ -10,6 +10,7 @@ document.route('/documents/')
 
 document.route('/documents/:id')
   .get(check.verifyToken, documentController.retrieve)
-  .put(check.verifyToken, documentController.update);
+  .put(check.verifyToken, documentController.update)
+  .delete(check.verifyToken, documentController.destroy);
 
 module.exports = () => document;

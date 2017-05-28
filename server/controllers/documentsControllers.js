@@ -243,4 +243,29 @@ export default {
         message: error.message
       }));
   },
+
+  destroy(req, res) {
+    const id = req.params.id;
+    Documents.findById(id)
+      .then((document) => {
+        if (!document) {
+          return res.status(404)
+            .send(
+            { message: `There is no document with id: ${id}` });
+        }
+        if (document.ownerId === req.decoded.userId ||
+          req.decoded.roleId === 1) {
+          document.destroy()
+            .then(() => res.status(200)
+              .send({
+                message: 'Document successfully deleted',
+                Document: document
+              })
+            );
+        } else {
+          return res.status(403)
+            .send({ message: 'You are not the owner of this document.' });
+        }
+      });
+  }
 };
