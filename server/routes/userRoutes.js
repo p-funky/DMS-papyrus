@@ -14,4 +14,7 @@ user.route('/users/login')
 user.route('/users/logout')
   .post(check.verifyToken, userController.logout);
 
+user.route('/users/profile')
+  .get(check.verifyToken, userController.profile);
+
 module.exports = () => user;

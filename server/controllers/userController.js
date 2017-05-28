@@ -94,5 +94,19 @@ export default {
   logout(req, res) {
     return res.status(200)
       .send({ message: 'Logout successful' });
+  },
+
+  profile(req, res) {
+    const id = req.decoded.userId;
+    User.findById(id)
+      .then((existingUser) => {
+        if (!existingUser) {
+          return res
+          .status(404)
+          .send({ message: 'User Not Found' });
+        }
+        existingUser = userDetails(existingUser);
+        return res.status(200).send(existingUser);
+      });
   }
 };
