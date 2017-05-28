@@ -257,4 +257,48 @@ export default {
           );
       });
   },
+
+  find(req, res) {
+    const limit = req.query.limit || '10';
+    const offset = req.query.offset || '0';
+    if (req.query.limit < 0 || req.query.offset < 0) {
+      return res.status(400)
+        .send({ message: 'Offset and limit can only be positive integers.' });
+    }
+
+    const searchInfo = req.query.search;
+    const query = {
+      attributes: ['id', 'firstName', 'lastName',
+        'email', 'userName', 'roleId'],
+      limit,
+      offset,
+      order: '"createdAt" ASC'
+    };
+    if (searchInfo) {
+      query.where = {
+        $and: {
+          $or: [
+            { firstName: { $iLike: `%${searchInfo}%` } },
+            { lastName: { $iLike: `%${searchInfo}%` } },
+            { userName: { $iLike: `%${searchInfo}%` } }
+          ]
+        }
+      };
+    }
+
+    User.findAndCountAll(query)
+      .then((users) => {
+        const settings = query.limit && query.offset
+          ? {
+            totalCount: users.count,
+            pages: Math.ceil(users.count / query.limit),
+            currentPage: Math.floor(query.offset / query.limit) + 1,
+            pageSize: users.rows.length
+          } : null;
+        res.send({ users: users.rows, settings });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
+  }
 };
