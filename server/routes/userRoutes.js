@@ -6,6 +6,8 @@ import check from '../middleware/authenticate';
 const user = express.Router();
 
 user.route('/users/')
+  .get(check.verifyToken,
+    check.adminAccess, userController.getAllUsers)
   .post(userController.create);
 
 user.route('/users/login')
