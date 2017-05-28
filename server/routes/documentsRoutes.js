@@ -16,4 +16,7 @@ document.route('/documents/:id')
 document.route('/users/:id/documents/')
   .get(check.verifyToken, documentController.listByUser);
 
+document.route('/search/documents')
+  .get(check.verifyToken, documentController.find);
+
 module.exports = () => document;
