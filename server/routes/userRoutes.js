@@ -19,4 +19,7 @@ user.route('/users/logout')
 user.route('/users/profile')
   .get(check.verifyToken, userController.profile);
 
+user.route('/users/admin')
+  .get(check.verifyToken, check.adminAccess, userController.getAllAdmin);
+
 module.exports = () => user;
