@@ -267,5 +267,120 @@ export default {
             .send({ message: 'You are not the owner of this document.' });
         }
       });
-  }
+  },
+
+  listByUser(req, res) {
+    const id = req.params.id;
+    const limit = req.query.limit || '10';
+    const offset = req.query.offset || '0';
+    let name;
+
+
+    if (req.query.limit < 0 || req.query.offset < 0) {
+      return res.status(400)
+        .send({ message: 'Only positive integers are allowed.' });
+    }
+
+    User.findById(id)
+      .then((existingUser) => {
+        if (!existingUser) {
+          return res
+            .status(404)
+            .send({ message: `There is no user with id: ${id}` });
+        }
+        name = existingUser.userName;
+
+        // if admin or owner
+        if (req.decoded.roleId === 1 || Number(id) === req.decoded.userId) {
+          Documents.findAndCountAll({
+            include: [{
+              model: User,
+              attributes: [
+                'userName', 'roleId'
+              ]
+            }],
+            where: {
+              // all of the owner's documents
+              ownerId: id
+            },
+            limit,
+            offset,
+            order: '"createdAt" ASC'
+          })
+          .then((documents) => {
+            if (!documents.count) {
+              return res
+                .status(404)
+                .send({
+                  message: `User ${name} with id: ${id}` +
+                  ' has no documents to view'
+                });
+            }
+            const settings = limit && offset ? {
+              totalCount: documents.count,
+              pages: Math.ceil(documents.count / limit),
+              currentPage: Math.floor(offset / limit) + 1,
+              pageSize: documents.rows.length
+            } : null;
+            return res.status(200).send({
+              documents: documents.rows, settings
+            });
+          })
+          .catch(error => res.status(400).send({ message: error.message }));
+        } else {
+          // not admin or owner
+          Documents.findAndCountAll({
+            include: [{
+              model: User,
+              attributes: [
+                'userName', 'roleId'
+              ]
+            }],
+            where: {
+              $and: [
+                // the owner's documents
+                { ownerId: id },
+                {
+                  $or: [
+                    // only public
+                    { accessId: 1 },
+                    // or same role-based document
+                    {
+                      $and: [
+                        { accessId: 3 },
+                        // owner's role must be same as requester's role
+                        { '$User.roleId$': req.decoded.roleId },
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            limit,
+            offset,
+            order: '"createdAt" ASC'
+          })
+          .then((documents) => {
+            if (!documents.count) {
+              return res
+                .status(404)
+                .send({
+                  message: `User ${name} with id: ${id}` +
+                  ' has no documents to view'
+                });
+            }
+            const settings = limit && offset ? {
+              totalCount: documents.count,
+              pages: Math.ceil(documents.count / limit),
+              currentPage: Math.floor(offset / limit) + 1,
+              pageSize: documents.rows.length
+            } : null;
+            return res.status(200).send({
+              documents: documents.rows, settings
+            });
+          })
+          .catch(error => res.status(400).send({ message: error.message }));
+        }
+      });
+  },
 };
