@@ -130,4 +130,23 @@ export default {
       Error: error.message
     }));
   },
+
+  getAllAdmin(req, res) {
+    const limit = req.query.limit || '10';
+    const offset = req.query.offset || '0';
+    User.findAndCountAll({
+      limit,
+      offset,
+      order: '"createdAt" ASC',
+      where: {
+        roleId: 1
+      }
+    }).then((user) => {
+      const settings = limit && offset ? { totalCount: user.count,
+        pages: Math.ceil(user.count / limit),
+        currentPage: Math.floor(offset / limit) + 1,
+        pageSize: user.rows.length } : null;
+      return res.status(200).send({ users: user.rows, settings });
+    });
+  },
 };
