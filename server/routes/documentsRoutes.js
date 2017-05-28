@@ -13,4 +13,7 @@ document.route('/documents/:id')
   .put(check.verifyToken, documentController.update)
   .delete(check.verifyToken, documentController.destroy);
 
+document.route('/users/:id/documents/')
+  .get(check.verifyToken, documentController.listByUser);
+
 module.exports = () => document;
