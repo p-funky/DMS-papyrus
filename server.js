@@ -39,9 +39,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(user());
 app.use(documents());
 
-// Setup a default all-route that sends back a welcome message in JSON format.
+// Setup a default landing page
 app.get('/*', (req, res) =>
-  res.status(200).send('Welcome to PAPYRUS'));
+  res.status(200).sendFile(path.join(__dirname, './client/index.html')));
 
 const server = http.createServer(app);
 server.listen(port);
