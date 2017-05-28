@@ -149,4 +149,19 @@ export default {
       return res.status(200).send({ users: user.rows, settings });
     });
   },
+
+  getUser(req, res) {
+    const id = req.params.id;
+    User.findById(id)
+      .then((existingUser) => {
+        if (!existingUser) {
+          return res
+          .status(404)
+          .send({ message: `There is no user with id: ${id}` });
+        }
+
+        existingUser = userDetails(existingUser);
+        return res.status(200).send(existingUser);
+      });
+  },
 };

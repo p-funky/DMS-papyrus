@@ -22,4 +22,6 @@ user.route('/users/profile')
 user.route('/users/admin')
   .get(check.verifyToken, check.adminAccess, userController.getAllAdmin);
 
+user.route('/users/:id')
+  .get(check.verifyToken, userController.getUser);
 module.exports = () => user;
