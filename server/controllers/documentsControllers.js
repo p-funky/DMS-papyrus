@@ -181,4 +181,66 @@ export default {
       }));
   },
 
+  update(req, res) {
+    const id = req.params.id;
+    Documents.findById(id)
+      .then((document) => {
+        if (!document) {
+          return res.status(404)
+            .send({ message: `There is no document with id: ${id}` });
+        }
+        if (document.ownerId !== req.decoded.userId) {
+          return res.status(401).send({
+            message: 'Is it your document? Is it your update?'
+          });
+        }
+
+        const userInfo = {};
+        let documentInfo = {};
+        User.findById(document.ownerId)
+          .then((owner) => {
+            userInfo.userName = owner.userName;
+            userInfo.roleId = owner.roleId;
+            if (document.title === req.body.title) {
+              return document
+                  .update(req.body, { fields: Object.keys(req.body) })
+                  .then(() => {
+                    documentInfo = document.dataValues;
+                    documentInfo.User = userInfo;
+                    res.status(200).send(documentInfo);
+                  });
+            }
+
+            const query = {
+              where: {
+                $and: {
+                  ownerId: req.decoded.userId,
+                  title: req.body.title
+                }
+              }
+            };
+
+            Documents.findAll(query)
+              .then((existingDocument) => {
+                if (existingDocument.length >= 1) {
+                  return res.status(409)
+                    .send({
+                      message: 'Title is in use by another document. ' +
+                      'Please modify'
+                    });
+                }
+                return document
+                  .update(req.body, { fields: Object.keys(req.body) })
+                  .then(() => {
+                    documentInfo = document.dataValues;
+                    documentInfo.User = userInfo;
+                    res.status(200).send(documentInfo);
+                  });
+              });
+          });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
+  },
 };

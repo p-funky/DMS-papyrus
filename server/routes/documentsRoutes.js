@@ -9,6 +9,7 @@ document.route('/documents/')
   .post(check.verifyToken, documentController.create);
 
 document.route('/documents/:id')
-  .get(check.verifyToken, documentController.retrieve);
+  .get(check.verifyToken, documentController.retrieve)
+  .put(check.verifyToken, documentController.update);
 
 module.exports = () => document;
