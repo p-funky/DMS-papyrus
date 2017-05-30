@@ -48,3 +48,5 @@ server.listen(port);
 /* eslint-disable */
 console.log(`server started on port ${port}`);
 /* eslint-enable */
+
+module.exports = app;
