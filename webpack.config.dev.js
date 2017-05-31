@@ -59,5 +59,9 @@ export default {
   },
   resolve: {
     extensions: ['.jsx', '.js']
+  },
+  node: {
+    dns: 'empty',
+    net: 'empty'
   }
 };

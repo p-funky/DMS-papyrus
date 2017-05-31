@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmail from '../../utils/helper';
+import papyrus from '../../images/papyrus.jpeg';
+
 
 class SignInForm extends React.Component {
 
@@ -29,35 +31,40 @@ class SignInForm extends React.Component {
 
   render() {
     return (
-      <div className="col s12 m12 l6">
-        <div className="card-panel">
-          <h4 className="center">Sign In</h4>
-          <p className="center">Continue managing your documents</p>
-          <div className="row">
-            <form className="col s12" onSubmit={this.onSubmit}>
-              <div className="row">
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">input</i>
-                  <input id="credential" type="text" className="validate" required onChange={this.onChange} />
-                  <label htmlFor="username|email">username or email</label>
+      <div>
+        <div className="col s12 m12 l6">
+          <div className="card-panel">
+            <h4 className="center">Sign In</h4>
+            <p className="center">Continue managing your documents</p>
+            <div className="row">
+              <form className="col s12" onSubmit={this.onSubmit}>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <i className="material-icons prefix">input</i>
+                    <input id="credential" type="text" className="validate" required onChange={this.onChange} />
+                    <label htmlFor="username|email">username or email</label>
+                  </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">lock</i>
-                  <input id="password" type="password" className="validate" required onChange={this.onChange} />
-                  <label htmlFor="password">password</label>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <i className="material-icons prefix">lock</i>
+                    <input id="password" type="password" className="validate" required onChange={this.onChange} />
+                    <label htmlFor="password">password</label>
+                  </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <button className="btn blue lighten-2 waves-effect waves-light right" type="submit" name="action">Submit
-                    <i className="mdi-content-send right" />
-                  </button>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <button className="btn blue lighten-2 waves-effect waves-light right" type="submit" name="action">Submit
+                      <i className="mdi-content-send right" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
+        </div>
+        <div className="col s12 m12 l6 center">
+          <img src={papyrus} alt="" />
         </div>
       </div>
     );

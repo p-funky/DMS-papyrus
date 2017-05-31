@@ -4,6 +4,7 @@ import App from './components/app';
 import Greetings from './components/greetings';
 import SignupPage from './components/signup/signupPage';
 import SignInpage from './components/signIn/signInPage';
+import DashboardPage from './components/dashboard/dashboardPage';
 import Footer from './components/footer';
 
 
@@ -13,6 +14,7 @@ export default (
     <Route exact path="/" component={Greetings} />
     <Route exact path="/signup" component={SignupPage} />
     <Route exact path="/signin" component={SignInpage} />
+    <Route exact path="/dashboard" component={DashboardPage} />
     <Route path="/" component={Footer} />
   </div>
 );

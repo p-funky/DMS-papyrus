@@ -17,3 +17,11 @@ body {
   left: 0;
   padding: 1rem;
 }
+
+.card-content h4 {
+  word-wrap: break-word;
+}
+
+.card .card-action {
+  padding: 50px 24px;
+}

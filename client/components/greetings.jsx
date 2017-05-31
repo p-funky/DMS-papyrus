@@ -12,7 +12,9 @@ class Greetings extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="row container grey-text text-darken-3 lighten-3">Bring your office to Papyrus</h1>
+        <h1 className="center row container grey-text text-darken-3 lighten-3">
+          Bring your office to Papyrus
+        </h1>
         <div className="parallax-container">
           <div className="parallax">
             <img src={image1} alt="" />
@@ -20,7 +22,7 @@ class Greetings extends React.Component {
         </div>
         <div className="section white">
           <div className="row container">
-            <h2 className="grey-text text-darken-3 lighten-3">
+            <h2 className="center grey-text text-darken-3 lighten-3">
               Store, share and manage all your files on the cloud.</h2>
           </div>
         </div>
