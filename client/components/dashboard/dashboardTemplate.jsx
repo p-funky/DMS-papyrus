@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getAllDocumentsAction }
   from '../../actions/documentActions';
 import documentCards from './documentCards';
@@ -32,6 +33,11 @@ class DashboardTemplate extends React.Component {
 const mapStateToProps = state => ({
   documents: state.documents,
 });
+
+DashboardTemplate.propTypes = {
+  getAllDocumentsAction: PropTypes.func.isRequired,
+  documents: PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps, {
   getAllDocumentsAction })(DashboardTemplate);

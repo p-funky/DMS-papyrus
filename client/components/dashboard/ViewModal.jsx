@@ -1,10 +1,9 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
+import PropTypes from 'prop-types';
 
 class viewModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     return (
       <Modal
@@ -16,10 +15,15 @@ class viewModal extends React.Component {
           </div>
         }
       >
+        <h4>{this.props.document.title}</h4>
         {this.props.document.content}
       </Modal>
     );
   }
 }
+
+viewModal.propTypes = {
+  document: PropTypes.object.isRequired
+};
 
 export default viewModal;

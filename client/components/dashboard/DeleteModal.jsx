@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
 import { deleteDocumentAction } from '../../actions/documentActions';
 
@@ -8,7 +9,6 @@ class DeleteModal extends React.Component {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
   }
-
 
   handleDelete(documentId) {
     this.props.deleteDocumentAction(documentId);
@@ -37,5 +37,10 @@ class DeleteModal extends React.Component {
     );
   }
 }
+
+DeleteModal.propTypes = {
+  deleteDocumentAction: PropTypes.func.isRequired,
+  document: PropTypes.object.isRequired
+};
 
 export default connect(null, { deleteDocumentAction })(DeleteModal);

@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { addDocumentAction } from '../../actions/documentActions';
-
-
 
 class AddModal extends React.Component {
   constructor(props) {
@@ -88,7 +87,12 @@ class AddModal extends React.Component {
             />
           </div>
           <div className="row">
-            <button onClick={this.handleAdd} className="btn blue lighten-2 waves-effect waves-light right" type="button" name="action">save
+            <button
+              onClick={this.handleAdd}
+              className="btn blue lighten-2 waves-effect waves-light right"
+              type="button"
+              name="action"
+            >save
               <i className="mdi-content-send right" />
             </button>
           </div>
@@ -98,6 +102,8 @@ class AddModal extends React.Component {
   }
 }
 
+AddModal.propTypes = {
+  addDocumentAction: PropTypes.func.isRequired
+};
 
 export default connect(null, { addDocumentAction })(AddModal);
-

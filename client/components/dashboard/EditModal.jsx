@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { editDocumentAction } from '../../actions/documentActions';
-
 
 
 class EditModal extends React.Component {
@@ -34,7 +34,7 @@ class EditModal extends React.Component {
 
 
   render() {
-    const { document } = this.props;
+    // const { document } = this.props;
     return (
       <Modal
         trigger={
@@ -96,5 +96,10 @@ class EditModal extends React.Component {
     );
   }
 }
+
+EditModal.propTypes = {
+  editDocumentAction: PropTypes.func.isRequired,
+  document: PropTypes.object.isRequired
+};
 
 export default connect(null, { editDocumentAction })(EditModal);

@@ -4,5 +4,3 @@ export const ADD_DOCUMENT = 'ADD_DOCUMENT';
 export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
 export const EDIT_DOCUMENT = 'EDIT_DOCUMENT';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
-
-
