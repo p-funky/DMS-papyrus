@@ -18,7 +18,7 @@ const port = parseInt(process.env.PORT, 10) || 8000;
 const compiler = webpack(webpackConfig);
 
 // Set up the express app
-const app = express();
+var app = express();
 
 app.use(webpackMiddleware(compiler, {
   hot: true,
