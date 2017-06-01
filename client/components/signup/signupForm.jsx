@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import papyrus from '../../images/papyrus.jpeg';
+import papyrus from '../../images/papyrus-ex.png';
 
 class SignupForm extends React.Component {
 

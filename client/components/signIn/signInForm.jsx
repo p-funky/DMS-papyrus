@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmail from '../../utils/helper';
-import papyrus from '../../images/papyrus.jpeg';
+import papyrus from '../../images/papyrus-ex.png';
 
 
 class SignInForm extends React.Component {

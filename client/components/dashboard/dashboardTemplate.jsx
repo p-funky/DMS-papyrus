@@ -18,11 +18,12 @@ class DashboardTemplate extends React.Component {
     return (
       <div>
         {
-          this.props.documents.documents
+          (this.props.documents.documents &&
+           this.props.documents.documents.length > 0)
           ?
             this.props.documents.documents.map(documentCards)
           :
-            'No document'
+            'You have no documents to view'
         }
         <AddModal />
       </div>

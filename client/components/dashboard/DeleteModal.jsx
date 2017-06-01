@@ -32,7 +32,7 @@ class DeleteModal extends React.Component {
           </div>
           }
       > Are you sure you want to delete this document?
-      <i className="material-icons yellow accent-4 white-text">warning</i>
+      <i className="material-icons yellow accent-4 white-text">report_problem</i>
       </Modal>
     );
   }

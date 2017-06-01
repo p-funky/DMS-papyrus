@@ -9,7 +9,7 @@ const configureStore = initialState => createStore(
       applyMiddleware(thunk),
       window.__REDUX_DEVTOOLS_EXTENSION__
         ? window.__REDUX_DEVTOOLS_EXTENSION__()
-        : a => a
+        : functional => functional
         )
       );
 const store = configureStore();

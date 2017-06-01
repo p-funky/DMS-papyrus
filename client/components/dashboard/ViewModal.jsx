@@ -17,6 +17,8 @@ class viewModal extends React.Component {
       >
         <h4>{this.props.document.title}</h4>
         {this.props.document.content}
+        <br />
+        <p>Author: {this.props.document.User.userName}</p>
       </Modal>
     );
   }

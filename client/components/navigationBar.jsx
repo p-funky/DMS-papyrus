@@ -29,16 +29,18 @@ export default () => (
               to="/dashboard"
               className="grey-text text-darken-3 lighten-3"
             >
-              Dashboard
+              <i className="material-icons">dashboard</i>
             </Link>
           </li>
-          <li><Link to="/" className="grey-text text-darken-3 lighten-3">
-                Profile
-              </Link>
+          <li>
+            <Link to="/profile" className="grey-text text-darken-3 lighten-3">
+              <i className="material-icons">assignment_ind</i>
+            </Link>
           </li>
-          <li><Link to="/users" className="grey-text text-darken-3 lighten-3">
-                Manage Users
-              </Link>
+          <li>
+            <Link to="/manage/users" className="grey-text text-darken-3 lighten-3">
+              <i className="material-icons">supervisor_account</i>
+            </Link>
           </li>
         </ul>
       </div>

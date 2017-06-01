@@ -12,6 +12,8 @@ const documentCards = (document, index) => (
           <h4>{document.title.substring(0, 10)}...</h4>
         </span>
         <p>{document.content.substring(0, 20)}...</p>
+        <br />
+        <p>Author: {document.User.userName}</p>
       </div>
       <div className="card-action">
         <div className="col m4">
