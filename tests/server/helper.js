@@ -24,7 +24,8 @@ module.exports = {
     lastName: faker.name.lastName().replace(/[.'"`]/g, ''),
     userName: faker.random.word().replace(/[.'"`]/g, ''),
     email: faker.internet.email(),
-    password: faker.internet.password()
+    password: faker.internet.password(),
+    id: 2
   },
 
   segun: {
@@ -43,7 +44,7 @@ module.exports = {
   testDocument2: {
     title: faker.finance.accountName(),
     content: faker.lorem.paragraph(),
-    access: 'private'
+    accessId: 2
   },
 
   testDocument3: {

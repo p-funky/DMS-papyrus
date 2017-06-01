@@ -25,7 +25,6 @@ app.use(webpackMiddleware(compiler, {
   publicPath: webpackConfig.output.publicPath,
   noInfo: true
 }));
-app.use(webpackHotMiddleware(compiler));
 
 app.set('port', port);
 
@@ -39,6 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(user());
 app.use(documents());
 
+app.use(webpackHotMiddleware(compiler));
 // Setup a default landing page
 app.get('/*', (req, res) =>
   res.status(200).sendFile(path.join(__dirname, './client/index.html')));

@@ -12,6 +12,7 @@ describe('Access Model', () => {
       });
     });
   });
+  after(() => db.User.destroy({ where: {} }));
 
   describe('Create Access', () => {
     it('should create a new access level', (done) => {
@@ -28,8 +29,8 @@ describe('Access Model', () => {
       db.Access.findById(1)
         .then((access) => {
           expect(access.title).to.eql('public');
-          done();
         });
+      done();
     });
   });
 
@@ -42,8 +43,8 @@ describe('Access Model', () => {
             .then((updatedAccess) => {
               expect(updatedAccess.title).to.eql('private');
               expect(updatedAccess.updatedAt).to.not.eql(updatedAt);
-              done();
             });
+          done();
         });
     });
   });
@@ -55,8 +56,8 @@ describe('Access Model', () => {
           db.Access.findById(1)
             .then((destroyedAccess) => {
               expect(destroyedAccess).to.be.a('null');
-              done();
             });
+          done();
         });
     });
   });

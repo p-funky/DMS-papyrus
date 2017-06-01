@@ -26,15 +26,16 @@ describe('Documents Model', () => {
                   `,
                   accessId: 1,
                   ownerId: 21
-                }).then(() => {
-                  done();
                 });
+                done();
               });
             });
           });
       });
     });
   });
+
+  after(() => db.User.destroy({ where: {} }));
 
   describe('Create Document', () => {
     it('should create a new document', (done) => {
@@ -45,8 +46,8 @@ describe('Documents Model', () => {
         ownerId: 21
       }).then((document) => {
         expect(document.title).to.eql('Oliver Twist');
-        done();
       });
+      done();
     });
   });
   describe('Update Document', () => {
@@ -69,8 +70,8 @@ describe('Documents Model', () => {
               inspiration of God.
             `);
             expect(updatedDocument.updatedAt).to.not.eql(updatedAt);
-            done();
           });
+          done();
         });
     });
   });

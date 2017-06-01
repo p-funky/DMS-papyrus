@@ -6,10 +6,18 @@ const userCards = (user, index) => (
     <div className="card light-blue">
       <div className="card-content white-text">
         <span className="card-title">
-          <h4>{user.userName}</h4>
+          <h6><strong>Username: </strong>{user.userName}</h6>
         </span>
-        <p>{user.firstName} {user.lastName}</p>
-        <p>{user.roleId}</p>
+        <p><strong>Name: </strong>{user.firstName} {user.lastName}</p>
+        <p><strong>Role: </strong>
+          {
+            (user.roleId === 1)
+            ?
+              'admin'
+            :
+              'regular'
+          }
+        </p>
       </div>
     </div>
   </div>
