@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {
   GET_ALL_USERS,
-  GET_PROFILE
+  GET_PROFILE,
+  DELETE_USER
 } from './types';
 
 export const getAllUsers = allUsers => ({
@@ -30,6 +31,18 @@ export const getProfileAction = () => dispatch =>
 
 export const editProfileAction = (userId, userDetails) => dispatch =>
   axios.put(`/users/${userId}`, userDetails)
+    .then(() => {
+      dispatch(getProfileAction());
+    })
+    .catch(error => console.log(error));
+
+export const deleteUser = profile => ({
+  type: DELETE_USER,
+  profile
+});
+
+export const deleteUserAction = userId => dispatch =>
+  axios.delete(`/users/${userId}`)
     .then(() => {
       dispatch(getProfileAction());
     })

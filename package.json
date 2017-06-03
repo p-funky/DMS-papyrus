@@ -5,7 +5,9 @@
   "main": "index.jsx",
   "scripts": {
     "start": "nodemon server.js --exec babel-node",
-    "test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test istanbul cover _mocha -- -R spec tests/server/routes/document.route.spec.js --compilers js:babel-core/register --timeout 200000"
+    "test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test istanbul cover _mocha -- -R spec tests/server/routes/document.route.spec.js --compilers js:babel-core/register --timeout 200000",
+    "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
+    "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all"
   },
   "repository": {
     "type": "git",

@@ -9,11 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     accessId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       defaultValue: 1
     },
     ownerId: {
-      allowNull: false,
       type: DataTypes.INTEGER
     }
   }, {
@@ -22,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         // associations can be defined here
         Documents.belongsTo(models.User, {
           foreignKey: 'ownerId',
-          onDelete: null
+          onDelete: 'SET NULL'
         });
         Documents.belongsTo(models.Access, {
           foreignKey: 'accessId',
-          onDelete: null
+          onDelete: 'SET NULL'
         });
       }
     },

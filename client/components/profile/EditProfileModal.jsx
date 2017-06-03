@@ -11,22 +11,31 @@ class EditProfileModal extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.state = {
-      userName: this.props.profile.userName,
-      firstName: this.props.profile.firstName,
-      lastName: this.props.profile.lastName,
-      email: this.props.profile.email,
-      password: ' '
+      userName: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
     };
     this.onChange = this.onChange.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      userName: nextProps.profile.userName,
+      firstName: nextProps.profile.firstName,
+      lastName: nextProps.profile.lastName,
+      email: nextProps.profile.email
+    });
   }
 
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleEdit(userId) {
+  handleUpdate(userId) {
     let suppliedDetails;
     suppliedDetails = lodash.pickBy(this.state, lodash.identity);
     const regex = /^\s+$/;
@@ -35,7 +44,7 @@ class EditProfileModal extends React.Component {
     } else {
       suppliedDetails = this.state;
     }
-    console.log(suppliedDetails);
+    console.log('to pass for updating', suppliedDetails);
     this.props.editProfileAction(userId, suppliedDetails)
       .then(() => {
         this.setState({
@@ -136,8 +145,8 @@ class EditProfileModal extends React.Component {
           </div>
           <div className="row">
             <button
-              onClick={() => this.handleEdit(this.props.profile.id)}
-              className="btn blue lighten-2 waves-effect waves-light right"
+              onClick={() => this.handleUpdate(this.props.profile.id)}
+              className="modal-close btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"
             >
@@ -150,14 +159,12 @@ class EditProfileModal extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  profile: state.users,
-});
 
 EditProfileModal.propTypes = {
   editProfileAction: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, { editProfileAction })(EditProfileModal);
+export default connect(null,
+  { editProfileAction })(EditProfileModal);
 

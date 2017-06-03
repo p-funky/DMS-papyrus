@@ -33,7 +33,7 @@ export default () => (
             </Link>
           </li>
           <li>
-            <Link to="/profile" className="grey-text text-darken-3 lighten-3">
+            <Link to="/my-info" className="grey-text text-darken-3 lighten-3">
               <i className="material-icons">assignment_ind</i>
             </Link>
           </li>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getProfileAction } from '../../actions/userActions';
 import EditProfileModal from './EditProfileModal';
+import DeleteAccountModal from './DeleteAccountModal';
 
 class ProfileTemplate extends React.Component {
 
@@ -12,7 +13,6 @@ class ProfileTemplate extends React.Component {
   }
 
   render() {
-    console.log(this.props.profile);
     return (
       <div className="col s6 m4 l3">
         <div className="card light-blue">
@@ -44,13 +44,14 @@ class ProfileTemplate extends React.Component {
           </div>
         </div>
         <EditProfileModal profile={this.props.profile} />
+        <DeleteAccountModal profile={this.props.profile} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  profile: state.users,
+  profile: state.profile
 });
 
 ProfileTemplate.propTypes = {

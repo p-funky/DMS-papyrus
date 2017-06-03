@@ -1,8 +1,9 @@
 /* eslint-env browser */
 import React from 'react';
+import UserDeleteModal from './userDeleteModal';
 
-const userCards = (user, index) => (
-  <div key={index} className="col s6 m4 l3">
+const userCards = user => (
+  <div key={user.id} className="col s6 m4 l3">
     <div className="card light-blue">
       <div className="card-content white-text">
         <span className="card-title">
@@ -18,6 +19,11 @@ const userCards = (user, index) => (
               'regular'
           }
         </p>
+      </div>
+      <div className="card-action">
+        <div className="col m4">
+          <UserDeleteModal user={user} />
+        </div>
       </div>
     </div>
   </div>

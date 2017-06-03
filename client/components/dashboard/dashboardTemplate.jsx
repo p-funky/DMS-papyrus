@@ -14,7 +14,7 @@ class DashboardTemplate extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.props.documents);
     return (
       <div>
         {

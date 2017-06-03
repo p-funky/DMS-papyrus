@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         // associations can be defined here
         Access.hasMany(models.Documents, {
           foreignKey: 'accessId',
-          onDelete: null
+          onDelete: 'SET NULL'
         });
       }
     },

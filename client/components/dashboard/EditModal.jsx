@@ -84,7 +84,7 @@ class EditModal extends React.Component {
           <div className="row">
             <button
               onClick={() => this.handleEdit(this.props.document.id)}
-              className="btn blue lighten-2 waves-effect waves-light right"
+              className="modal-close btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"
             >

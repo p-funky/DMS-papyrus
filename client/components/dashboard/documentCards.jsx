@@ -4,14 +4,14 @@ import ViewModal from './ViewModal';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 
-const documentCards = (document, index) => (
-  <div key={index} className="col s6 m4 l3">
+const documentCards = document => (
+  <div key={document.id} className="col s6 m4 l3">
     <div className="card light-blue">
       <div className="card-content white-text">
         <span className="card-title">
           <h4>{document.title.substring(0, 10)}...</h4>
         </span>
-        <p>{document.content.substring(0, 20)}...</p>
+        <p>{document.content.substring(0, 20)} ...</p>
         <br />
         <p>Author: {document.User.userName}</p>
       </div>

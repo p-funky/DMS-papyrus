@@ -29,6 +29,36 @@ module.exports = {
         roleId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        firstName: 'Maito',
+        lastName: 'Gai',
+        userName: 'greenbeast',
+        email: 'greenbeast@konoha.com',
+        password: bcrypt.hashSync(password),
+        roleId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        firstName: 'Rock',
+        lastName: 'Lee',
+        userName: 'fuzzybrows',
+        email: 'fuzzybrows@konoha.com',
+        password: bcrypt.hashSync(password),
+        roleId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        firstName: 'Hatake',
+        lastName: 'Kakashi',
+        userName: 'copy-ninja',
+        email: 'copy-ninja@konoha.com',
+        password: bcrypt.hashSync(password),
+        roleId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ],
       { returning: true, validate: true }

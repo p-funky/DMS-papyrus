@@ -19,7 +19,7 @@ export default (
     <Route exact path="/signin" component={SignInpage} />
     <Route exact path="/dashboard" component={DashboardPage} />
     <Route exact path="/manage-users" component={UsersPage} />
-    <Route exact path="/profile" component={ProfilePage} />
+    <Route exact path="/my-info" component={ProfilePage} />
     <Route path="/" component={Footer} />
   </div>
 );

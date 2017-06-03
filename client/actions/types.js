@@ -5,4 +5,5 @@ export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
 export const EDIT_DOCUMENT = 'EDIT_DOCUMENT';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_PROFILE = 'GET_PROFILE';
+export const DELETE_USER = 'DELETE_USER';
 

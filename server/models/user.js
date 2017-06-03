@@ -55,7 +55,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     roleId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       defaultValue: 2
     },
   }, {
@@ -85,13 +84,13 @@ module.exports = (sequelize, DataTypes) => {
         User.belongsTo(models.Roles, {
           foreignKey: {
             name: 'roleId',
-            onDelete: null
+            onDelete: 'SET NULL'
           }
         });
         User.hasMany(models.Documents, {
           foreignKey: {
             name: 'ownerId',
-            onDelete: null
+            onDelete: 'SET NULL'
           }
         });
       }
