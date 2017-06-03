@@ -2,7 +2,7 @@
 import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../../server';
-import model from '../../../server/models';
+import models from '../../../server/models';
 import helper from '../helper';
 
 
@@ -18,13 +18,11 @@ const regular = helper.regular;
 describe('User ROUTES', () => {
   let user1;
   let user2;
-  let user3;
   let token1;
-  let token2;
   let token3;
 
 
-  before(() => model.Roles.bulkCreate([admin, regular], {
+  before(() => models.Roles.bulkCreate([admin, regular], {
     returning: true })
       .then((createdRoles) => {
         john.roleId = createdRoles[0].id;
@@ -32,8 +30,8 @@ describe('User ROUTES', () => {
         segun.roleId = createdRoles[1].id;
       }));
 
-  after(() => model.User.destroy({ where: {} }));
-  after(() => model.sequelize.sync({ force: true }));
+  after(() => models.User.destroy({ where: {} }));
+  after(() => models.sequelize.sync({ force: true }));
 
 
   describe('REQUESTS', () => {
@@ -48,12 +46,10 @@ describe('User ROUTES', () => {
             .send(doe)
             .end((err, res) => {
               user2 = res.body.newUser;
-              token2 = res.body.token;
 
               request.post('/users')
                 .send(segun)
                 .end((err, res) => {
-                  user3 = res.body.newUser;
                   token3 = res.body.token;
                   done();
                 });
@@ -130,7 +126,7 @@ describe('User ROUTES', () => {
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(200);
-            model.User.count()
+            models.User.count()
               .then((userCount) => {
                 expect(userCount).to.equal(2);
               });

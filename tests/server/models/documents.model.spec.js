@@ -36,6 +36,8 @@ describe('Documents Model', () => {
   });
 
   after(() => db.User.destroy({ where: {} }));
+  after(() => db.sequelize.sync({ force: true }));
+
 
   describe('Create Document', () => {
     it('should create a new document', (done) => {

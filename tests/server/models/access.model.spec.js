@@ -13,6 +13,7 @@ describe('Access Model', () => {
     });
   });
   after(() => db.User.destroy({ where: {} }));
+  after(() => db.sequelize.sync({ force: true }));
 
   describe('Create Access', () => {
     it('should create a new access level', (done) => {

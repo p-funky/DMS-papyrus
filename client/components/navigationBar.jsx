@@ -38,7 +38,7 @@ export default () => (
             </Link>
           </li>
           <li>
-            <Link to="/manage/users" className="grey-text text-darken-3 lighten-3">
+            <Link to="/manage-users" className="grey-text text-darken-3 lighten-3">
               <i className="material-icons">supervisor_account</i>
             </Link>
           </li>

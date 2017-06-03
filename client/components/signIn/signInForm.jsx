@@ -42,14 +42,14 @@ class SignInForm extends React.Component {
                   <div className="input-field col s12">
                     <i className="material-icons prefix">input</i>
                     <input id="credential" type="text" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="username|email">username or email</label>
+                    <label className="active" htmlFor="credentiall">username or email</label>
                   </div>
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
                     <i className="material-icons prefix">lock</i>
                     <input id="password" type="password" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="password">password</label>
+                    <label className="active" htmlFor="password">password</label>
                   </div>
                 </div>
                 <div className="row">

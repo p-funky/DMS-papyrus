@@ -4,11 +4,21 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      }
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      }
     },
     email: {
       type: DataTypes.STRING,
@@ -24,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     userName: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      },
       unique: {
         args: true,
         msg: 'Username already in use'
@@ -31,7 +46,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      }
     },
     roleId: {
       type: DataTypes.INTEGER,

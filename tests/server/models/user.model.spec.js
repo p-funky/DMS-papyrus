@@ -36,7 +36,7 @@ describe('User model- ', () => {
           done();
         });
     });
-
+    after(() => models.User.destroy({ where: {} }));
     after(() => models.sequelize.sync({ force: true }));
 
     it('should be able to create a user', () => {

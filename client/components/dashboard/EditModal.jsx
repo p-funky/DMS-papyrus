@@ -34,7 +34,6 @@ class EditModal extends React.Component {
 
 
   render() {
-    // const { document } = this.props;
     return (
       <Modal
         trigger={
@@ -88,7 +87,8 @@ class EditModal extends React.Component {
               className="btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"
-            >Save<i className="mdi-content-send right" />
+            >
+              Save<i className="mdi-content-send right" />
             </button>
           </div>
         </form>
