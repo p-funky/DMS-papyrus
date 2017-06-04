@@ -32,7 +32,6 @@ class EditModal extends React.Component {
     this.props.editDocumentAction(documentId, this.state);
   }
 
-
   render() {
     return (
       <Modal

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
-import { deleteUserAction } from '../../actions/userActions';
+import { deleteSelfAction } from '../../actions/userActions';
 
 class DeleteAccountModal extends React.Component {
   constructor(props) {
@@ -11,8 +11,7 @@ class DeleteAccountModal extends React.Component {
   }
 
   handleDelete(userId) {
-    // console.log('======================success', userId);
-    this.props.deleteUserAction(userId);
+    this.props.deleteSelfAction(userId);
   }
 
   render() {
@@ -40,8 +39,8 @@ class DeleteAccountModal extends React.Component {
 }
 
 DeleteAccountModal.propTypes = {
-  deleteUserAction: PropTypes.func.isRequired,
+  deleteSelfAction: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
 
-export default connect(null, { deleteUserAction })(DeleteAccountModal);
+export default connect(null, { deleteSelfAction })(DeleteAccountModal);

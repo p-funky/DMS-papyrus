@@ -2,8 +2,7 @@ import axios from 'axios';
 import {
   GET_ALL_DOCUMENTS,
   ADD_DOCUMENT,
-  DELETE_DOCUMENT,
-  EDIT_DOCUMENT
+  DELETE_DOCUMENT
 } from './types';
 
 export const getAllDocuments = allDocuments => ({
@@ -13,11 +12,6 @@ export const getAllDocuments = allDocuments => ({
 
 export const deleteDocumentSuccess = document => ({
   type: DELETE_DOCUMENT,
-  document,
-});
-
-export const editDocumentSuccess = document => ({
-  type: EDIT_DOCUMENT,
   document,
 });
 

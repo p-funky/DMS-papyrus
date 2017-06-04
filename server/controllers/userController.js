@@ -195,6 +195,12 @@ export default {
               });
           }
         }
+        if (existingUser.id === 1 && req.body.roleId) {
+          return res.status(403)
+            .send({
+              message: 'To avoid complications, this is forbidden!'
+            });
+        }
 
         if (req.body.roleId === '1' && existingUser.roleId !== 1) {
           if (req.decoded.roleId !== 1) {

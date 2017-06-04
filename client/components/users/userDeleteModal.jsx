@@ -11,7 +11,6 @@ class UserDeleteModal extends React.Component {
   }
 
   handleDelete(userId) {
-    console.log('======================success', userId);
     this.props.deleteUserAction(userId);
   }
 

@@ -1,6 +1,7 @@
 /* eslint-env browser */
 import React from 'react';
 import UserDeleteModal from './userDeleteModal';
+import EditUserButton from './editUserButton';
 
 const userCards = user => (
   <div key={user.id} className="col s6 m4 l3">
@@ -23,6 +24,9 @@ const userCards = user => (
       <div className="card-action">
         <div className="col m4">
           <UserDeleteModal user={user} />
+        </div>
+        <div className="col m4">
+          <EditUserButton user={user} />
         </div>
       </div>
     </div>

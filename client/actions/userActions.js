@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
   GET_ALL_USERS,
   GET_PROFILE,
-  DELETE_USER
+  DELETE_USER,
+  DELETE_ACCOUNT
 } from './types';
 
 export const getAllUsers = allUsers => ({
@@ -36,14 +37,33 @@ export const editProfileAction = (userId, userDetails) => dispatch =>
     })
     .catch(error => console.log(error));
 
-export const deleteUser = profile => ({
-  type: DELETE_USER,
+export const deleteSelf = profile => ({
+  type: DELETE_ACCOUNT,
   profile
+});
+
+export const deleteSelfAction = userId => dispatch =>
+  axios.delete(`/users/${userId}`)
+    .then(() => {
+      dispatch(getProfileAction());
+    })
+    .catch(error => console.log(error));
+
+export const deleteUser = user => ({
+  type: DELETE_USER,
+  user
 });
 
 export const deleteUserAction = userId => dispatch =>
   axios.delete(`/users/${userId}`)
     .then(() => {
-      dispatch(getProfileAction());
+      dispatch(getAllUsersAction());
+    })
+    .catch(error => console.log(error));
+
+export const editUserRoleAction = (userId, userDetails) => dispatch =>
+  axios.put(`/users/${userId}`, userDetails)
+    .then(() => {
+      dispatch(getAllUsersAction());
     })
     .catch(error => console.log(error));

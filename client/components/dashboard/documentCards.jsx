@@ -4,6 +4,23 @@ import ViewModal from './ViewModal';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 
+const accessDisplay = (accessId, roleId) => {
+  if (accessId === 1) {
+    return 'public';
+  }
+  if (accessId === 2) {
+    return 'private';
+  }
+  if (accessId === 3) {
+    if (roleId === 1) {
+      return 'admin';
+    }
+    if (roleId === 2) {
+      return 'regular';
+    }
+  }
+};
+
 const documentCards = document => (
   <div key={document.id} className="col s6 m4 l3">
     <div className="card light-blue">
@@ -14,6 +31,7 @@ const documentCards = document => (
         <p>{document.content.substring(0, 20)} ...</p>
         <br />
         <p>Author: {document.User.userName}</p>
+        <p>Access: {accessDisplay(document.accessId, (document.User.roleId))}</p>
       </div>
       <div className="card-action">
         <div className="col m4">
