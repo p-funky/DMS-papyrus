@@ -26,6 +26,14 @@ export default () => (
           </li>
           <li>
             <Link
+              to="/my-docs"
+              className="grey-text text-darken-3 lighten-3"
+            >
+              <i className="material-icons">library_books</i>
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/dashboard"
               className="grey-text text-darken-3 lighten-3"
             >
@@ -33,7 +41,7 @@ export default () => (
             </Link>
           </li>
           <li>
-            <Link to="/my-info" className="grey-text text-darken-3 lighten-3">
+            <Link to="/me" className="grey-text text-darken-3 lighten-3">
               <i className="material-icons">assignment_ind</i>
             </Link>
           </li>

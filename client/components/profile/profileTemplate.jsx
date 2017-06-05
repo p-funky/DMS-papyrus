@@ -15,6 +15,7 @@ class ProfileTemplate extends React.Component {
   render() {
     return (
       <div className="col s6 m4 l3">
+        <h3>My Profile</h3>
         <div className="card light-blue">
           <div className="card-content white-text">
             <p>

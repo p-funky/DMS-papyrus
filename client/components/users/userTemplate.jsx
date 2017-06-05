@@ -14,7 +14,8 @@ class UserTemplate extends React.Component {
   render() {
     console.log(this.props.users);
     return (
-      <div>
+      <div className="col s12 m12 l12">
+        <h3>Manage Users</h3>
         {
           (this.props.users.users &&
            this.props.users.users.length > 0)

@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getAllDocumentsAction }
+import jwt from 'jsonwebtoken';
+import { getmyDocumentsAction }
   from '../../actions/documentActions';
-import documentCards from './documentCards';
-import AddModal from './AddModal';
+import MyDocumentsCards from './MyDocumentsCards';
+import AddModal from '../dashboard/AddModal';
 
 class DashboardTemplate extends React.Component {
 
@@ -13,19 +14,20 @@ class DashboardTemplate extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getAllDocumentsAction();
+    const user = jwt.decode(localStorage.token);
+    const userId = user.userId;
+    this.props.getmyDocumentsAction(userId);
   }
 
   render() {
-    console.log(this.props.documents);
     return (
       <div className="col s12 m12 l12">
-        <h3>All Documents</h3>
+        <h3>My Documents</h3>
         {
           (this.props.documents.documents &&
            this.props.documents.documents.length > 0)
           ?
-            this.props.documents.documents.map(documentCards)
+            this.props.documents.documents.map(MyDocumentsCards)
           :
             'You have no documents to view'
         }
@@ -37,12 +39,13 @@ class DashboardTemplate extends React.Component {
 
 const mapStateToProps = state => ({
   documents: state.documents,
+  profile: state.profile
 });
 
 DashboardTemplate.propTypes = {
-  getAllDocumentsAction: PropTypes.func.isRequired,
+  getmyDocumentsAction: PropTypes.func.isRequired,
   documents: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, {
-  getAllDocumentsAction })(DashboardTemplate);
+  getmyDocumentsAction })(DashboardTemplate);

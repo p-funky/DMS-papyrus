@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
   GET_ALL_DOCUMENTS,
   ADD_DOCUMENT,
-  DELETE_DOCUMENT
+  DELETE_DOCUMENT,
+  GET_MY_DOCUMENTS
 } from './types';
 
 export const getAllDocuments = allDocuments => ({
@@ -10,24 +11,29 @@ export const getAllDocuments = allDocuments => ({
   allDocuments,
 });
 
-export const deleteDocumentSuccess = document => ({
-  type: DELETE_DOCUMENT,
-  document,
-});
+export const getAllDocumentsAction = () => dispatch =>
+  axios.get('/documents/')
+    .then((success) => {
+      dispatch(getAllDocuments(success.data));
+    })
+    .catch(error => console.log(error));
 
 export const addDocumentSuccess = document => ({
   type: ADD_DOCUMENT,
   document,
 });
 
-export const getAllDocumentsAction = () => dispatch =>
-  axios.get('/documents/')
+export const addDocumentAction = documentDetails => dispatch =>
+  axios.post('/documents/', documentDetails)
     .then((success) => {
-      dispatch(getAllDocuments(success.data));
+      dispatch(addDocumentSuccess(success.data));
     })
-    .catch(() => {
-      // console.log('error: ', error);
-    });
+    .catch(error => console.log(error));
+
+export const deleteDocumentSuccess = document => ({
+  type: DELETE_DOCUMENT,
+  document,
+});
 
 export const deleteDocumentAction = documentId => dispatch =>
   axios.delete(`/documents/${documentId}`)
@@ -43,9 +49,22 @@ export const editDocumentAction = (documentId, documentDetails) => dispatch =>
     })
     .catch(error => console.log(error));
 
-export const addDocumentAction = documentDetails => dispatch =>
-  axios.post('/documents/', documentDetails)
+export const getMyDocuments = myDocuments => ({
+  type: GET_MY_DOCUMENTS,
+  myDocuments,
+});
+
+
+export const getmyDocumentsAction = userId => dispatch =>
+  axios.get(`/users/${userId}/documents`)
     .then((success) => {
-      dispatch(addDocumentSuccess(success.data));
+      dispatch(getMyDocuments(success.data));
+    })
+    .catch(error => console.log(error));
+
+export const myDocumentEditAction = (documentId, userId, documentDetails) => dispatch =>
+  axios.put(`/documents/${documentId}`, documentDetails)
+    .then(() => {
+      dispatch(getmyDocumentsAction(userId));
     })
     .catch(error => console.log(error));

@@ -8,6 +8,8 @@ import DashboardPage from './components/dashboard/dashboardPage';
 import UsersPage from './components/users/usersPage';
 import Footer from './components/footer';
 import ProfilePage from './components/profile/profilePage';
+import MyDocumentsPage from './components/myDocuments/MyDocumentsPage';
+
 
 
 
@@ -19,7 +21,8 @@ export default (
     <Route exact path="/signin" component={SignInpage} />
     <Route exact path="/dashboard" component={DashboardPage} />
     <Route exact path="/manage-users" component={UsersPage} />
-    <Route exact path="/my-info" component={ProfilePage} />
+    <Route exact path="/me" component={ProfilePage} />
+    <Route exact path="/my-docs" component={MyDocumentsPage} />
     <Route path="/" component={Footer} />
   </div>
 );
