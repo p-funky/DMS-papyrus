@@ -10,7 +10,7 @@ before_script:
   - npm install
   - npm install -g sequelize-cli
   - sudo -u postgres createuser andeladeveloper
-  - createdb dms_test
+  - createdb dms-test
 
 script:
   - npm run test
