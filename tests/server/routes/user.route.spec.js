@@ -133,6 +133,7 @@ describe('User ROUTES', () => {
             done();
           });
       });
+
       it('should perform delete on request from admin', (done) => {
         request.delete(`/users/${user2.id}`)
         .set({ Authorization: token1 })

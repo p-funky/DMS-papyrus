@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Pagination } from 'react-materialize';
 import { getAllDocumentsAction }
   from '../../actions/documentActions';
 import documentCards from './documentCards';
@@ -10,14 +11,30 @@ class DashboardTemplate extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onSelect = this.onSelect.bind(this);
   }
 
   componentDidMount() {
-    this.props.getAllDocumentsAction();
+    const offset = 0;
+    this.props.getAllDocumentsAction(offset);
+  }
+
+  onSelect(pageNumber) {
+    console.log('======pagenumber', pageNumber);
+    const offset = (pageNumber - 1) * 3;
+    console.log('======offset', offset);
+    this.props.getAllDocumentsAction(offset);
   }
 
   render() {
     console.log(this.props.documents);
+    let pageCount;
+    let currentPage;
+    const settings = this.props.documents.settings;
+    if (settings) {
+      pageCount = settings.pages;
+      currentPage = settings.currentPage;
+    }
     return (
       <div className="col s12 m12 l12">
         <h3>All Documents</h3>
@@ -30,6 +47,10 @@ class DashboardTemplate extends React.Component {
             'You have no documents to view'
         }
         <AddModal />
+        <Pagination
+          items={pageCount} activePage={currentPage} maxButtons={10}
+          onSelect={this.onSelect}
+        />
       </div>
     );
   }

@@ -2,19 +2,33 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
+import { Redirect } from 'react-router-dom';
 import { deleteSelfAction } from '../../actions/userActions';
 
 class DeleteAccountModal extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { loggedOut: false };
     this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleDelete(userId) {
     this.props.deleteSelfAction(userId);
+    this.setState = ({ loggedOut: true });
+    console.log('hit===========');
+    return (
+      <Redirect to="/" />
+    );
   }
 
   render() {
+    const { loggedOut } = this.state;
+    if (loggedOut) {
+      return (
+        <Redirect to="/" />
+      );
+    }
+
     return (
       <Modal
         trigger={

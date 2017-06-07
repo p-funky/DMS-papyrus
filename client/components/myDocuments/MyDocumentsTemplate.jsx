@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import jwt from 'jsonwebtoken';
+import { Pagination } from 'react-materialize';
 import { getmyDocumentsAction }
   from '../../actions/documentActions';
 import MyDocumentsCards from './MyDocumentsCards';
@@ -11,15 +12,34 @@ class DashboardTemplate extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onSelect = this.onSelect.bind(this);
   }
 
   componentDidMount() {
     const user = jwt.decode(localStorage.token);
     const userId = user.userId;
-    this.props.getmyDocumentsAction(userId);
+    const offset = 0;
+    this.props.getmyDocumentsAction(userId, offset);
+  }
+
+  onSelect(pageNumber) {
+    const user = jwt.decode(localStorage.token);
+    const userId = user.userId;
+    console.log('======pagenumber', pageNumber);
+    const offset = (pageNumber - 1) * 3;
+    console.log('======offset', offset);
+    this.props.getmyDocumentsAction(userId, offset);
   }
 
   render() {
+    console.log(this.props.documents);
+    let pageCount;
+    let currentPage;
+    const pageSettings = this.props.documents.settings;
+    if (pageSettings) {
+      pageCount = pageSettings.pages;
+      currentPage = pageSettings.currentPage;
+    }
     return (
       <div className="col s12 m12 l12">
         <h3>My Documents</h3>
@@ -32,6 +52,10 @@ class DashboardTemplate extends React.Component {
             'You have no documents to view'
         }
         <AddModal />
+        <Pagination
+          items={pageCount} activePage={currentPage} maxButtons={10}
+          onSelect={this.onSelect}
+        />
       </div>
     );
   }

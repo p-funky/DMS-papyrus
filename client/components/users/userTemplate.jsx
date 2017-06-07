@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Pagination } from 'react-materialize';
 import { getAllUsersAction } from '../../actions/userActions';
 import userCards from './userCards';
 
@@ -8,11 +9,26 @@ class UserTemplate extends React.Component {
 
   constructor(props) {
     super(props);
-    this.props.getAllUsersAction();
+    this.onSelect = this.onSelect.bind(this);
+    this.props.getAllUsersAction(0);
+  }
+
+  onSelect(pageNumber) {
+    console.log('======pagenumber', pageNumber);
+    const offset = (pageNumber - 1) * 2;
+    console.log('======offset', offset);
+    this.props.getAllUsersAction(offset);
   }
 
   render() {
     console.log(this.props.users);
+    let pageCount;
+    let currentPage;
+    const settings = this.props.users.settings;
+    if (settings) {
+      pageCount = settings.pages;
+      currentPage = settings.currentPage;
+    }
     return (
       <div className="col s12 m12 l12">
         <h3>Manage Users</h3>
@@ -22,8 +38,12 @@ class UserTemplate extends React.Component {
           ?
             this.props.users.users.map(userCards)
           :
-          'You have no users to manage. Practically, this is not possible! ;-D'
+          'You have no users to manage.'
         }
+        <Pagination
+          items={pageCount} activePage={currentPage} maxButtons={10}
+          onSelect={this.onSelect}
+        />
       </div>
     );
   }

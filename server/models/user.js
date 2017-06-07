@@ -69,13 +69,6 @@ module.exports = (sequelize, DataTypes) => {
           user.password = bcrypt.hashSync(user.password, salt);
           user.updateAt = Date.now();
         }
-      },
-      beforeBulkUpdate(users) {
-        if (users.attributes && users.attributes.password) {
-          const salt = bcrypt.genSaltSync();
-          const password = users.attributes.password;
-          users.attributes.password = bcrypt.hashSync(password, salt);
-        }
       }
     },
     classMethods: {

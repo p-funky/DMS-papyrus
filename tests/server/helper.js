@@ -52,17 +52,17 @@ module.exports = {
     content: faker.lorem.paragraph()
   },
 
-  documentsCollection() {
-    const documentParams = [];
+  // documentsCollection() {
+  //   const documentParams = [];
 
-    for (let i = 0; i <= 15; i += 1) {
-      documentParams.push({
-        title: faker.company.catchPhrase(),
-        content: faker.lorem.paragraph(),
-        ownerId: 1
-      });
-    }
+  //   for (let i = 0; i <= 15; i += 1) {
+  //     documentParams.push({
+  //       title: faker.company.catchPhrase(),
+  //       content: faker.lorem.paragraph(),
+  //       ownerId: 1
+  //     });
+  //   }
 
-    return documentParams;
-  }
+  //   return documentParams;
+  // }
 };

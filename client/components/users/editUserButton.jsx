@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import jwt from 'jsonwebtoken';
 import { editUserRoleAction } from '../../actions/userActions';
 
 
@@ -20,18 +21,28 @@ class EditUserButton extends React.Component {
   }
 
   render() {
+    const token = localStorage.token;
+    const user = jwt.decode(token);
     return (
-      <button
-        className="waves-effect waves-light btn"
-        onClick={() => this.changeRole(this.props.user.id, this.props.user.roleId)}
-      > {
-          (this.props.user.roleId === 1)
+      <div>
+        {
+          (this.props.user.id !== user.userId)
           ?
-            'demote'
+            <button
+              className="waves-effect waves-light btn"
+              onClick={() => this.changeRole(this.props.user.id, this.props.user.roleId)}
+            > {
+                (this.props.user.roleId === 1)
+                ?
+                  'demote'
+                :
+                  'promote'
+              }
+            </button>
           :
-            'promote'
+            ''
         }
-      </button>
+      </div>
     );
   }
 }

@@ -44,8 +44,11 @@ export default {
   list(req, res) {
     const id = req.decoded.userId;
     const name = req.decoded.userName;
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
+    const limit = req.query.limit || '3';
+    let offset = req.query.offset || '0';
+    if (!offset) {
+      offset = 0;
+    }
     if (req.query.limit < 0 || req.query.offset < 0) {
       return res.status(400)
         .send({ message: 'Only positive integers are allowed.' });
@@ -88,7 +91,7 @@ export default {
           $or: [
             // public
             { accessId: 1 },
-            // private - your own
+            // your own - private inclusive
             { ownerId: id },
             {
               $and: [
@@ -270,13 +273,27 @@ export default {
   },
 
   listByUser(req, res) {
+    // const id = req.params.id;
+    // const limit = req.query.limit || '3';
+    // const offset = req.query.offset || '0';
+    // let name;
+
     const id = req.params.id;
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
+    let limit = req.query.limit;
+    let offset = req.query.offset;
     let name;
 
+    if (!req.query.limit) {
+      limit = '3';
+    }
 
-    if (req.query.limit < 0 || req.query.offset < 0) {
+    if (!req.query.offset) {
+      offset = '0';
+    }
+
+    if ((limit && limit < 0) ||
+      (offset && offset < 0)) {
+      console.log(offset);
       return res.status(400)
         .send({ message: 'Only positive integers are allowed.' });
     }

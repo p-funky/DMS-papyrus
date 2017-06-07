@@ -11,8 +11,8 @@ export const getAllUsers = allUsers => ({
   allUsers
 });
 
-export const getAllUsersAction = () => dispatch =>
-  axios.get('/users/')
+export const getAllUsersAction = offset => dispatch =>
+  axios.get(`/users/?offset=${offset}`)
     .then((success) => {
       dispatch(getAllUsers(success.data));
     })
@@ -37,18 +37,6 @@ export const editProfileAction = (userId, userDetails) => dispatch =>
     })
     .catch(error => console.log(error));
 
-export const deleteSelf = profile => ({
-  type: DELETE_ACCOUNT,
-  profile
-});
-
-export const deleteSelfAction = userId => dispatch =>
-  axios.delete(`/users/${userId}`)
-    .then(() => {
-      dispatch(getProfileAction());
-    })
-    .catch(error => console.log(error));
-
 export const deleteUser = user => ({
   type: DELETE_USER,
   user
@@ -67,3 +55,23 @@ export const editUserRoleAction = (userId, userDetails) => dispatch =>
       dispatch(getAllUsersAction());
     })
     .catch(error => console.log(error));
+
+export const deleteSelf = profile => ({
+  type: DELETE_ACCOUNT,
+  profile
+});
+
+export const logOutAction = () =>
+  axios.post('/users/logout')
+    .then(() => {
+      localStorage.removeItem('token');
+    })
+    .catch(error => console.log(error));
+
+export const deleteSelfAction = userId => dispatch =>
+  axios.delete(`/users/${userId}`)
+    .then(() => {
+      dispatch(logOutAction());
+    })
+    .catch(error => console.log(error));
+

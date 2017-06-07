@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import papyrus from '../../images/papyrus-ex.png';
 
 class SignupForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loggedIn: false };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -16,10 +17,19 @@ class SignupForm extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.props.userSignupRequest(this.state);
+    this.props.userSignupRequest(this.state)
+      .then(() => {
+        this.setState({ loggedIn: true });
+      });
   }
 
   render() {
+    const { loggedIn } = this.state;
+    if (loggedIn) {
+      return (
+        <Redirect to="/dashboard" />
+      );
+    }
     return (
       <div>
         <div className="col s12 m12 l6">
@@ -61,13 +71,6 @@ class SignupForm extends React.Component {
                     <i className="material-icons prefix">lock</i>
                     <input id="password" type="password" className="validate" required onChange={this.onChange} />
                     <label className="active" htmlFor="password">password</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s12">
-                    <i className="material-icons prefix">lock</i>
-                    <input id="password_confirm" type="password" className="validate" required onChange={this.onChange} />
-                    <label className="active" htmlFor="password">confirm password</label>
                   </div>
                 </div>
                 <div className="row">

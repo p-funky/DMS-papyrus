@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
+import jwt from 'jsonwebtoken';
 import { deleteUserAction } from '../../actions/userActions';
 
 class UserDeleteModal extends React.Component {
@@ -15,25 +16,37 @@ class UserDeleteModal extends React.Component {
   }
 
   render() {
+    const token = localStorage.token;
+    const user = jwt.decode(token);
     return (
-      <Modal
-        trigger={
-          <button className="btn-floating waves-effect red accent-4 white-text">
-            <i className="material-icons">delete</i>
-          </button>
+      <div>
+        {
+          (this.props.user.id !== user.userId)
+          ?
+            <Modal
+              trigger={
+                <button className="btn-floating waves-effect red accent-4 white-text">
+                  <i className="material-icons">delete</i>
+                </button>
+              }
+              actions={
+                <div>
+                  <Button
+                    onClick={() => this.handleDelete(this.props.user.id)}
+                    waves="light" className="modal-close red darken-2"
+                  >delete</Button>
+                  <Button flat modal="close" waves="light">dismiss</Button>
+                </div>
+                }
+            > Are you sure you want to delete this account?
+              <i className="material-icons yellow accent-4 white-text">
+                report_problem
+              </i>
+            </Modal>
+          :
+            ''
         }
-        actions={
-          <div>
-            <Button
-              onClick={() => this.handleDelete(this.props.user.id)}
-              waves="light" className="modal-close red darken-2"
-            >delete</Button>
-            <Button flat modal="close" waves="light">dismiss</Button>
-          </div>
-          }
-      > Are you sure you want to delete your account?
-      <i className="material-icons yellow accent-4 white-text">report_problem</i>
-      </Modal>
+      </div>
     );
   }
 }

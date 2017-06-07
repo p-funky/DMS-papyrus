@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import model from '../models';
 
 const User = model.User;
+const Documents = model.Documents;
 
 const secret = process.env.SECRET_TOKEN || 'secret';
 const userDetails = user => (
@@ -111,7 +112,7 @@ export default {
   },
 
   getAllUsers(req, res) {
-    const limit = req.query.limit || '10';
+    const limit = req.query.limit || '2';
     const offset = req.query.offset || '0';
     User.findAndCountAll({
       limit,
@@ -247,20 +248,36 @@ export default {
             });
         }
 
-        if (id !== existingUser.id && req.decoded.roleId !== 1) {
+        if (Number(id) !== existingUser.id && req.decoded.roleId !== 1) {
           return res.status(401)
             .send({
               message: 'You cannot delete this user'
             });
         }
-
-        existingUser.destroy()
-          .then(() => res.status(200)
-            .send({
-              User: existingUser,
-              Message: 'User succesfully deleted'
-            })
-          );
+        Documents.findAndCountAll({
+          include: [{
+            model: User,
+            attributes: [
+              'userName'
+            ]
+          }],
+          where: { ownerId: id }
+        })
+          .then((existingDocuments) => {
+            if (existingDocuments.count) {
+              return res.status(409)
+                .send({
+                  message: 'Cannot delete user while user still has documents'
+                });
+            }
+            existingUser.destroy()
+              .then(() => res.status(200)
+                .send({
+                  User: existingUser,
+                  Message: 'User succesfully deleted'
+                })
+              );
+          });
       });
   },
 

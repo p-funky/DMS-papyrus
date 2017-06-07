@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import isEmail from '../../utils/helper';
 import papyrus from '../../images/papyrus-ex.png';
 
@@ -8,7 +9,7 @@ class SignInForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loggedIn: false };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -26,10 +27,19 @@ class SignInForm extends React.Component {
       data.userName = this.state.credential;
       data.password = this.state.password;
     }
-    this.props.userSignInRequest(data);
+    this.props.userSignInRequest(data)
+      .then(() => {
+        this.setState({ loggedIn: true });
+      });
   }
 
   render() {
+    const { loggedIn } = this.state;
+    if (loggedIn) {
+      return (
+        <Redirect to="/dashboard" />
+      );
+    }
     return (
       <div>
         <div className="col s12 m12 l6">
@@ -74,5 +84,6 @@ class SignInForm extends React.Component {
 SignInForm.propTypes = {
   userSignInRequest: PropTypes.func.isRequired
 };
+
 
 export default SignInForm;

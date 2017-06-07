@@ -11,8 +11,8 @@ export const getAllDocuments = allDocuments => ({
   allDocuments,
 });
 
-export const getAllDocumentsAction = () => dispatch =>
-  axios.get('/documents/')
+export const getAllDocumentsAction = offset => dispatch =>
+  axios.get(`/documents/?offset=${offset}`)
     .then((success) => {
       dispatch(getAllDocuments(success.data));
     })
@@ -27,6 +27,7 @@ export const addDocumentAction = documentDetails => dispatch =>
   axios.post('/documents/', documentDetails)
     .then((success) => {
       dispatch(addDocumentSuccess(success.data));
+      dispatch(getAllDocumentsAction());
     })
     .catch(error => console.log(error));
 
@@ -55,16 +56,17 @@ export const getMyDocuments = myDocuments => ({
 });
 
 
-export const getmyDocumentsAction = userId => dispatch =>
-  axios.get(`/users/${userId}/documents`)
+export const getmyDocumentsAction = (userId, offset) => dispatch =>
+  axios.get(`/users/${userId}/documents/?offset=${offset}`)
     .then((success) => {
       dispatch(getMyDocuments(success.data));
     })
     .catch(error => console.log(error));
 
-export const myDocumentEditAction = (documentId, userId, documentDetails) => dispatch =>
-  axios.put(`/documents/${documentId}`, documentDetails)
-    .then(() => {
-      dispatch(getmyDocumentsAction(userId));
-    })
-    .catch(error => console.log(error));
+export const myDocumentEditAction = (documentId, userId, documentDetails) =>
+  dispatch =>
+    axios.put(`/documents/${documentId}`, documentDetails)
+      .then(() => {
+        dispatch(getmyDocumentsAction(userId));
+      })
+      .catch(error => console.log(error));
