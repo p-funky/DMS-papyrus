@@ -29,6 +29,7 @@ class AddModal extends React.Component {
   }
 
   handleAdd() {
+    console.log('==============================================', this.state);
     this.props.addDocumentAction(this.state)
       .then(() => {
         this.setState({
@@ -45,7 +46,7 @@ class AddModal extends React.Component {
         trigger={
           <div className="fixed-action-btn">
             <a className="btn-floating btn-large red">
-              <i className="large material-icons">add</i>
+              <i className="large material-icons green accent-4">add</i>
             </a>
           </div>
         }

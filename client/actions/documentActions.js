@@ -3,7 +3,8 @@ import {
   GET_ALL_DOCUMENTS,
   ADD_DOCUMENT,
   DELETE_DOCUMENT,
-  GET_MY_DOCUMENTS
+  GET_MY_DOCUMENTS,
+  SEARCH_DOCUMENT
 } from './types';
 
 export const getAllDocuments = allDocuments => ({
@@ -70,3 +71,16 @@ export const myDocumentEditAction = (documentId, userId, documentDetails) =>
         dispatch(getmyDocumentsAction(userId));
       })
       .catch(error => console.log(error));
+
+export const searchDocuments = documents => ({
+  type: SEARCH_DOCUMENT,
+  documents
+});
+
+export const searchDocumentsAction = searchWord => dispatch =>
+  axios.get(`/search/documents/?search=${searchWord}`)
+    .then((success) => {
+      console.log(success.data);
+      dispatch(searchDocuments(success.data));
+    })
+    .catch(error => console.log(error));

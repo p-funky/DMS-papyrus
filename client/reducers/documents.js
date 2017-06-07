@@ -2,7 +2,8 @@ import {
   GET_ALL_DOCUMENTS,
   ADD_DOCUMENT,
   DELETE_DOCUMENT,
-  GET_MY_DOCUMENTS
+  GET_MY_DOCUMENTS,
+  SEARCH_DOCUMENT
 } from '../actions/types';
 
 let documents;
@@ -29,6 +30,9 @@ const documentReducer = (state = {}, action = {}) => {
 
     case GET_MY_DOCUMENTS:
       return action.myDocuments;
+
+    case SEARCH_DOCUMENT:
+      return action.documents;
 
     default: return state;
   }

@@ -4,7 +4,7 @@ import ProfileTemplate from './profileTemplate';
 class ProfilePage extends React.Component {
   render() {
     return (
-      <div className="row grey accent-2">
+      <div className="row">
         <ProfileTemplate />
       </div>
     );

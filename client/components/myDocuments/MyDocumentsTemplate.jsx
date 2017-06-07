@@ -8,7 +8,7 @@ import { getmyDocumentsAction }
 import MyDocumentsCards from './MyDocumentsCards';
 import AddModal from '../dashboard/AddModal';
 
-class DashboardTemplate extends React.Component {
+class MyDocumentsTemplate extends React.Component {
 
   constructor(props) {
     super(props);
@@ -49,13 +49,20 @@ class DashboardTemplate extends React.Component {
           ?
             this.props.documents.documents.map(MyDocumentsCards)
           :
-            'You have no documents to view'
+            <h2 className="grey-text accent-4">You have no documents to view</h2>
         }
         <AddModal />
-        <Pagination
-          items={pageCount} activePage={currentPage} maxButtons={10}
-          onSelect={this.onSelect}
-        />
+        {
+          (this.props.documents.documents &&
+           this.props.documents.documents.length > 0)
+          ?
+            <Pagination
+              items={pageCount} activePage={currentPage} maxButtons={10}
+              onSelect={this.onSelect}
+            />
+          :
+            ''
+        }
       </div>
     );
   }
@@ -66,10 +73,10 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-DashboardTemplate.propTypes = {
+MyDocumentsTemplate.propTypes = {
   getmyDocumentsAction: PropTypes.func.isRequired,
   documents: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, {
-  getmyDocumentsAction })(DashboardTemplate);
+  getmyDocumentsAction })(MyDocumentsTemplate);

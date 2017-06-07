@@ -6,6 +6,7 @@ import { getAllDocumentsAction }
   from '../../actions/documentActions';
 import documentCards from './documentCards';
 import AddModal from './AddModal';
+import SearchDocuments from './searchDocuments';
 
 class DashboardTemplate extends React.Component {
 
@@ -37,6 +38,7 @@ class DashboardTemplate extends React.Component {
     }
     return (
       <div className="col s12 m12 l12">
+        <SearchDocuments />
         <h3>All Documents</h3>
         {
           (this.props.documents.documents &&

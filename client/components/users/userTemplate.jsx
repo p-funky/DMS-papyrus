@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllUsersAction } from '../../actions/userActions';
 import userCards from './userCards';
+import SearchUsers from './searchUsers';
 
 class UserTemplate extends React.Component {
 
@@ -31,6 +32,7 @@ class UserTemplate extends React.Component {
     }
     return (
       <div className="col s12 m12 l12">
+        <SearchUsers />
         <h3>Manage Users</h3>
         {
           (this.props.users.users &&

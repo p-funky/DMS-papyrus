@@ -40,7 +40,10 @@ class EditUserButton extends React.Component {
               }
             </button>
           :
-            ''
+            <h5 className="white-text">
+              <i className="material-icons yellow-text">star</i>
+              Me
+            </h5>
         }
       </div>
     );

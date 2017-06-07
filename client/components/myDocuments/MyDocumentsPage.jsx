@@ -5,7 +5,7 @@ import MyDocumentsTemplate from './MyDocumentsTemplate';
 class MyDocumentsPage extends React.Component {
   render() {
     return (
-      <div className="row grey accent-2">
+      <div className="row">
         <MyDocumentsTemplate />
       </div>
     );
