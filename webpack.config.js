@@ -5,7 +5,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   entry: [
     'eventsource-polyfill',
-    './client/index.jsx'
+    path.join(__dirname, './client/index.jsx'),
   ],
   target: 'web',
   output: {
