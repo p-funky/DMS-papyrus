@@ -3,7 +3,6 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
   entry: [
     'eventsource-polyfill',
     './client/index.jsx'
