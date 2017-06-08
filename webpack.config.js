@@ -19,8 +19,6 @@ module.exports = {
     contentBase: './client'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new ExtractTextPlugin({ // define where to save the file
       filename: '[name].css',
       allChunks: true,
@@ -42,7 +40,7 @@ module.exports = {
       {
         test: [/\.js$/, /\.jsx$/],
         include: path.join(__dirname, 'client'),
-        loaders: ['react-hot-loader', 'babel-loader']
+        loaders: ['babel-loader']
       },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       { test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=4000' },
