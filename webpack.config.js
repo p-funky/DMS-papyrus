@@ -55,6 +55,14 @@ module.exports = {
         loader: 'url?limit=10000&mimetype=image/svg+xml'
       },
       {
+        test: /\.es6$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015'],
+        },
+      },
+      {
         test: /\.json$/,
         loader: 'json-loader'
       }
