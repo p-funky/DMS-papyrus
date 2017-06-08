@@ -19,7 +19,7 @@
     "test": " npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/routes/*.spec.js\" --timeout 20000 && npm run coverage-report",
     "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
     "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all",
-    "postinstall": "npm run redo && webpack"
+    "postinstall": "npm run undo && npm run redo && webpack"
   },
   "repository": {
     "type": "git",
