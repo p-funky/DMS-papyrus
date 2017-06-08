@@ -1,17 +1,14 @@
 {
   "development": {
-    "username": "andeladeveloper",
-    "password": "",
-    "database": "dms",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL"
   },
   "test": {
     "username": "andeladeveloper",
     "password": "",
     "database": "dms-test",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "use_env_variable": "DATABASE_URL"

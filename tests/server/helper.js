@@ -33,7 +33,17 @@ module.exports = {
     lastName: faker.name.lastName().replace(/[.'"`]/g, ''),
     userName: faker.random.word().replace(/[.'"`]/g, ''),
     email: faker.internet.email(),
-    password: faker.internet.password()
+    password: faker.internet.password(),
+    id: 3
+  },
+
+  superAdmin: {
+    firstName: faker.name.firstName().replace(/[.'"`]/g, ''),
+    lastName: faker.name.lastName().replace(/[.'"`]/g, ''),
+    userName: faker.random.word().replace(/[.'"`]/g, ''),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    id: 1
   },
 
   testDocument1: {

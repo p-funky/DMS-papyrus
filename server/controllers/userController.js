@@ -101,11 +101,6 @@ export default {
     const id = req.decoded.userId;
     User.findById(id)
       .then((existingUser) => {
-        if (!existingUser) {
-          return res
-          .status(404)
-          .send({ message: 'User Not Found' });
-        }
         existingUser = userDetails(existingUser);
         return res.status(200).send(existingUser);
       });
@@ -155,12 +150,6 @@ export default {
     const id = req.params.id;
     User.findById(id)
       .then((existingUser) => {
-        if (!existingUser) {
-          return res
-          .status(404)
-          .send({ message: `There is no user with id: ${id}` });
-        }
-
         existingUser = userDetails(existingUser);
         return res.status(200).send(existingUser);
       });
@@ -170,11 +159,6 @@ export default {
     const id = req.params.id;
     User.findById(id)
       .then((existingUser) => {
-        if (!existingUser) {
-          return res
-            .status(404)
-            .send({ message: `There is no user with id: ${id}` });
-        }
         if (Number(id) !== req.decoded.userId) {
           if (req.decoded.roleId === 1 && existingUser.id === 1) {
             return res.status(401)
@@ -228,12 +212,6 @@ export default {
     const id = req.params.id;
     User.findById(id)
       .then((existingUser) => {
-        if (!existingUser) {
-          return res
-            .status(404)
-            .send({ message: `There is no user with id: ${id}` });
-        }
-
         if (existingUser.id === 1) {
           return res.status(403)
             .send({
@@ -241,7 +219,7 @@ export default {
             });
         }
 
-        if (existingUser.roleId === '1' && req.decoded.roleId !== 1) {
+        if (existingUser.roleId === 1 && req.decoded.roleId !== 1) {
           return res.status(401)
             .send({
               message: 'Cannot delete admin.'
