@@ -34,7 +34,7 @@
     "url": "https://github.com/andela-aalabi/DMS-papyrus/issues"
   },
   "homepage": "https://github.com/andela-aalabi/DMS-papyrus#readme",
-  "devDependencies": {
+  "dependencies": {
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "coveralls": "^2.13.1",
@@ -78,7 +78,6 @@
     "morgan": "^1.8.1",
     "node-mocks-http": "^1.6.2",
     "node-sass": "^4.5.3",
-    "nyc": "^11.0.2",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.5.10",
