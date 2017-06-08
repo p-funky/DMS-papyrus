@@ -61,7 +61,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.jsx', '.js']
+    extensions: ['*', '.jsx', '.js']
   },
   node: {
     dns: 'empty',
