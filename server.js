@@ -8,7 +8,7 @@ import path from 'path';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from './webpack.config.dev';
+import webpackConfig from './webpack.config';
 
 import documents from './server/routes/documentsRoutes';
 import user from './server/routes/userRoutes';
