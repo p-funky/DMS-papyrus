@@ -6,7 +6,6 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
     'eventsource-polyfill',
-    'webpack-hot-middleware/client?reload=true',
     './client/index.jsx'
   ],
   target: 'web',
