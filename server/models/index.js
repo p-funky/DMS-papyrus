@@ -4,14 +4,12 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 
-dotenv.config();
-console.log(process.env.NODE_ENV);
-
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';
 /* eslint-disable */
-const config = require(`${__dirname}/../config/config.json`)[env];
+const config = require(`${__dirname}/../config/config.js`)[env];
 /* eslint-enable */
+
 const db = {};
 
 let sequelize;
