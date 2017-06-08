@@ -344,59 +344,6 @@ export default {
             });
           })
           .catch(error => res.status(400).send({ message: error.message }));
-        } else {
-          // not admin or owner
-          Documents.findAndCountAll({
-            include: [{
-              model: User,
-              attributes: [
-                'userName', 'roleId'
-              ]
-            }],
-            where: {
-              $and: [
-                // the owner's documents
-                { ownerId: id },
-                {
-                  $or: [
-                    // only public
-                    { accessId: 1 },
-                    // or same role-based document
-                    {
-                      $and: [
-                        { accessId: 3 },
-                        // owner's role must be same as requester's role
-                        { '$User.roleId$': req.decoded.roleId },
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            limit,
-            offset,
-            order: '"createdAt" ASC'
-          })
-          .then((documents) => {
-            if (!documents.count) {
-              return res
-                .status(404)
-                .send({
-                  message: `User ${name} with id: ${id}` +
-                  ' has no documents to view'
-                });
-            }
-            const settings = limit && offset ? {
-              totalCount: documents.count,
-              pages: Math.ceil(documents.count / limit),
-              currentPage: Math.floor(offset / limit) + 1,
-              pageSize: documents.rows.length
-            } : null;
-            return res.status(200).send({
-              documents: documents.rows, settings
-            });
-          })
-          .catch(error => res.status(400).send({ message: error.message }));
         }
       });
   },
