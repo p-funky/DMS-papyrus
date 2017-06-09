@@ -15,6 +15,7 @@ const doe = helper.doe;
 const segun = helper.segun;
 const admin = helper.admin;
 const regular = helper.regular;
+const document = helper.testDocument1;
 
 describe('User ROUTES', () => {
   let user1;
@@ -22,16 +23,24 @@ describe('User ROUTES', () => {
   let token1;
   let token3;
   let token4;
+  let doc;
 
 
-  before(() => models.Roles.bulkCreate([admin, regular], {
-    returning: true })
-      .then((createdRoles) => {
-        superAdmin.roleId = createdRoles[0].id;
-        john.roleId = createdRoles[0].id;
-        doe.roleId = createdRoles[1].id;
-        segun.roleId = createdRoles[1].id;
-      }));
+  before(() =>
+    models.Roles.bulkCreate([admin, regular], {
+      returning: true })
+        .then((createdRoles) => {
+          superAdmin.roleId = createdRoles[0].id;
+          john.roleId = createdRoles[0].id;
+          doe.roleId = createdRoles[1].id;
+          segun.roleId = createdRoles[1].id;
+        }),
+    models.Access.create({ title: 'public' }, {
+      returning: true })
+        .then((createdAccess) => {
+          document.ownerId = createdAccess.id;
+        })
+  );
 
   after(() => models.User.destroy({ where: {} }));
   after(() => models.sequelize.sync({ force: true }));
@@ -44,6 +53,11 @@ describe('User ROUTES', () => {
         .end((error, response) => {
           user1 = response.body.newUser;
           token1 = response.body.token;
+          document.ownerId = john.id;
+          models.Documents.create(document)
+            .then((createdDocument) => {
+              doc = createdDocument;
+            });
 
           request.post('/users')
             .send(doe)
@@ -102,7 +116,7 @@ describe('User ROUTES', () => {
         done();
       });
       it('should return the user with supplied id', (done) => {
-        request.get(`/users/${user1.id}`)
+        request.get('/users/21')
         .set({ Authorization: token1 })
         .end((error, response) => {
           expect(response.status).to.equal(200);
@@ -212,7 +226,16 @@ describe('User ROUTES', () => {
           });
       });
     });
-
+    describe('GET: (/search/users) - SEARCH FOR USERS', () => {
+      it('should get all admins present', (done) => {
+        request.get('/users/admin')
+          .set({ Authorization: token1 })
+          .end((error, response) => {
+            expect(response.status).to.equal(200);
+            done();
+          });
+      });
+    });
     describe('DELETE: (/users/:id) - DELETE A USER', () => {
       it('should not delete admin if not admin', (done) => {
         request.delete('/users/21')
@@ -240,8 +263,33 @@ describe('User ROUTES', () => {
             done();
           });
       });
+      it('should not delete if requester is not user nor admin', (done) => {
+        request.delete('/users/2')
+          .set({ Authorization: token3 })
+          .end((error, response) => {
+            expect(response.status).to.equal(401);
+            expect(response.body.message)
+              .to.equal('You cannot delete this user');
+            done();
+          });
+      });
+      it('should not delete a user who still has documents', (done) => {
+        request.delete('/users/21')
+          .set({ Authorization: token1 })
+          .end((error, response) => {
+            expect(response.status).to.equal(409);
+            expect(response.body.message)
+              .to.equal('Cannot delete user while user still has documents');
+            models.User.count()
+              .then((userCount) => {
+                expect(userCount).to.equal(4);
+                models.Documents.destroy({ where: {} });
+                done();
+              });
+          });
+      });
       it('should succesfully delete a user when provided valid id', (done) => {
-        request.delete(`/users/${user1.id}`)
+        request.delete('/users/21')
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(200);

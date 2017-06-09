@@ -36,6 +36,8 @@ class DashboardTemplate extends React.Component {
       pageCount = settings.pages;
       currentPage = settings.currentPage;
     }
+    const maxPages = pageCount || 0;
+    console.log(maxPages);
     return (
       <div className="col s12 m12 l12">
         <SearchDocuments />
@@ -50,7 +52,7 @@ class DashboardTemplate extends React.Component {
         }
         <AddModal />
         <Pagination
-          items={pageCount} activePage={currentPage} maxButtons={10}
+          items={pageCount} activePage={currentPage} maxButtons={maxPages}
           onSelect={this.onSelect}
         />
       </div>

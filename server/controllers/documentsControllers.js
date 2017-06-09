@@ -44,15 +44,8 @@ export default {
   list(req, res) {
     const id = req.decoded.userId;
     const name = req.decoded.userName;
-    const limit = req.query.limit || '3';
-    let offset = req.query.offset || '0';
-    if (!offset) {
-      offset = 0;
-    }
-    if (req.query.limit < 0 || req.query.offset < 0) {
-      return res.status(400)
-        .send({ message: 'Only positive integers are allowed.' });
-    }
+    const limit = req.query.limit > 0 ? req.query.limit : '3';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     // if admin
     if (req.decoded.roleId === 1) {
       Documents.findAndCountAll({
@@ -64,7 +57,7 @@ export default {
         }],
         limit,
         offset,
-        order: '"createdAt" ASC'
+        order: '"createdAt" DESC'
       })
       .then((documents) => {
         const settings = limit && offset ? {
@@ -105,7 +98,7 @@ export default {
         },
         limit,
         offset,
-        order: '"createdAt" ASC'
+        order: '"createdAt" DESC'
       })
         .then((documents) => {
           if (!documents) {
@@ -273,30 +266,10 @@ export default {
   },
 
   listByUser(req, res) {
-    // const id = req.params.id;
-    // const limit = req.query.limit || '3';
-    // const offset = req.query.offset || '0';
-    // let name;
-
     const id = req.params.id;
-    let limit = req.query.limit;
-    let offset = req.query.offset;
+    const limit = req.query.limit > 0 ? req.query.limit : '3';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     let name;
-
-    if (!req.query.limit) {
-      limit = '3';
-    }
-
-    if (!req.query.offset) {
-      offset = '0';
-    }
-
-    if ((limit && limit < 0) ||
-      (offset && offset < 0)) {
-      console.log(offset);
-      return res.status(400)
-        .send({ message: 'Only positive integers are allowed.' });
-    }
 
     User.findById(id)
       .then((existingUser) => {
@@ -344,17 +317,17 @@ export default {
             });
           })
           .catch(error => res.status(400).send({ message: error.message }));
+        } else {
+          return res
+            .status(401)
+            .send({ message: 'You are not authorized to view this.' });
         }
       });
   },
 
   find(req, res) {
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
-    if (req.query.limit < 0 || req.query.offset < 0) {
-      return res.status(400)
-        .send({ message: 'Only positive integers are permitted.' });
-    }
+    const limit = req.query.limit > 0 ? req.query.limit : '3';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
 
     const searchInfo = req.query.search;
     let query;
@@ -368,7 +341,7 @@ export default {
         }],
         limit,
         offset,
-        order: '"createdAt" ASC'
+        order: '"createdAt" DESC'
       };
       if (searchInfo) {
         query.where = {
@@ -400,7 +373,7 @@ export default {
         },
         limit,
         offset,
-        order: '"createdAt" ASC'
+        order: '"createdAt" DESC'
       };
       if (searchInfo) {
         query.where.$and = [{
@@ -415,11 +388,11 @@ export default {
 
     Documents.findAndCountAll(query)
       .then((documents) => {
-        const settings = query.limit && query.offset
+        const settings = limit && offset
           ? {
             totalCount: documents.count,
-            pages: Math.ceil(documents.count / query.limit),
-            currentPage: Math.floor(query.offset / query.limit) + 1,
+            pages: Math.ceil(documents.count / limit),
+            currentPage: Math.floor(offset / limit) + 1,
             pageSize: documents.rows.length
           } : null;
         return res.status(200).send({

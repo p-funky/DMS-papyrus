@@ -128,8 +128,8 @@ export default {
   },
 
   getAllAdmin(req, res) {
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
+    const limit = req.query.limit > 0 ? req.query.limit : '2';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     User.findAndCountAll({
       limit,
       offset,
@@ -226,7 +226,7 @@ export default {
             });
         }
 
-        if (Number(id) !== existingUser.id && req.decoded.roleId !== 1) {
+        if (Number(id) !== req.decoded.userId && req.decoded.roleId !== 1) {
           return res.status(401)
             .send({
               message: 'You cannot delete this user'
@@ -260,13 +260,9 @@ export default {
   },
 
   find(req, res) {
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
-    if (req.query.limit < 0 || req.query.offset < 0) {
-      return res.status(400)
-        .send({ message: 'Offset and limit can only be positive integers.' });
-    }
-
+    const limit = req.query.limit > 0 ? req.query.limit : '2';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
+    console.log('============', limit, offset);
     const searchInfo = req.query.search;
     const query = {
       attributes: ['id', 'firstName', 'lastName',
@@ -276,6 +272,7 @@ export default {
       order: '"createdAt" ASC'
     };
     if (searchInfo) {
+      console.log('===========', searchInfo);
       query.where = {
         $and: {
           $or: [
@@ -289,13 +286,14 @@ export default {
 
     User.findAndCountAll(query)
       .then((users) => {
-        const settings = query.limit && query.offset
+        const settings = limit && offset
           ? {
             totalCount: users.count,
-            pages: Math.ceil(users.count / query.limit),
-            currentPage: Math.floor(query.offset / query.limit) + 1,
+            pages: Math.ceil(users.count / limit),
+            currentPage: Math.floor(offset / limit) + 1,
             pageSize: users.rows.length
           } : null;
+        console.log('======================================', settings);
         res.send({ users: users.rows, settings });
       })
       .catch(error => res.status(400).send({
