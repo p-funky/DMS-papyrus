@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import jwt from 'jsonwebtoken';
 import { Modal } from 'react-materialize';
@@ -105,4 +106,4 @@ EditModal.propTypes = {
   document: PropTypes.object.isRequired
 };
 
-export default connect(null, { myDocumentEditAction })(EditModal);
+export default withRouter(connect(null, { myDocumentEditAction })(EditModal));

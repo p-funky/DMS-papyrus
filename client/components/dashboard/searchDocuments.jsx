@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { searchDocumentsAction, getAllDocumentsAction }
   from '../../actions/documentActions';
@@ -50,5 +51,5 @@ SearchDocuments.propTypes = {
   searchDocumentsAction: PropTypes.func.isRequired,
 };
 
-export default connect(null,
-  { searchDocumentsAction })(SearchDocuments);
+export default withRouter(connect(null,
+  { searchDocumentsAction })(SearchDocuments));

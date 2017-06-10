@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import jwt from 'jsonwebtoken';
 import { Pagination } from 'react-materialize';
 import { getmyDocumentsAction }
   from '../../actions/documentActions';
@@ -12,40 +12,46 @@ class MyDocumentsTemplate extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      id: '',
+      authentication: {
+        userInfo: {
+          id: ''
+        }
+      }
+    };
+
     this.onSelect = this.onSelect.bind(this);
   }
 
   componentDidMount() {
-    const user = jwt.decode(localStorage.token);
-    const userId = user.userId;
     const offset = 0;
+    const userId = this.props.location.state.id;
     this.props.getmyDocumentsAction(userId, offset);
   }
 
   onSelect(pageNumber) {
-    const user = jwt.decode(localStorage.token);
-    const userId = user.userId;
-    console.log('======pagenumber', pageNumber);
+    const userId = this.props.state.authentication.userInfo.id;
     const offset = (pageNumber - 1) * 3;
-    console.log('======offset', offset);
     this.props.getmyDocumentsAction(userId, offset);
   }
 
   render() {
-    console.log(this.props.documents);
     let pageCount;
-    let currentPage;
+    let currentPage = 0;
     const pageSettings = this.props.documents.settings;
     if (pageSettings) {
       pageCount = pageSettings.pages;
       currentPage = pageSettings.currentPage;
     }
+    const maxPages = pageCount || 0;
     return (
       <div className="col s12 m12 l12">
         <h3>My Documents</h3>
         {
           (this.props.documents.documents &&
-           this.props.documents.documents.length > 0)
+          this.props.documents.documents.length > 0)
           ?
             this.props.documents.documents.map(MyDocumentsCards)
           :
@@ -57,7 +63,7 @@ class MyDocumentsTemplate extends React.Component {
            this.props.documents.documents.length > 0)
           ?
             <Pagination
-              items={pageCount} activePage={currentPage} maxButtons={10}
+              items={pageCount} activePage={currentPage} maxButtons={maxPages}
               onSelect={this.onSelect}
             />
           :
@@ -70,13 +76,17 @@ class MyDocumentsTemplate extends React.Component {
 
 const mapStateToProps = state => ({
   documents: state.documents,
-  profile: state.profile
+  profile: state.profile,
+  user: state.authentication.userInfo,
+  state
 });
 
 MyDocumentsTemplate.propTypes = {
   getmyDocumentsAction: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+  documents: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  state: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, {
-  getmyDocumentsAction })(MyDocumentsTemplate);
+export default withRouter(connect(mapStateToProps, {
+  getmyDocumentsAction })(MyDocumentsTemplate));

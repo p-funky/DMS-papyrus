@@ -27,10 +27,10 @@ const document = helper.testDocument1;
 
 describe('User ROUTES', () => {
   let user1;
-  let user2;
   let token1;
   let token3;
   let token4;
+  let token5;
 
   describe('REQUESTS', () => {
     before((done) => {
@@ -45,7 +45,7 @@ describe('User ROUTES', () => {
           request.post('/users/login')
             .send(doe)
             .end((err, res) => {
-              user2 = res.body.newUser;
+              token5 = res.body.token;
 
               request.post('/users/login')
                 .send(segun)
@@ -377,6 +377,14 @@ describe('User ROUTES', () => {
             done();
           });
       });
+      it('should not find the profile of a user with invalid token', (done) => {
+        request.get('/users/profile')
+          .set({ Authorization: 'xyzhd321' })
+          .end((error, response) => {
+            expect(response.status).to.equal(401);
+            done();
+          });
+      });
     });
 
     describe('GET: (/users/admin) - GET ALL ADMIN', () => {
@@ -385,6 +393,16 @@ describe('User ROUTES', () => {
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(200);
+            done();
+          });
+      });
+      it('should not get admins if not admin making request', (done) => {
+        request.get('/users/admin')
+          .set({ Authorization: token5 })
+          .end((error, response) => {
+            expect(response.status).to.equal(403);
+            expect(response.body.message).to
+              .equal('You are not authorized to view this content');
             done();
           });
       });

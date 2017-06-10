@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllDocumentsAction }
@@ -15,20 +16,21 @@ class DashboardTemplate extends React.Component {
     this.onSelect = this.onSelect.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const offset = 0;
     this.props.getAllDocumentsAction(offset);
   }
 
+  componentWillUnmount() {
+    this.props.state.documents = { documents: [], settings: {} };
+  }
+
   onSelect(pageNumber) {
-    console.log('======pagenumber', pageNumber);
     const offset = (pageNumber - 1) * 3;
-    console.log('======offset', offset);
     this.props.getAllDocumentsAction(offset);
   }
 
   render() {
-    console.log(this.props.documents);
     let pageCount;
     let currentPage;
     const settings = this.props.documents.settings;
@@ -37,7 +39,6 @@ class DashboardTemplate extends React.Component {
       currentPage = settings.currentPage;
     }
     const maxPages = pageCount || 0;
-    console.log(maxPages);
     return (
       <div className="col s12 m12 l12">
         <SearchDocuments />
@@ -62,12 +63,14 @@ class DashboardTemplate extends React.Component {
 
 const mapStateToProps = state => ({
   documents: state.documents,
+  state
 });
 
 DashboardTemplate.propTypes = {
   getAllDocumentsAction: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+  documents: PropTypes.object.isRequired,
+  state: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {
-  getAllDocumentsAction })(DashboardTemplate);
+export default withRouter(connect(mapStateToProps, {
+  getAllDocumentsAction })(DashboardTemplate));

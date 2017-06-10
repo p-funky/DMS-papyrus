@@ -1,5 +1,10 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import {
+  withRouter,
+  Link,
+  Redirect
+} from 'react-router-dom';
+import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { logOutAction } from '../actions/userActions';
 
@@ -78,7 +83,10 @@ class NavigationBar extends React.Component {
                 ?
                   <li>
                     <Link
-                      to="/my-docs"
+                      to={{
+                        pathname: '/my-docs',
+                        state: { id: user.userId }
+                      }}
                       className="grey-text text-darken-3 lighten-3"
                     >
                       <i className="material-icons">library_books</i>
@@ -131,4 +139,11 @@ class NavigationBar extends React.Component {
   }
 }
 
-export default NavigationBar;
+const mapStateToProps = (state) => {
+  return {
+    state
+  };
+};
+
+
+export default withRouter(connect(mapStateToProps, null)(NavigationBar));

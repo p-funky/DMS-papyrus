@@ -53,7 +53,7 @@ export const deleteUserAction = userId => dispatch =>
 export const editUserRoleAction = (userId, userDetails) => dispatch =>
   axios.put(`/users/${userId}`, userDetails)
     .then(() => {
-      dispatch(getAllUsersAction());
+      dispatch(getAllUsersAction(0));
     })
     .catch(error => console.log(error));
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getProfileAction } from '../../actions/userActions';
 import EditProfileModal from './EditProfileModal';
@@ -7,8 +8,7 @@ import DeleteAccountModal from './DeleteAccountModal';
 
 class ProfileTemplate extends React.Component {
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
     this.props.getProfileAction();
   }
 
@@ -60,5 +60,5 @@ ProfileTemplate.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {
-  getProfileAction })(ProfileTemplate);
+export default withRouter(connect(mapStateToProps, {
+  getProfileAction })(ProfileTemplate));

@@ -1,6 +1,7 @@
 /* eslint-env browser */
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import lodash from 'lodash';
@@ -44,7 +45,6 @@ class EditProfileModal extends React.Component {
     } else {
       suppliedDetails = this.state;
     }
-    console.log('to pass for updating', suppliedDetails);
     this.props.editProfileAction(userId, suppliedDetails)
       .then(() => {
         this.setState({
@@ -165,6 +165,6 @@ EditProfileModal.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-export default connect(null,
-  { editProfileAction })(EditProfileModal);
+export default withRouter(connect(null,
+  { editProfileAction })(EditProfileModal));
 

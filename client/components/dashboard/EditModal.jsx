@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { editDocumentAction } from '../../actions/documentActions';
@@ -101,4 +102,4 @@ EditModal.propTypes = {
   document: PropTypes.object.isRequired
 };
 
-export default connect(null, { editDocumentAction })(EditModal);
+export default withRouter(connect(null, { editDocumentAction })(EditModal));

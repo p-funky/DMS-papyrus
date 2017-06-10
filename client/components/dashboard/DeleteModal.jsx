@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
 import { deleteDocumentAction } from '../../actions/documentActions';
@@ -43,4 +44,4 @@ DeleteModal.propTypes = {
   document: PropTypes.object.isRequired
 };
 
-export default connect(null, { deleteDocumentAction })(DeleteModal);
+export default withRouter(connect(null, { deleteDocumentAction })(DeleteModal));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { addDocumentAction } from '../../actions/documentActions';
@@ -29,7 +30,6 @@ class AddModal extends React.Component {
   }
 
   handleAdd() {
-    console.log('==============================================', this.state);
     this.props.addDocumentAction(this.state)
       .then(() => {
         this.setState({
@@ -107,4 +107,4 @@ AddModal.propTypes = {
   addDocumentAction: PropTypes.func.isRequired
 };
 
-export default connect(null, { addDocumentAction })(AddModal);
+export default withRouter(connect(null, { addDocumentAction })(AddModal));

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { deleteSelfAction } from '../../actions/userActions';
 
 class DeleteAccountModal extends React.Component {
@@ -57,4 +57,4 @@ DeleteAccountModal.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-export default connect(null, { deleteSelfAction })(DeleteAccountModal);
+export default withRouter(connect(null, { deleteSelfAction })(DeleteAccountModal));

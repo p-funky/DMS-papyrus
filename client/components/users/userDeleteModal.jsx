@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
 import jwt from 'jsonwebtoken';
@@ -56,4 +57,4 @@ UserDeleteModal.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export default connect(null, { deleteUserAction })(UserDeleteModal);
+export default withRouter(connect(null, { deleteUserAction })(UserDeleteModal));

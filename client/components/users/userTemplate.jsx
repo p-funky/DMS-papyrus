@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllUsersAction } from '../../actions/userActions';
@@ -11,27 +12,26 @@ class UserTemplate extends React.Component {
   constructor(props) {
     super(props);
     this.onSelect = this.onSelect.bind(this);
+  }
+
+  componentWillMount() {
     this.props.getAllUsersAction(0);
   }
 
   onSelect(pageNumber) {
-    console.log('======pagenumber', pageNumber);
     const offset = (pageNumber - 1) * 2;
-    console.log('======offset', offset);
     this.props.getAllUsersAction(offset);
   }
 
   render() {
-    console.log(this.props.users);
     let pageCount;
-    let currentPage;
+    let currentPage = 0;
     const settings = this.props.users.settings;
     if (settings) {
       pageCount = settings.pages;
       currentPage = settings.currentPage;
     }
     const maxPages = pageCount || 0;
-    console.log(maxPages);
     return (
       <div className="col s12 m12 l12">
         <SearchUsers />
@@ -69,5 +69,5 @@ UserTemplate.propTypes = {
   users: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {
-  getAllUsersAction })(UserTemplate);
+export default withRouter(connect(mapStateToProps, {
+  getAllUsersAction })(UserTemplate));

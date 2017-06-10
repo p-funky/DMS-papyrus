@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import jwt from 'jsonwebtoken';
 import { editUserRoleAction } from '../../actions/userActions';
@@ -55,4 +56,4 @@ EditUserButton.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export default connect(null, { editUserRoleAction })(EditUserButton);
+export default withRouter(connect(null, { editUserRoleAction })(EditUserButton));
