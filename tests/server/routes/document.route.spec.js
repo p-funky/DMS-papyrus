@@ -10,8 +10,12 @@
 // const expect = chai.expect;
 // const Roles = models.Roles;
 // const Documents = models.Documents;
+// const Access = models.Access;
 
 // const adminRoleParams = helper.admin;
+// const publicAccess = helper.public;
+// const privateAccess = helper.private;
+// const accessRole = helper.role;
 // const regularRoleParams = helper.regular;
 // const adminUserParams = helper.john;
 // const regularUserParams1 = helper.segun;
@@ -39,7 +43,6 @@
 //         // Two users here are assigned same roleId to demonstrate role access
 //         regularUserParams1.roleId = regularRole.id;
 //         regularUserParams2.roleId = regularRole.id;
-
 //         request.post('/users')
 //           .send(adminUserParams)
 //           .end((error, response) => {
@@ -61,11 +64,19 @@
 
 //                     documentParams.ownerId = adminUser.id;
 //                     publicDocumentParams.ownerId = adminUser.id;
-//                     Documents.create(publicDocumentParams)
-//                       .then((createdPublicDocument) => {
-//                         publicDocument = createdPublicDocument;
-//                         done();
-//                       });
+
+//                     Access.bulkCreate(
+//                       [publicAccess, privateAccess, accessRole], {
+//                         returning: true })
+//                         .then((createdAccess) => {
+//                           documentParams.accessId = createdAccess[0].id;
+//                           publicDocumentParams.accessId = createdAccess[0].id;
+//                           Documents.create(publicDocumentParams)
+//                             .then((createdPublicDocument) => {
+//                               publicDocument = createdPublicDocument;
+//                               done();
+//                             });
+//                         });
 //                   });
 //               });
 //           });
@@ -73,16 +84,71 @@
 //   });
 
 //   after(() => models.Documents.destroy({ where: {} }));
+//   after(() => models.Access.destroy({ where: {} }));
+//   // after(() => models.Roles.destroy({ where: {} }));
 //   // after(() => models.sequelize.sync({ force: true }));
+//   after(() => setTimeout(() => console.log('please wait for 2 secs...'), 2000));
 
-//   it('should correctly create test roles & user', () => {
-//     console.log('-------------------------------------', adminUser.email);
+//   it('should correctly create test roles & users', () => {
 //     expect(adminRole.title).to.equal(adminRoleParams.title);
 //     expect(regularRole.title).to.equal(regularRoleParams.title);
 //     expect(adminUser.email).to.equal(adminUserParams.email);
 //     expect(privateUser.email).to.equal(regularUserParams1.email);
 //     expect(adminUser.id).to.equal(21);
-//     expect(privateUser.id).to.equal(1);
+//     expect(privateUser.id).to.equal(3);
+//   });
+
+//   describe('REQUESTS', () => {
+//     describe('POST: (/documents) - CREATE A DOCUMENT', () => {
+//       it('should create a document for a validated user', (done) => {
+//         request.post('/documents')
+//           .set({ Authorization: publicToken })
+//           .send(documentParams)
+//           .end((error, response) => {
+//             expect(response.status).to.equal(201);
+//             expect(response.body.title).to.equal(documentParams.title);
+//             expect(response.body.content)
+//               .to.equal(documentParams.content);
+//             done();
+//           });
+//       });
+//       it('should not create a document without title',
+//         (done) => {
+//           const invalidDocument = { content: 'It has no content' };
+//           request.post('/documents')
+//             .set({ Authorization: publicToken })
+//             .send(invalidDocument)
+//             .expect(400, done);
+//         });
+//     });
+
+//     describe('Requests for Documents', () => {
+//       describe('GET: (/documents) - GET ALL DOCUMENTS', () => {
+//         it('should not return documents if no token is provided', (done) => {
+//           request.get('/documents')
+//             .expect(401, done);
+//         });
+//         it('should not return documents if invalid token is provided',
+//           (done) => {
+//             request.get('/documents')
+//               .set({ Authorization: 'ADRYDUIGUtrtrr6e' })
+//               .expect(401, done);
+//           });
+//         it('should return all documents when valid token is provided',
+//           (done) => {
+//             request.get('/documents')
+//               .set({ Authorization: publicToken })
+//               .end((error, response) => {
+//                 expect(response.status).to.equal(200);
+//                 expect(Array.isArray(Object.keys(response.body))).to.be.true;
+//                 expect(Object.keys(response.body).length).to.be.greaterThan(0);
+//                 expect(response.body.documents[1].title)
+//                   .to.equal(publicDocumentParams.title);
+//                 done();
+//               });
+//           });
+//       });
+//     });
 //   });
 // });
 

@@ -13,10 +13,10 @@
   "scripts": {
     "start": "nodemon server.js --exec babel-node",
     "coverage-report": "cat ./coverage/lcov.info | coveralls",
-    "undo:test": "NODE_ENV=test sequelize db:migrate:undo:all",
-    "redo:test": "NODE_ENV=test sequelize db:migrate",
+    "undo:test": "NODE_ENV=test babel-node tests/server/testHelper/resetTestData.js",
+    "redo:test": "NODE_ENV=test babel-node tests/server/testHelper/seedTestData.js",
     "test:db": "npm run undo:test && npm run redo:test",
-    "test": " npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/routes/*.spec.js\" --timeout 20000 && npm run coverage-report",
+    "test": " npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/**/*.spec.js\" --timeout 10000 && npm run coverage-report",
     "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
     "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all",
     "postinstall": "npm run undo && npm run redo"
@@ -74,6 +74,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "faker": "^4.1.0",
     "file-loader": "^0.11.1",
+    "fm-log": "^4.4.3",
     "jsonwebtoken": "^7.4.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",

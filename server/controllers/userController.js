@@ -209,9 +209,15 @@ export default {
   },
 
   destroy(req, res) {
-    const id = req.params.id;
-    User.findById(id)
+    User.findById(req.params.id)
       .then((existingUser) => {
+        const id = req.params.id;
+        if (!existingUser) {
+          return res.status(404)
+            .send({
+              message: 'User not found'
+            });
+        }
         if (existingUser.id === 1) {
           return res.status(403)
             .send({
@@ -262,7 +268,6 @@ export default {
   find(req, res) {
     const limit = req.query.limit > 0 ? req.query.limit : '2';
     const offset = req.query.offset > 0 ? req.query.offset : '0';
-    console.log('============', limit, offset);
     const searchInfo = req.query.search;
     const query = {
       attributes: ['id', 'firstName', 'lastName',
@@ -272,7 +277,6 @@ export default {
       order: '"createdAt" ASC'
     };
     if (searchInfo) {
-      console.log('===========', searchInfo);
       query.where = {
         $and: {
           $or: [
@@ -293,7 +297,6 @@ export default {
             currentPage: Math.floor(offset / limit) + 1,
             pageSize: users.rows.length
           } : null;
-        console.log('======================================', settings);
         res.send({ users: users.rows, settings });
       })
       .catch(error => res.status(400).send({

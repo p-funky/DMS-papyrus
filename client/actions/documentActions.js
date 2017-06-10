@@ -12,7 +12,7 @@ export const getAllDocuments = allDocuments => ({
   allDocuments,
 });
 
-export const getAllDocumentsAction = offset => dispatch =>
+export const getAllDocumentsAction = (offset = 0) => dispatch =>
   axios.get(`/documents/?offset=${offset}`)
     .then((success) => {
       dispatch(getAllDocuments(success.data));

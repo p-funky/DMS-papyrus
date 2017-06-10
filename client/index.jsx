@@ -11,16 +11,14 @@ import store from './store/configureStore';
 import './css/styles.scss';
 import routes from './routes';
 
-(function setToken() {
-  if (localStorage.token) {
-    attachAuthorizationToken(
-    localStorage.token
-    );
-    store.dispatch(setCurrentUser(
-      jwt.decode(localStorage.token)
-    ));
-  }
-}());
+if (localStorage.token) {
+  attachAuthorizationToken(
+  localStorage.token
+  );
+  store.dispatch(setCurrentUser(
+    jwt.decode(localStorage.token)
+  ));
+}
 
 
 render(

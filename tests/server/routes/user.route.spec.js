@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../../server';
 import models from '../../../server/models';
-import helper from '../helper';
+import helper from '../testHelper/testData';
 
 
 const request = supertest(app);
@@ -13,9 +13,17 @@ const superAdmin = helper.superAdmin;
 const john = helper.john;
 const doe = helper.doe;
 const segun = helper.segun;
-const admin = helper.admin;
-const regular = helper.regular;
+const skodo = {
+  firstName: 'Skodo',
+  lastName: 'Baggins',
+  email: 'skodo.baggins@jjc.com',
+  userName: 'skodo',
+  password: '123456',
+  roleId: 1
+};
+
 const document = helper.testDocument1;
+
 
 describe('User ROUTES', () => {
   let user1;
@@ -23,53 +31,28 @@ describe('User ROUTES', () => {
   let token1;
   let token3;
   let token4;
-  let doc;
-
-
-  before(() =>
-    models.Roles.bulkCreate([admin, regular], {
-      returning: true })
-        .then((createdRoles) => {
-          superAdmin.roleId = createdRoles[0].id;
-          john.roleId = createdRoles[0].id;
-          doe.roleId = createdRoles[1].id;
-          segun.roleId = createdRoles[1].id;
-        }),
-    models.Access.create({ title: 'public' }, {
-      returning: true })
-        .then((createdAccess) => {
-          document.ownerId = createdAccess.id;
-        })
-  );
-
-  after(() => models.User.destroy({ where: {} }));
-  after(() => models.sequelize.sync({ force: true }));
-
 
   describe('REQUESTS', () => {
     before((done) => {
       request.post('/users')
-        .send(john)
+        .send(skodo)
         .end((error, response) => {
           user1 = response.body.newUser;
           token1 = response.body.token;
-          document.ownerId = john.id;
-          models.Documents.create(document)
-            .then((createdDocument) => {
-              doc = createdDocument;
-            });
+          document.ownerId = skodo.id;
+          models.Documents.create(document);
 
-          request.post('/users')
+          request.post('/users/login')
             .send(doe)
             .end((err, res) => {
               user2 = res.body.newUser;
 
-              request.post('/users')
+              request.post('/users/login')
                 .send(segun)
                 .end((err, res) => {
                   token3 = res.body.token;
 
-                  request.post('/users')
+                  request.post('/users/login')
                     .send(superAdmin)
                     .end((err, res) => {
                       token4 = res.body.token;
@@ -116,11 +99,11 @@ describe('User ROUTES', () => {
         done();
       });
       it('should return the user with supplied id', (done) => {
-        request.get('/users/21')
+        request.get('/users/2')
         .set({ Authorization: token1 })
         .end((error, response) => {
           expect(response.status).to.equal(200);
-          expect(response.body.userName).to.equal(john.userName);
+          expect(response.body.userName).to.equal(doe.userName);
           done();
         });
       });
@@ -227,8 +210,8 @@ describe('User ROUTES', () => {
       });
     });
     describe('GET: (/search/users) - SEARCH FOR USERS', () => {
-      it('should get all admins present', (done) => {
-        request.get('/users/admin')
+      it('should get all users that match search query', (done) => {
+        request.get(`/search/users/?search=${user1.username}`)
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(200);
@@ -238,7 +221,7 @@ describe('User ROUTES', () => {
     });
     describe('DELETE: (/users/:id) - DELETE A USER', () => {
       it('should not delete admin if not admin', (done) => {
-        request.delete('/users/21')
+        request.delete('/users/5')
           .set({ Authorization: token3 })
           .end((error, response) => {
             expect(response.status).to.equal(401);
@@ -250,8 +233,12 @@ describe('User ROUTES', () => {
       it('should not perform a delete if supplied id is invalid', (done) => {
         request.delete('/users/100')
           .set({ Authorization: token1 })
-          .expect(404);
-        done();
+          .end((error, response) => {
+            expect(response.status).to.equal(404);
+            expect(response.body.message)
+              .to.equal('User not found');
+            done();
+          });
       });
       it('should not perform a delete on super admin', (done) => {
         request.delete('/users/1')
@@ -274,7 +261,7 @@ describe('User ROUTES', () => {
           });
       });
       it('should not delete a user who still has documents', (done) => {
-        request.delete('/users/21')
+        request.delete('/users/3')
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(409);
@@ -282,26 +269,25 @@ describe('User ROUTES', () => {
               .to.equal('Cannot delete user while user still has documents');
             models.User.count()
               .then((userCount) => {
-                expect(userCount).to.equal(4);
-                models.Documents.destroy({ where: {} });
+                expect(userCount).to.equal(6);
                 done();
               });
           });
       });
       it('should succesfully delete a user when provided valid id', (done) => {
-        request.delete('/users/21')
+        request.delete(`/users/${user1.id}`)
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(200);
             models.User.count()
               .then((userCount) => {
-                expect(userCount).to.equal(3);
+                expect(userCount).to.equal(5);
                 done();
               });
           });
       });
       it('should perform delete on request from admin', (done) => {
-        request.delete(`/users/${user2.id}`)
+        request.delete('/users/4')
         .set({ Authorization: token1 })
         .end((error, response) => {
           expect(response.status).to.equal(200);

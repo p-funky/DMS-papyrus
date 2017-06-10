@@ -29,7 +29,7 @@ export const getProfileAction = () => dispatch =>
     .then((success) => {
       dispatch(getProfile(success.data));
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error.response.data.message));
 
 export const editProfileAction = (userId, userDetails) => dispatch =>
   axios.put(`/users/${userId}`, userDetails)
