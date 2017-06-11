@@ -269,7 +269,7 @@ describe('User ROUTES', () => {
               .to.equal('Cannot delete user while user still has documents');
             models.User.count()
               .then((userCount) => {
-                expect(userCount).to.equal(6);
+                expect(userCount).to.equal(7);
                 done();
               });
           });
@@ -281,7 +281,7 @@ describe('User ROUTES', () => {
             expect(response.status).to.equal(200);
             models.User.count()
               .then((userCount) => {
-                expect(userCount).to.equal(5);
+                expect(userCount).to.equal(6);
                 done();
               });
           });

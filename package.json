@@ -75,6 +75,7 @@
     "faker": "^4.1.0",
     "file-loader": "^0.11.1",
     "fm-log": "^4.4.3",
+    "jsdom": "^11.0.0",
     "jsonwebtoken": "^7.4.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",

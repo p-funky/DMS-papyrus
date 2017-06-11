@@ -66,6 +66,15 @@ const helper = {
     roleId: 2
   },
 
+  kunle: {
+    firstName: 'Kunle',
+    lastName: 'Adigun',
+    email: 'kunle.adigun@jjc.com',
+    userName: 'kunle',
+    password: '123456',
+    roleId: 2
+  },
+
   testDocument1: {
     title: 'Ojos de cielo',
     content: 'Si yo me oluidara de lo verdadero',
@@ -85,6 +94,13 @@ const helper = {
     content: 'Tinotenda Jesu, Tinotenda Shumba Yedenga',
     ownerId: 3,
     accessId: 1
+  },
+
+  testDocument4: {
+    title: 'A weird name',
+    content: 'WOWU',
+    ownerId: 5,
+    accessId: 3
   },
 
   documentsCollection() {

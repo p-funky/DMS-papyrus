@@ -101,14 +101,6 @@ export default {
         order: '"createdAt" DESC'
       })
         .then((documents) => {
-          if (!documents) {
-            return res
-              .status(404)
-              .send({
-                message: `User ${name} with id:${id}` +
-                'has no documents to view'
-              });
-          }
           const settings = limit && offset ? {
             totalCount: documents.count,
             pages: Math.ceil(documents.count / limit),
