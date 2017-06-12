@@ -369,7 +369,6 @@ describe('DOCUMENT ROUTES', () => {
           request.get(`/documents/${roleDocument2.id}`)
             .set({ Authorization: doeToken })
             .end((errors, response) => {
-              console.log(response.body.message);
               expect(response.status).to.equal(403);
               done();
             });

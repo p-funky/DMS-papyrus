@@ -7,11 +7,7 @@ module.exports = {
     use_env_variable: 'DATABASE_URL'
   },
   test: {
-    username: 'andeladeveloper',
-    password: '',
-    database: 'dms-test',
-    host: '127.0.0.1',
-    dialect: 'postgres',
+    use_env_variable: 'DATABASE_URL_TEST',
     logging: false
   },
   production: {
