@@ -10,7 +10,8 @@
 
 <img width="1265" alt="screen shot 2017-06-12 at 1 25 48 pm" src="https://user-images.githubusercontent.com/26273354/27033985-9380974e-4f73-11e7-9a5b-57a54a42f11e.png">
 
->This document management system is a full stack application that manages documents, users and user roles. 
+
+>########This document management system is a full stack application that manages documents, users and user roles. 
 
 It also provides restful APIs for users to create and manage documents giving different privileges based on user roles and managing authentication of users with JsonWebToken.
 
@@ -110,7 +111,7 @@ The following are some sample requests and responses from the API.
 
 - [Search](#search)
   - [Search Documents](#search-documents)
-  - [Search Users] (#search-users)
+  - [Search Users](#search-users)
 
 
 ## Users
