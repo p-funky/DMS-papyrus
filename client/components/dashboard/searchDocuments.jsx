@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { searchDocumentsAction, getAllDocumentsAction }
   from '../../actions/documentActions';
 
-class SearchDocuments extends React.Component {
+export class SearchDocuments extends React.Component {
 
   constructor(props) {
     super(props);

@@ -1,9 +1,11 @@
 import expect from 'expect';
 import React from 'react';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { MyDocumentsTemplate }
-  from '../../../../client/components/myDocuments/MyDocumentsTemplate';
+import { DashboardTemplate }
+  from '../../../../client/components/dashboard/dashboardTemplate';
 
+const getAllDocumentsAction = sinon.spy(() => Promise.resolve());
 const props = {
   id: '',
   authentication: {
@@ -14,17 +16,18 @@ const props = {
   documents: {
     settings: '',
     documents: ''
-  }
+  },
+  getAllDocumentsAction
 };
 
 function setup() {
-  return shallow(<MyDocumentsTemplate {...props} />);
+  return shallow(<DashboardTemplate {...props} />);
 }
 
 describe('MyDocumentsTemplate', () => {
-  it('renders the h3 tag', () => {
+  it('renders the h5 tag', () => {
     const wrapper = setup();
-    expect(wrapper.find('h3').length).toEqual(0);
+    expect(wrapper.find('h5').length).toEqual(1);
   });
   it('renders the divs', () => {
     const wrapper = setup();
@@ -32,7 +35,6 @@ describe('MyDocumentsTemplate', () => {
   });
   it('renders the h2 tag', () => {
     const wrapper = setup();
-    expect(wrapper.find('p').length).toBe(0);
+    expect(wrapper.find('h2').length).toBe(1);
   });
 });
-

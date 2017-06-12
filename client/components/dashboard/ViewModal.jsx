@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'react-materialize';
 import PropTypes from 'prop-types';
 
-class viewModal extends React.Component {
+class ViewModal extends React.Component {
 
   render() {
     return (
@@ -24,8 +24,8 @@ class viewModal extends React.Component {
   }
 }
 
-viewModal.propTypes = {
+ViewModal.propTypes = {
   document: PropTypes.object.isRequired
 };
 
-export default viewModal;
+export default ViewModal;

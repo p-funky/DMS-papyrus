@@ -6,7 +6,7 @@ import { Modal } from 'react-materialize';
 import { editDocumentAction } from '../../actions/documentActions';
 
 
-class EditModal extends React.Component {
+export class EditModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);

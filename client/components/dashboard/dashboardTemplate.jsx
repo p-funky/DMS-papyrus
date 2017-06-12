@@ -9,7 +9,7 @@ import documentCards from './documentCards';
 import AddModal from './AddModal';
 import SearchDocuments from './searchDocuments';
 
-class DashboardTemplate extends React.Component {
+export class DashboardTemplate extends React.Component {
 
   constructor(props) {
     super(props);
