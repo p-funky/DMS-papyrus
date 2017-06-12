@@ -17,5 +17,5 @@ export const userSignInRequest = userData =>
         );
     })
     .catch((error) => {
-      console.log(error);
+      throw error.response.data.message;
     });

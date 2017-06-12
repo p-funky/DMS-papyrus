@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
@@ -20,6 +21,8 @@ class SignupForm extends React.Component {
     this.props.userSignupRequest(this.state)
       .then(() => {
         this.setState({ loggedIn: true });
+      }).catch((error) => {
+        Materialize.toast(error, 3000, 'red');
       });
   }
 

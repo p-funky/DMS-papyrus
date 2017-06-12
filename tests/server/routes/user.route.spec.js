@@ -62,13 +62,24 @@ describe('User ROUTES', () => {
             });
         });
     });
-    it('should not create another user with same username', (done) => {
+    it('should not create another user with same email', (done) => {
       request.post('/users')
         .send(john)
         .end((error, response) => {
           expect(response.status).to.equal(409);
           expect(response.body.message).to.equal(
-        `Email: ${john.email} or Username: ${john.userName} is already in use`);
+        `Email: ${john.email} is already in use`);
+          done();
+        });
+    });
+    it('should not create another user with same username', (done) => {
+      john.email = 'shoki@yodi.com';
+      request.post('/users')
+        .send(john)
+        .end((error, response) => {
+          expect(response.status).to.equal(409);
+          expect(response.body.message).to.equal(
+        `Username: ${john.userName} is already in use`);
           done();
         });
     });

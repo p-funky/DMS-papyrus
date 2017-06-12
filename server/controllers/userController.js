@@ -27,13 +27,17 @@ export default {
       }
     })
     .then((existingUser) => {
-      if (existingUser) {
+      if (existingUser && existingUser.email === req.body.email) {
         return res.status(409)
           .send({ message:
-            `Email: ${req.body.email} or Username: ` +
-            `${req.body.userName} is already in use` });
+            `Email: ${req.body.email} is already in use` });
       }
 
+      if (existingUser && existingUser.userName === req.body.userName) {
+        return res.status(409)
+          .send({ message:
+            `Username: ${req.body.userName} is already in use` });
+      }
       const createUser = () =>
         User.create(req.body)
           .then((newUser) => {
