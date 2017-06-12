@@ -26,7 +26,7 @@ class DashboardTemplate extends React.Component {
   }
 
   onSelect(pageNumber) {
-    const offset = (pageNumber - 1) * 3;
+    const offset = (pageNumber - 1) * 8;
     this.props.getAllDocumentsAction(offset);
   }
 
@@ -40,22 +40,33 @@ class DashboardTemplate extends React.Component {
     }
     const maxPages = pageCount || 0;
     return (
-      <div className="col s12 m12 l12">
-        <SearchDocuments />
-        <h3>All Documents</h3>
-        {
-          (this.props.documents.documents &&
-           this.props.documents.documents.length > 0)
-          ?
-            this.props.documents.documents.map(documentCards)
-          :
-            'You have no documents to view'
-        }
-        <AddModal />
-        <Pagination
-          items={pageCount} activePage={currentPage} maxButtons={maxPages}
-          onSelect={this.onSelect}
-        />
+      <div className="row">
+        <div className="col s12 m12 l12">
+          <SearchDocuments />
+          <h5 className="center-align">All Documents</h5>
+          {
+            (this.props.documents.documents &&
+            this.props.documents.documents.length > 0)
+            ?
+              this.props.documents.documents.map(documentCards)
+            :
+              <h2 className="grey-text accent-4">You have no documents to view</h2>
+          }
+          <AddModal />
+        </div>
+        <div className="center-align">
+          {
+            (this.props.documents.documents &&
+            this.props.documents.documents.length > 0)
+            ?
+              <Pagination
+                items={pageCount} activePage={currentPage} maxButtons={maxPages}
+                onSelect={this.onSelect}
+              />
+            :
+              ''
+          }
+        </div>
       </div>
     );
   }

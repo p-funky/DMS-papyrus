@@ -4,12 +4,12 @@ import UserDeleteModal from './userDeleteModal';
 import EditUserButton from './editUserButton';
 
 const userCards = user => (
-  <div key={user.id} className="col s6 m4 l3">
-    <div className="card light-blue">
-      <div className="card-content white-text">
-        <span className="card-title">
-          <h6><strong>Username: </strong>{user.userName}</h6>
-        </span>
+  <div key={user.id} className="col s12 m4 l3">
+    <div className="card">
+      <div className="card-title white-text blue lighten-2">
+        <h5>{user.userName}</h5>
+      </div>
+      <div className="card-content">
         <p><strong>Name: </strong>{user.firstName} {user.lastName}</p>
         <p><strong>Role: </strong>
           {

@@ -107,7 +107,7 @@ export default {
   },
 
   getAllUsers(req, res) {
-    const limit = req.query.limit || '2';
+    const limit = req.query.limit || '8';
     const offset = req.query.offset || '0';
     User.findAndCountAll({
       limit,
@@ -128,7 +128,7 @@ export default {
   },
 
   getAllAdmin(req, res) {
-    const limit = req.query.limit > 0 ? req.query.limit : '2';
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
     const offset = req.query.offset > 0 ? req.query.offset : '0';
     User.findAndCountAll({
       limit,

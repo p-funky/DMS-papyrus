@@ -43,8 +43,7 @@ export default {
 
   list(req, res) {
     const id = req.decoded.userId;
-    const name = req.decoded.userName;
-    const limit = req.query.limit > 0 ? req.query.limit : '3';
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
     const offset = req.query.offset > 0 ? req.query.offset : '0';
     // if admin
     if (req.decoded.roleId === 1) {
@@ -259,7 +258,7 @@ export default {
 
   listByUser(req, res) {
     const id = req.params.id;
-    const limit = req.query.limit > 0 ? req.query.limit : '3';
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
     const offset = req.query.offset > 0 ? req.query.offset : '0';
     let name;
 

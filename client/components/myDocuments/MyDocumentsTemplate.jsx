@@ -8,7 +8,7 @@ import { getmyDocumentsAction }
 import MyDocumentsCards from './MyDocumentsCards';
 import AddModal from '../dashboard/AddModal';
 
-class MyDocumentsTemplate extends React.Component {
+export class MyDocumentsTemplate extends React.Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class MyDocumentsTemplate extends React.Component {
 
   onSelect(pageNumber) {
     const userId = this.props.state.authentication.userInfo.id;
-    const offset = (pageNumber - 1) * 3;
+    const offset = (pageNumber - 1) * 8;
     this.props.getmyDocumentsAction(userId, offset);
   }
 
@@ -47,28 +47,32 @@ class MyDocumentsTemplate extends React.Component {
     }
     const maxPages = pageCount || 0;
     return (
-      <div className="col s12 m12 l12">
-        <h3>My Documents</h3>
-        {
-          (this.props.documents.documents &&
-          this.props.documents.documents.length > 0)
-          ?
-            this.props.documents.documents.map(MyDocumentsCards)
-          :
-            <h2 className="grey-text accent-4">You have no documents to view</h2>
-        }
-        <AddModal />
-        {
-          (this.props.documents.documents &&
-           this.props.documents.documents.length > 0)
-          ?
-            <Pagination
-              items={pageCount} activePage={currentPage} maxButtons={maxPages}
-              onSelect={this.onSelect}
-            />
-          :
-            ''
-        }
+      <div className="row">
+        <div className="col s12 m12 l12">
+          <h5 className="center-align">My Documents</h5>
+          {
+            (this.props.documents.documents &&
+            this.props.documents.documents.length > 0)
+            ?
+              this.props.documents.documents.map(MyDocumentsCards)
+            :
+              <h2 className="grey-text accent-4">You have no documents to view</h2>
+          }
+          <AddModal />
+        </div>
+        <div className="center-align">
+          {
+            (this.props.documents.documents &&
+            this.props.documents.documents.length > 0)
+            ?
+              <Pagination
+                items={pageCount} activePage={currentPage} maxButtons={maxPages}
+                onSelect={this.onSelect}
+              />
+            :
+              ''
+          }
+        </div>
       </div>
     );
   }

@@ -7,7 +7,7 @@ import { Modal } from 'react-materialize';
 import { myDocumentEditAction } from '../../actions/documentActions';
 
 
-class EditModal extends React.Component {
+export class MyDocumentsEditModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
@@ -41,7 +41,7 @@ class EditModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect modal-trigger blue accent-4 white-text">
+          <button className="btn-floating waves-effect modal-trigger blue lighten-2white-text">
             <i className="material-icons">mode_edit</i>
           </button>
           }
@@ -101,9 +101,9 @@ class EditModal extends React.Component {
   }
 }
 
-EditModal.propTypes = {
+MyDocumentsEditModal.propTypes = {
   myDocumentEditAction: PropTypes.func.isRequired,
   document: PropTypes.object.isRequired
 };
 
-export default withRouter(connect(null, { myDocumentEditAction })(EditModal));
+export default withRouter(connect(null, { myDocumentEditAction })(MyDocumentsEditModal));

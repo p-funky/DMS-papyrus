@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { addDocumentAction } from '../../actions/documentActions';
 
-class AddModal extends React.Component {
+export class AddModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleAdd = this.handleAdd.bind(this);
@@ -46,7 +46,7 @@ class AddModal extends React.Component {
         trigger={
           <div className="fixed-action-btn">
             <a className="btn-floating btn-large red">
-              <i className="large material-icons green accent-4">add</i>
+              <i className="large material-icons blue lighten-2">add</i>
             </a>
           </div>
         }

@@ -8,7 +8,7 @@ import lodash from 'lodash';
 import { editProfileAction } from '../../actions/userActions';
 
 
-class EditProfileModal extends React.Component {
+export class EditProfileModal extends React.Component {
 
   constructor(props) {
     super(props);
@@ -61,7 +61,7 @@ class EditProfileModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect modal-trigger blue accent-4 white-text">
+          <button className="btn-floating waves-effect modal-trigger blue lighten-2 white-text">
             <i className="material-icons">mode_edit</i>
           </button>
           }

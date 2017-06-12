@@ -33,28 +33,32 @@ class UserTemplate extends React.Component {
     }
     const maxPages = pageCount || 0;
     return (
-      <div className="col s12 m12 l12">
-        <SearchUsers />
-        <h3>Manage Users</h3>
-        {
-          (this.props.users.users &&
-           this.props.users.users.length > 0)
-          ?
-            this.props.users.users.map(userCards)
-          :
-          'You have no users to manage.'
-        }
-        {
-          (this.props.users.users &&
-           this.props.users.users.length > 0)
-          ?
-            <Pagination
-              items={pageCount} activePage={currentPage} maxButtons={maxPages}
-              onSelect={this.onSelect}
-            />
-          :
-          ''
-        }
+      <div className="row">
+        <div className="col s12 m12 l12">
+          <SearchUsers />
+          <h5 className="center-align">Manage Users</h5>
+          {
+            (this.props.users.users &&
+            this.props.users.users.length > 0)
+            ?
+              this.props.users.users.map(userCards)
+            :
+              <h2 className="grey-text accent-4">You have no users to manage.</h2>
+          }
+        </div>
+        <div className="center-align">
+          {
+            (this.props.users.users &&
+            this.props.users.users.length > 0)
+            ?
+              <Pagination
+                items={pageCount} activePage={currentPage} maxButtons={maxPages}
+                onSelect={this.onSelect}
+              />
+            :
+            ''
+          }
+        </div>
       </div>
     );
   }

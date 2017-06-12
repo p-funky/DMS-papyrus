@@ -23,10 +23,26 @@ body {
 }
 
 .card .card-action {
-  padding: 50px 24px;
+  padding: 50px;
 }
 
 img {
   width: 600px;
   height: 600px;
+}
+
+#menu-item {
+  display: inline-flex;
+}
+
+.card-title {
+  padding: 10px;
+}
+
+#self {
+  display: inline-flex; 
+}
+
+#my-profile {
+  display: inline-flex;
 }

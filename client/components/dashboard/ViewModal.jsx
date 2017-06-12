@@ -9,7 +9,7 @@ class viewModal extends React.Component {
       <Modal
         trigger={
           <div>
-            <button className="btn-floating waves-effect modal-trigger green accent-4 white-text">
+            <button className="btn-floating waves-effect modal-trigger grey accent-4 white-text">
               <i className="large material-icons">visibility</i>
             </button>
           </div>

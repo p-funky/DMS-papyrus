@@ -30,7 +30,7 @@ class EditUserButton extends React.Component {
           (this.props.user.id !== user.userId)
           ?
             <button
-              className="waves-effect waves-light btn"
+              className="waves-effect waves-light btn blue lighten-2"
               onClick={() => this.changeRole(this.props.user.id, this.props.user.roleId)}
             > {
                 (this.props.user.roleId === 1)
@@ -41,8 +41,8 @@ class EditUserButton extends React.Component {
               }
             </button>
           :
-            <h5 className="white-text">
-              <i className="material-icons yellow-text">star</i>
+            <h5 id="self">
+              <i className="material-icons blue-text text-lighten-2">star</i>
               Me
             </h5>
         }
