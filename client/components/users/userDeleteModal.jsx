@@ -6,7 +6,7 @@ import { Modal, Button } from 'react-materialize';
 import jwt from 'jsonwebtoken';
 import { deleteUserAction } from '../../actions/userActions';
 
-class UserDeleteModal extends React.Component {
+export class UserDeleteModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
@@ -18,7 +18,7 @@ class UserDeleteModal extends React.Component {
 
   render() {
     const token = localStorage.token;
-    const user = jwt.decode(token);
+    const user = token ? jwt.decode(token) : '';
     return (
       <div>
         {

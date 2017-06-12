@@ -31,7 +31,7 @@ export class NavigationBar extends React.Component {
     }
 
     const token = localStorage.token;
-    const user = localStorage.token ? jwt.decode(token) : '';
+    const user = token ? jwt.decode(token) : '';
 
     return (
       <div className="navbar-fixed blue lighten-2">

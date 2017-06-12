@@ -7,7 +7,7 @@ import { getAllUsersAction } from '../../actions/userActions';
 import userCards from './userCards';
 import SearchUsers from './searchUsers';
 
-class UserTemplate extends React.Component {
+export class UserTemplate extends React.Component {
 
   constructor(props) {
     super(props);

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { editUserRoleAction } from '../../actions/userActions';
 
 
-class EditUserButton extends React.Component {
+export class EditUserButton extends React.Component {
   constructor(props) {
     super(props);
     this.changeRole = this.changeRole.bind(this);
@@ -23,7 +23,7 @@ class EditUserButton extends React.Component {
 
   render() {
     const token = localStorage.token;
-    const user = jwt.decode(token);
+    const user = token ? jwt.decode(token) : '';
     return (
       <div>
         {

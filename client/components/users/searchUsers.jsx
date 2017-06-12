@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { searchUserAction, getAllUsersAction } from '../../actions/userActions';
 
-class SearchUsers extends React.Component {
+export class SearchUsers extends React.Component {
 
   constructor(props) {
     super(props);
