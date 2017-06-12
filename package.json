@@ -16,11 +16,11 @@
     "coverage-report": "cat ./coverage/lcov.info | coveralls",
     "undo:test": "NODE_ENV=test babel-node tests/server/testHelper/resetTestData.js",
     "redo:test": "NODE_ENV=test babel-node tests/server/testHelper/seedTestData.js",
-    "test:db": "npm run undo:test && npm run redo:test",
+    "test:db": "NODE_ENV=test npm run undo:test && NODE_ENV=test npm run redo:test",
     "test": "NODE_ENV=test npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/**/*.spec.js\" --timeout 10000 && npm run coverage-report",
     "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
     "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all",
-    "postinstall": "npm run undo && npm run redo"
+    "heroku-postbuild": "npm run undo && npm run redo"
   },
   "repository": {
     "type": "git",
