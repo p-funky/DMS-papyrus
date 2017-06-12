@@ -1,13 +1,17 @@
 /* eslint-disable no-unused-expressions */
 import chai from 'chai';
 import models from '../../../server/models';
-import helper from '../helper';
 
 const expect = chai.expect;
-const assert = chai.assert;
 
-const userDetails = helper.john;
-const roleDetails = helper.admin;
+const userDetails = {
+  firstName: 'Skodo',
+  lastName: 'Baggins',
+  email: 'skodo.baggins@jjc.com',
+  userName: 'skodo',
+  password: '123456',
+  roleId: 1
+};
 
 const requiredFields = [
   'firstName', 'lastName', 'userName', 'email', 'password', 'roleId'];
@@ -15,29 +19,19 @@ const requiredFields = [
 const uniqueFields = ['email', 'userName'];
 
 
-describe('Tests', () => {
-  it('should start empty', () => {
-    const arr = [];
-    assert.equal(arr.length, 0);
-  });
-});
-
 describe('User model- ', () => {
+  after((done) => {
+    models.User.destroy({ where: { id: 6 } }).then(() => done());
+  });
   describe('How User model works: ', () => {
     let user;
     before((done) => {
-      models.Roles.create(roleDetails)
-        .then((createdRole) => {
-          userDetails.roleId = createdRole.id;
-          return models.User.create(userDetails);
-        })
+      models.User.create(userDetails)
         .then((createdUser) => {
           user = createdUser;
           done();
         });
     });
-
-    after(() => models.sequelize.sync({ force: true }));
 
     it('should be able to create a user', () => {
       expect(user).not.to.be.null;
@@ -56,7 +50,7 @@ describe('User model- ', () => {
     it('should create a user with a defined Role', () => {
       models.User.findById(user.id, { include: [models.Roles] })
         .then((foundUser) => {
-          expect(foundUser.Role.title).to.equal(roleDetails.title);
+          expect(foundUser.Role.title).to.equal('admin');
         });
     });
 
@@ -72,18 +66,12 @@ describe('User model- ', () => {
     });
   });
 
-  describe('How User model does Validation', () => {
+  describe('How User model does Validation:', () => {
     let user;
     beforeEach((done) => {
-      models.Roles.create(roleDetails)
-        .then((role) => {
-          userDetails.roleId = role.id;
-          user = models.User.build(userDetails);
-          done();
-        });
+      user = models.User.build(userDetails);
+      done();
     });
-
-    afterEach(() => models.sequelize.sync({ force: true }));
 
     describe('Required Fields', () => {
       requiredFields.forEach((field) => {
@@ -101,11 +89,6 @@ describe('User model- ', () => {
       uniqueFields.forEach((field) => {
         it(`requires ${field} field to be Unique`, () => {
           user.save()
-            .then((firstUser) => {
-              userDetails.roleId = firstUser.roleId;
-              // attempt to create another user with same parameters
-              return models.User.build(userDetails).save();
-            })
             .catch((error) => {
               expect(/UniqueConstraintError/.test(error.name)).to.be.true;
             });
@@ -117,9 +100,6 @@ describe('User model- ', () => {
       it('requires user mail to be authentic', () => {
         user.email = 'damibad.com';
         return user.save()
-          .then((unsavedUser) => {
-            expect(unsavedUser).to.exist;
-          })
           .catch((error) => {
             expect(/ValidationError/.test(error.name)).to.be.true;
           });
@@ -127,12 +107,22 @@ describe('User model- ', () => {
     });
 
     describe('Password Validation', () => {
-      it('should be valid if compared', () =>
-        user.save()
+      let pass;
+      before((done) => {
+        userDetails.email = 'alaba@alaba.com';
+        userDetails.userName = 'anumidun';
+        models.User.create(userDetails)
           .then((createdUser) => {
-            expect(createdUser.isPassword(userDetails.password)).to.be.true;
-          })
-      );
+            pass = createdUser;
+            done();
+          });
+      });
+      after((done) => {
+        models.User.destroy({ where: { id: 9 } }).then(() => done());
+      });
+      it('should be valid if compared', () => {
+        expect(pass.isPassword(userDetails.password)).to.be.true;
+      });
     });
   });
 });

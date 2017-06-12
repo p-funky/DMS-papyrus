@@ -4,14 +4,34 @@ import ViewModal from './ViewModal';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 
-const documentCards = (document, index) => (
-  <div key={index} className="col s6 m4 l3">
-    <div className="card light-blue">
-      <div className="card-content white-text">
-        <span className="card-title">
-          <h4>{document.title.substring(0, 10)}...</h4>
-        </span>
-        <p>{document.content.substring(0, 20)}...</p>
+const accessDisplay = (accessId, roleId) => {
+  if (accessId === 1) {
+    return 'public';
+  }
+  if (accessId === 2) {
+    return 'private';
+  }
+  if (accessId === 3) {
+    if (roleId === 1) {
+      return 'admin';
+    }
+    if (roleId === 2) {
+      return 'regular';
+    }
+  }
+};
+
+const documentCards = document => (
+  <div key={document.id} className="col s12 m4 l3">
+    <div className="card">
+      <div className="card-title white-text  blue lighten-2">
+        <h5>{document.title.substring(0, 15)}...</h5>
+      </div>
+      <div className="card-content">
+        <p>{document.content.substring(0, 25)} ...</p>
+        <br />
+        <p>Author: {document.User.userName}</p>
+        <p>Access: {accessDisplay(document.accessId, (document.User.roleId))}</p>
       </div>
       <div className="card-action">
         <div className="col m4">

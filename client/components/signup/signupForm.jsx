@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import papyrus from '../../images/papyrus.jpeg';
+import { Redirect } from 'react-router-dom';
+import papyrus from '../../images/papyrus-ex.png';
 
 class SignupForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loggedIn: false };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -16,10 +17,19 @@ class SignupForm extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.props.userSignupRequest(this.state);
+    this.props.userSignupRequest(this.state)
+      .then(() => {
+        this.setState({ loggedIn: true });
+      });
   }
 
   render() {
+    const { loggedIn } = this.state;
+    if (loggedIn) {
+      return (
+        <Redirect to="/dashboard" />
+      );
+    }
     return (
       <div>
         <div className="col s12 m12 l6">
@@ -32,42 +42,35 @@ class SignupForm extends React.Component {
                   <div className="input-field col s12">
                     <i className="material-icons prefix">perm_identity</i>
                     <input id="firstName" type="text" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="firstname">first name</label>
+                    <label className="active" htmlFor="firstname">first name</label>
                   </div>
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
                     <i className="material-icons prefix">perm_identity</i>
                     <input id="lastName" type="text" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="lastname">last name</label>
+                    <label className="active" htmlFor="lastname">last name</label>
                   </div>
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
                     <i className="material-icons prefix">account_circle</i>
                     <input id="userName" type="text" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="username">username</label>
+                    <label className="active" htmlFor="username">username</label>
                   </div>
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
                     <i className="material-icons prefix">email</i>
                     <input id="email" type="email" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="email">email</label>
+                    <label className="active" htmlFor="email">email</label>
                   </div>
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
                     <i className="material-icons prefix">lock</i>
                     <input id="password" type="password" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="password">password</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s12">
-                    <i className="material-icons prefix">lock</i>
-                    <input id="password_confirm" type="password" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="password">confirm password</label>
+                    <label className="active" htmlFor="password">password</label>
                   </div>
                 </div>
                 <div className="row">

@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { addDocumentAction } from '../../actions/documentActions';
 
-class AddModal extends React.Component {
+export class AddModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleAdd = this.handleAdd.bind(this);
@@ -45,7 +46,7 @@ class AddModal extends React.Component {
         trigger={
           <div className="fixed-action-btn">
             <a className="btn-floating btn-large red">
-              <i className="large material-icons">add</i>
+              <i className="large material-icons blue lighten-2">add</i>
             </a>
           </div>
         }
@@ -89,7 +90,7 @@ class AddModal extends React.Component {
           <div className="row">
             <button
               onClick={this.handleAdd}
-              className="btn blue lighten-2 waves-effect waves-light right"
+              className="modal-close btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"
             >save
@@ -106,4 +107,4 @@ AddModal.propTypes = {
   addDocumentAction: PropTypes.func.isRequired
 };
 
-export default connect(null, { addDocumentAction })(AddModal);
+export default withRouter(connect(null, { addDocumentAction })(AddModal));

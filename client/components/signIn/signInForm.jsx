@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import isEmail from '../../utils/helper';
-import papyrus from '../../images/papyrus.jpeg';
+import papyrus from '../../images/papyrus-ex.png';
 
 
 class SignInForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { loggedIn: false };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -26,10 +27,19 @@ class SignInForm extends React.Component {
       data.userName = this.state.credential;
       data.password = this.state.password;
     }
-    this.props.userSignInRequest(data);
+    this.props.userSignInRequest(data)
+      .then(() => {
+        this.setState({ loggedIn: true });
+      });
   }
 
   render() {
+    const { loggedIn } = this.state;
+    if (loggedIn) {
+      return (
+        <Redirect to="/dashboard" />
+      );
+    }
     return (
       <div>
         <div className="col s12 m12 l6">
@@ -42,14 +52,14 @@ class SignInForm extends React.Component {
                   <div className="input-field col s12">
                     <i className="material-icons prefix">input</i>
                     <input id="credential" type="text" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="username|email">username or email</label>
+                    <label className="active" htmlFor="credentiall">username or email</label>
                   </div>
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
                     <i className="material-icons prefix">lock</i>
                     <input id="password" type="password" className="validate" required onChange={this.onChange} />
-                    <label htmlFor="password">password</label>
+                    <label className="active" htmlFor="password">password</label>
                   </div>
                 </div>
                 <div className="row">
@@ -74,5 +84,6 @@ class SignInForm extends React.Component {
 SignInForm.propTypes = {
   userSignInRequest: PropTypes.func.isRequired
 };
+
 
 export default SignInForm;

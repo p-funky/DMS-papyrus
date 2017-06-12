@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { editDocumentAction } from '../../actions/documentActions';
 
 
-class EditModal extends React.Component {
+export class EditModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
@@ -32,13 +33,11 @@ class EditModal extends React.Component {
     this.props.editDocumentAction(documentId, this.state);
   }
 
-
   render() {
-    // const { document } = this.props;
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect modal-trigger blue accent-4 white-text">
+          <button className="btn-floating waves-effect modal-trigger blue lighten-2 white-text">
             <i className="material-icons">mode_edit</i>
           </button>
           }
@@ -85,10 +84,11 @@ class EditModal extends React.Component {
           <div className="row">
             <button
               onClick={() => this.handleEdit(this.props.document.id)}
-              className="btn blue lighten-2 waves-effect waves-light right"
+              className="modal-close btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"
-            >Save<i className="mdi-content-send right" />
+            >
+              Save<i className="mdi-content-send right" />
             </button>
           </div>
         </form>
@@ -102,4 +102,4 @@ EditModal.propTypes = {
   document: PropTypes.object.isRequired
 };
 
-export default connect(null, { editDocumentAction })(EditModal);
+export default withRouter(connect(null, { editDocumentAction })(EditModal));

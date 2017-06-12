@@ -5,19 +5,11 @@ import db from '../../../server/models/index';
 const expect = chai.expect;
 
 describe('Access Model', () => {
-  beforeEach((done) => {
-    db.sequelize.sync({ force: true }).done(() => {
-      db.Access.create({ title: 'public' }).then(() => {
-        done();
-      });
-    });
-  });
-
   describe('Create Access', () => {
     it('should create a new access level', (done) => {
-      db.Access.create({ title: 'private' })
+      db.Access.create({ title: 'moderator' })
         .then((access) => {
-          expect(access.title).to.eql('private');
+          expect(access.title).to.eql('moderator');
           done();
         });
     });
@@ -28,35 +20,35 @@ describe('Access Model', () => {
       db.Access.findById(1)
         .then((access) => {
           expect(access.title).to.eql('public');
-          done();
         });
+      done();
     });
   });
 
   describe('Update Access', () => {
     it('should update a created access', (done) => {
-      db.Access.findById(1)
+      db.Access.findById(4)
         .then((access) => {
           const updatedAt = access.updatedAt;
-          access.update({ title: 'private' })
+          access.update({ title: 'facilitator' })
             .then((updatedAccess) => {
-              expect(updatedAccess.title).to.eql('private');
+              expect(updatedAccess.title).to.eql('facilitator');
               expect(updatedAccess.updatedAt).to.not.eql(updatedAt);
-              done();
             });
+          done();
         });
     });
   });
 
   describe('Delete Access', () => {
     it('should delete a created access', (done) => {
-      db.Access.destroy({ where: { id: 1 } })
+      db.Access.destroy({ where: { id: 4 } })
         .then(() => {
-          db.Access.findById(1)
+          db.Access.findById(4)
             .then((destroyedAccess) => {
               expect(destroyedAccess).to.be.a('null');
-              done();
             });
+          done();
         });
     });
   });

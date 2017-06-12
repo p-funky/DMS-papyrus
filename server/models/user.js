@@ -4,11 +4,21 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      }
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      }
     },
     email: {
       type: DataTypes.STRING,
@@ -24,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     userName: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      },
       unique: {
         args: true,
         msg: 'Username already in use'
@@ -31,12 +46,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      }
     },
     roleId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 2
+      defaultValue: 2,
+      allowNull: false
     },
   }, {
     hooks: {
@@ -50,13 +70,6 @@ module.exports = (sequelize, DataTypes) => {
           user.password = bcrypt.hashSync(user.password, salt);
           user.updateAt = Date.now();
         }
-      },
-      beforeBulkUpdate(users) {
-        if (users.attributes && users.attributes.password) {
-          const salt = bcrypt.genSaltSync();
-          const password = users.attributes.password;
-          users.attributes.password = bcrypt.hashSync(password, salt);
-        }
       }
     },
     classMethods: {
@@ -65,13 +78,13 @@ module.exports = (sequelize, DataTypes) => {
         User.belongsTo(models.Roles, {
           foreignKey: {
             name: 'roleId',
-            onDelete: null
+            onDelete: 'SET NULL'
           }
         });
         User.hasMany(models.Documents, {
           foreignKey: {
             name: 'ownerId',
-            onDelete: null
+            onDelete: 'SET NULL'
           }
         });
       }

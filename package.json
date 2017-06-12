@@ -3,9 +3,24 @@
   "version": "1.0.0",
   "description": "Document Management System",
   "main": "index.jsx",
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
   "scripts": {
     "start": "nodemon server.js --exec babel-node",
-    "test": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test istanbul cover _mocha -- -R spec tests/server/**/*.spec.js --compilers js:babel-core/register"
+    "client:test": "NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha tests/client/setup.js \"tests/client/**/*.spec.js\"",
+    "coverage-report": "cat ./coverage/lcov.info | coveralls",
+    "undo:test": "NODE_ENV=test babel-node tests/server/testHelper/resetTestData.js",
+    "redo:test": "NODE_ENV=test babel-node tests/server/testHelper/seedTestData.js",
+    "test:db": "npm run undo:test && npm run redo:test",
+    "test": " npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/**/*.spec.js\" --timeout 10000 && npm run coverage-report",
+    "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
+    "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all",
+    "postinstall": "npm run undo && npm run redo"
   },
   "repository": {
     "type": "git",
@@ -23,14 +38,22 @@
   "devDependencies": {
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "coveralls": "^2.13.1",
+    "dotenv": "^4.0.0",
+    "enzyme": "2.2.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
+    "istanbul": "^0.4.5",
+    "jsdom": "^8.5.0",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
+    "nyc": "^11.0.2",
+    "react-addons-test-utils": "^15.5.0",
     "react-hot-loader": "^1.3.1",
+    "redux-mock-store": "^1.0.2",
     "sequelize-cli": "^2.7.0"
   },
   "dependencies": {
@@ -38,9 +61,12 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
+    "babel-istanbul": "^0.12.2",
     "babel-loader": "^7.0.0",
+    "babel-plugin-istanbul": "^4.1.4",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
     "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
@@ -49,11 +75,12 @@
     "css-loader": "^0.28.2",
     "dotenv": "^4.0.0",
     "eventsource-polyfill": "^0.9.6",
+    "expect": "1.19.0",
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "faker": "^4.1.0",
     "file-loader": "^0.11.1",
-    "istanbul": "^0.4.5",
+    "fm-log": "^4.4.3",
     "jsonwebtoken": "^7.4.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",
@@ -62,6 +89,7 @@
     "morgan": "^1.8.1",
     "node-mocks-http": "^1.6.2",
     "node-sass": "^4.5.3",
+    "nyc": "^11.0.2",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.5.10",

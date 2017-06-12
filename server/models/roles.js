@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         Roles.hasMany(models.User, {
           foreignKey: {
             name: 'roleId',
-            onDelete: null
+            onDelete: 'SET NULL'
           }
         });
       }

@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import model from '../models';
 
 const User = model.User;
+const Documents = model.Documents;
 
 const secret = process.env.SECRET_TOKEN || 'secret';
 const userDetails = user => (
@@ -100,18 +101,13 @@ export default {
     const id = req.decoded.userId;
     User.findById(id)
       .then((existingUser) => {
-        if (!existingUser) {
-          return res
-          .status(404)
-          .send({ message: 'User Not Found' });
-        }
         existingUser = userDetails(existingUser);
         return res.status(200).send(existingUser);
       });
   },
 
   getAllUsers(req, res) {
-    const limit = req.query.limit || '10';
+    const limit = req.query.limit || '8';
     const offset = req.query.offset || '0';
     User.findAndCountAll({
       limit,
@@ -132,8 +128,8 @@ export default {
   },
 
   getAllAdmin(req, res) {
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     User.findAndCountAll({
       limit,
       offset,
@@ -154,12 +150,6 @@ export default {
     const id = req.params.id;
     User.findById(id)
       .then((existingUser) => {
-        if (!existingUser) {
-          return res
-          .status(404)
-          .send({ message: `There is no user with id: ${id}` });
-        }
-
         existingUser = userDetails(existingUser);
         return res.status(200).send(existingUser);
       });
@@ -169,11 +159,6 @@ export default {
     const id = req.params.id;
     User.findById(id)
       .then((existingUser) => {
-        if (!existingUser) {
-          return res
-            .status(404)
-            .send({ message: `There is no user with id: ${id}` });
-        }
         if (Number(id) !== req.decoded.userId) {
           if (req.decoded.roleId === 1 && existingUser.id === 1) {
             return res.status(401)
@@ -194,6 +179,12 @@ export default {
                 message: 'You cannot edit this user'
               });
           }
+        }
+        if (existingUser.id === 1 && req.body.roleId) {
+          return res.status(403)
+            .send({
+              message: 'To avoid complications, this is forbidden!'
+            });
         }
 
         if (req.body.roleId === '1' && existingUser.roleId !== 1) {
@@ -218,15 +209,15 @@ export default {
   },
 
   destroy(req, res) {
-    const id = req.params.id;
-    User.findById(id)
+    User.findById(req.params.id)
       .then((existingUser) => {
+        const id = req.params.id;
         if (!existingUser) {
-          return res
-            .status(404)
-            .send({ message: `There is no user with id: ${id}` });
+          return res.status(404)
+            .send({
+              message: 'User not found'
+            });
         }
-
         if (existingUser.id === 1) {
           return res.status(403)
             .send({
@@ -234,38 +225,49 @@ export default {
             });
         }
 
-        if (existingUser.roleId === '1' && req.decoded.roleId !== 1) {
+        if (existingUser.roleId === 1 && req.decoded.roleId !== 1) {
           return res.status(401)
             .send({
               message: 'Cannot delete admin.'
             });
         }
 
-        if (id !== existingUser.id && req.decoded.roleId !== 1) {
+        if (Number(id) !== req.decoded.userId && req.decoded.roleId !== 1) {
           return res.status(401)
             .send({
               message: 'You cannot delete this user'
             });
         }
-
-        existingUser.destroy()
-          .then(() => res.status(200)
-            .send({
-              User: existingUser,
-              Message: 'User succesfully deleted'
-            })
-          );
+        Documents.findAndCountAll({
+          include: [{
+            model: User,
+            attributes: [
+              'userName'
+            ]
+          }],
+          where: { ownerId: id }
+        })
+          .then((existingDocuments) => {
+            if (existingDocuments.count) {
+              return res.status(409)
+                .send({
+                  message: 'Cannot delete user while user still has documents'
+                });
+            }
+            existingUser.destroy()
+              .then(() => res.status(200)
+                .send({
+                  User: existingUser,
+                  Message: 'User succesfully deleted'
+                })
+              );
+          });
       });
   },
 
   find(req, res) {
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
-    if (req.query.limit < 0 || req.query.offset < 0) {
-      return res.status(400)
-        .send({ message: 'Offset and limit can only be positive integers.' });
-    }
-
+    const limit = req.query.limit > 0 ? req.query.limit : '2';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     const searchInfo = req.query.search;
     const query = {
       attributes: ['id', 'firstName', 'lastName',
@@ -288,11 +290,11 @@ export default {
 
     User.findAndCountAll(query)
       .then((users) => {
-        const settings = query.limit && query.offset
+        const settings = limit && offset
           ? {
             totalCount: users.count,
-            pages: Math.ceil(users.count / query.limit),
-            currentPage: Math.floor(query.offset / query.limit) + 1,
+            pages: Math.ceil(users.count / limit),
+            currentPage: Math.floor(offset / limit) + 1,
             pageSize: users.rows.length
           } : null;
         res.send({ users: users.rows, settings });
