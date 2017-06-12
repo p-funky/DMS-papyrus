@@ -1,6 +1,6 @@
 ## [DMS-papyrus](https://github.com/andela-aalabi/DMS-papyrus)
 
-[![Build Status](https://travis-ci.org/andela-aalabi/DMS-papyrus.svg?branch=master)](https://travis-ci.org/andela-aalabi/DMS-papyrus)
+[![Build Status](https://travis-ci.org/andela-aalabi/DMS-papyrus.svg?branch=feature/146281101/front-end-tasks)](https://travis-ci.org/andela-aalabi/DMS-papyrus)
 
 >This document management system manages documents, users and user roles. 
 
