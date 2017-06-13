@@ -9,32 +9,28 @@ export class SearchDocuments extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { search: '' };
     this.onChange = this.onChange.bind(this);
-    this.runSearch = this.runSearch.bind(this);
   }
 
   onChange(event) {
+    event.preventDefault();
     let word = event.target.value;
-    if (!word || word === '') {
+    if (!word && word.length === 0) {
       return getAllDocumentsAction();
     }
     word = word.trim();
-    this.setState({ [event.target.id]: word });
+    this.props.searchDocumentsAction(word);
   }
 
-  runSearch(event) {
-    event.preventDefault();
-    this.props.searchDocumentsAction(this.state.search);
-  }
   render() {
     return (
       <div>
-        <form onChange={this.onChange} onSubmit={this.runSearch}>
+        <form onChange={this.onChange}>
           <div className="input-field">
             <input
               id="search"
               type="search"
+              placeholder="search by title or content"
             />
             <label className="label-icon" htmlFor="search">
               <i className="material-icons">search</i>

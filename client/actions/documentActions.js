@@ -80,6 +80,7 @@ export const searchDocuments = documents => ({
 export const searchDocumentsAction = searchWord => dispatch =>
   axios.get(`/search/documents/?search=${searchWord}`)
     .then((success) => {
+      console.log('hit', success.data);
       dispatch(searchDocuments(success.data));
     })
     .catch(error => console.log(error));

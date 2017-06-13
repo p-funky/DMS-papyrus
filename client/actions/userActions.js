@@ -85,6 +85,7 @@ export const searchUsers = users => ({
 export const searchUserAction = searchWord => dispatch =>
   axios.get(`/search/users/?search=${searchWord}`)
     .then((success) => {
+      console.log('hit', success.data);
       dispatch(searchUsers(success.data));
     })
     .catch(error => console.log(error));

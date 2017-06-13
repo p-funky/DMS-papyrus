@@ -317,7 +317,7 @@ export default {
   },
 
   find(req, res) {
-    const limit = req.query.limit > 0 ? req.query.limit : '3';
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
     const offset = req.query.offset > 0 ? req.query.offset : '0';
 
     const searchInfo = req.query.search;

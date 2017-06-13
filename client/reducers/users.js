@@ -1,7 +1,7 @@
 import {
   GET_ALL_USERS,
   DELETE_USER,
-  SEARCH_USER
+  SEARCH_USERS
 } from '../actions/types';
 
 let users;
@@ -19,7 +19,7 @@ const userReducer = (state = {}, action = {}) => {
         settings: state.settings
       };
 
-    case SEARCH_USER:
+    case SEARCH_USERS:
       return action.users;
 
     default: return state;
