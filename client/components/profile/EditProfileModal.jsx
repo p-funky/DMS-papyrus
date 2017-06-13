@@ -1,13 +1,14 @@
 /* eslint-env browser */
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import lodash from 'lodash';
 import { editProfileAction } from '../../actions/userActions';
 
 
-class EditProfileModal extends React.Component {
+export class EditProfileModal extends React.Component {
 
   constructor(props) {
     super(props);
@@ -44,7 +45,6 @@ class EditProfileModal extends React.Component {
     } else {
       suppliedDetails = this.state;
     }
-    console.log('to pass for updating', suppliedDetails);
     this.props.editProfileAction(userId, suppliedDetails)
       .then(() => {
         this.setState({
@@ -61,7 +61,7 @@ class EditProfileModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect modal-trigger blue accent-4 white-text">
+          <button className="btn-floating waves-effect modal-trigger blue lighten-2 white-text">
             <i className="material-icons">mode_edit</i>
           </button>
           }
@@ -165,6 +165,6 @@ EditProfileModal.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-export default connect(null,
-  { editProfileAction })(EditProfileModal);
+export default withRouter(connect(null,
+  { editProfileAction })(EditProfileModal));
 

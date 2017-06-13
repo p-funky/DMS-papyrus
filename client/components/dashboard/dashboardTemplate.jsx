@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllDocumentsAction }
@@ -8,27 +9,28 @@ import documentCards from './documentCards';
 import AddModal from './AddModal';
 import SearchDocuments from './searchDocuments';
 
-class DashboardTemplate extends React.Component {
+export class DashboardTemplate extends React.Component {
 
   constructor(props) {
     super(props);
     this.onSelect = this.onSelect.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const offset = 0;
     this.props.getAllDocumentsAction(offset);
   }
 
+  componentWillUnmount() {
+    this.props.state.documents = { documents: [], settings: {} };
+  }
+
   onSelect(pageNumber) {
-    console.log('======pagenumber', pageNumber);
-    const offset = (pageNumber - 1) * 3;
-    console.log('======offset', offset);
+    const offset = (pageNumber - 1) * 8;
     this.props.getAllDocumentsAction(offset);
   }
 
   render() {
-    console.log(this.props.documents);
     let pageCount;
     let currentPage;
     const settings = this.props.documents.settings;
@@ -36,23 +38,35 @@ class DashboardTemplate extends React.Component {
       pageCount = settings.pages;
       currentPage = settings.currentPage;
     }
+    const maxPages = pageCount || 0;
     return (
-      <div className="col s12 m12 l12">
-        <SearchDocuments />
-        <h3>All Documents</h3>
-        {
-          (this.props.documents.documents &&
-           this.props.documents.documents.length > 0)
-          ?
-            this.props.documents.documents.map(documentCards)
-          :
-            'You have no documents to view'
-        }
-        <AddModal />
-        <Pagination
-          items={pageCount} activePage={currentPage} maxButtons={10}
-          onSelect={this.onSelect}
-        />
+      <div className="row">
+        <div className="col s12 m12 l12">
+          <SearchDocuments />
+          <h5 className="center-align">All Documents</h5>
+          {
+            (this.props.documents.documents &&
+            this.props.documents.documents.length > 0)
+            ?
+              this.props.documents.documents.map(documentCards)
+            :
+              <h2 className="grey-text accent-4">You have no documents to view</h2>
+          }
+          <AddModal />
+        </div>
+        <div className="center-align">
+          {
+            (this.props.documents.documents &&
+            this.props.documents.documents.length > 0)
+            ?
+              <Pagination
+                items={pageCount} activePage={currentPage} maxButtons={maxPages}
+                onSelect={this.onSelect}
+              />
+            :
+              ''
+          }
+        </div>
       </div>
     );
   }
@@ -60,12 +74,14 @@ class DashboardTemplate extends React.Component {
 
 const mapStateToProps = state => ({
   documents: state.documents,
+  state
 });
 
 DashboardTemplate.propTypes = {
   getAllDocumentsAction: PropTypes.func.isRequired,
-  documents: PropTypes.object.isRequired
+  documents: PropTypes.object.isRequired,
+  state: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {
-  getAllDocumentsAction })(DashboardTemplate);
+export default withRouter(connect(mapStateToProps, {
+  getAllDocumentsAction })(DashboardTemplate));

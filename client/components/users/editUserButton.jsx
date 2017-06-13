@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import jwt from 'jsonwebtoken';
 import { editUserRoleAction } from '../../actions/userActions';
 
 
-class EditUserButton extends React.Component {
+export class EditUserButton extends React.Component {
   constructor(props) {
     super(props);
     this.changeRole = this.changeRole.bind(this);
@@ -22,14 +23,14 @@ class EditUserButton extends React.Component {
 
   render() {
     const token = localStorage.token;
-    const user = jwt.decode(token);
+    const user = token ? jwt.decode(token) : '';
     return (
       <div>
         {
           (this.props.user.id !== user.userId)
           ?
             <button
-              className="waves-effect waves-light btn"
+              className="waves-effect waves-light btn blue lighten-2"
               onClick={() => this.changeRole(this.props.user.id, this.props.user.roleId)}
             > {
                 (this.props.user.roleId === 1)
@@ -40,8 +41,8 @@ class EditUserButton extends React.Component {
               }
             </button>
           :
-            <h5 className="white-text">
-              <i className="material-icons yellow-text">star</i>
+            <h5 id="self">
+              <i className="material-icons blue-text text-lighten-2">star</i>
               Me
             </h5>
         }
@@ -55,4 +56,4 @@ EditUserButton.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export default connect(null, { editUserRoleAction })(EditUserButton);
+export default withRouter(connect(null, { editUserRoleAction })(EditUserButton));

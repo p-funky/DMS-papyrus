@@ -4,7 +4,7 @@ import {
   GET_PROFILE,
   DELETE_USER,
   DELETE_ACCOUNT,
-  SEARCH_USER
+  SEARCH_USERS
 } from './types';
 
 export const getAllUsers = allUsers => ({
@@ -29,7 +29,7 @@ export const getProfileAction = () => dispatch =>
     .then((success) => {
       dispatch(getProfile(success.data));
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error.response.data.message));
 
 export const editProfileAction = (userId, userDetails) => dispatch =>
   axios.put(`/users/${userId}`, userDetails)
@@ -53,7 +53,7 @@ export const deleteUserAction = userId => dispatch =>
 export const editUserRoleAction = (userId, userDetails) => dispatch =>
   axios.put(`/users/${userId}`, userDetails)
     .then(() => {
-      dispatch(getAllUsersAction());
+      dispatch(getAllUsersAction(0));
     })
     .catch(error => console.log(error));
 
@@ -77,15 +77,14 @@ export const deleteSelfAction = userId => dispatch =>
     .catch(error => console.log(error));
 
 
-export const searchUser = users => ({
-  type: SEARCH_USER,
+export const searchUsers = users => ({
+  type: SEARCH_USERS,
   users
 });
 
 export const searchUserAction = searchWord => dispatch =>
   axios.get(`/search/users/?search=${searchWord}`)
     .then((success) => {
-      console.log(success.data);
-      dispatch(searchUser(success.data));
+      dispatch(searchUsers(success.data));
     })
     .catch(error => console.log(error));

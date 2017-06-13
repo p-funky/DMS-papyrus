@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import chai from 'chai';
 import app from '../../../server';
 import models from '../../../server/models';
-import helper from '../helper';
+import helper from '../testHelper/testData';
 
 
 const request = supertest(app);
@@ -13,49 +13,46 @@ const superAdmin = helper.superAdmin;
 const john = helper.john;
 const doe = helper.doe;
 const segun = helper.segun;
-const admin = helper.admin;
-const regular = helper.regular;
+const skodo = {
+  firstName: 'Skodo',
+  lastName: 'Baggins',
+  email: 'skodo.baggins@jjc.com',
+  userName: 'skodo',
+  password: '123456',
+  roleId: 1
+};
+
+const document = helper.testDocument1;
+
 
 describe('User ROUTES', () => {
   let user1;
-  let user2;
   let token1;
   let token3;
   let token4;
-
-
-  before(() => models.Roles.bulkCreate([admin, regular], {
-    returning: true })
-      .then((createdRoles) => {
-        superAdmin.roleId = createdRoles[0].id;
-        john.roleId = createdRoles[0].id;
-        doe.roleId = createdRoles[1].id;
-        segun.roleId = createdRoles[1].id;
-      }));
-
-  after(() => models.User.destroy({ where: {} }));
-  after(() => models.sequelize.sync({ force: true }));
-
+  let token5;
 
   describe('REQUESTS', () => {
     before((done) => {
       request.post('/users')
-        .send(john)
+        .send(skodo)
         .end((error, response) => {
           user1 = response.body.newUser;
           token1 = response.body.token;
+          document.ownerId = skodo.id;
+          models.Documents.create(document);
 
-          request.post('/users')
+          request.post('/users/login')
             .send(doe)
             .end((err, res) => {
-              user2 = res.body.newUser;
+              token5 = res.body.token;
 
-              request.post('/users')
+              request.post('/users/login')
                 .send(segun)
                 .end((err, res) => {
                   token3 = res.body.token;
 
-                  request.post('/users')
+                  request.post('/users/login')
                     .send(superAdmin)
                     .end((err, res) => {
                       token4 = res.body.token;
@@ -65,13 +62,24 @@ describe('User ROUTES', () => {
             });
         });
     });
-    it('should not create another user with same username', (done) => {
+    it('should not create another user with same email', (done) => {
       request.post('/users')
         .send(john)
         .end((error, response) => {
           expect(response.status).to.equal(409);
           expect(response.body.message).to.equal(
-        `Email: ${john.email} or Username: ${john.userName} is already in use`);
+        `Email: ${john.email} is already in use`);
+          done();
+        });
+    });
+    it('should not create another user with same username', (done) => {
+      john.email = 'shoki@yodi.com';
+      request.post('/users')
+        .send(john)
+        .end((error, response) => {
+          expect(response.status).to.equal(409);
+          expect(response.body.message).to.equal(
+        `Username: ${john.userName} is already in use`);
           done();
         });
     });
@@ -102,11 +110,11 @@ describe('User ROUTES', () => {
         done();
       });
       it('should return the user with supplied id', (done) => {
-        request.get(`/users/${user1.id}`)
+        request.get('/users/2')
         .set({ Authorization: token1 })
         .end((error, response) => {
           expect(response.status).to.equal(200);
-          expect(response.body.userName).to.equal(john.userName);
+          expect(response.body.userName).to.equal(doe.userName);
           done();
         });
       });
@@ -212,10 +220,19 @@ describe('User ROUTES', () => {
           });
       });
     });
-
+    describe('GET: (/search/users) - SEARCH FOR USERS', () => {
+      it('should get all users that match search query', (done) => {
+        request.get(`/search/users/?search=${user1.username}`)
+          .set({ Authorization: token1 })
+          .end((error, response) => {
+            expect(response.status).to.equal(200);
+            done();
+          });
+      });
+    });
     describe('DELETE: (/users/:id) - DELETE A USER', () => {
       it('should not delete admin if not admin', (done) => {
-        request.delete('/users/21')
+        request.delete('/users/5')
           .set({ Authorization: token3 })
           .end((error, response) => {
             expect(response.status).to.equal(401);
@@ -227,8 +244,12 @@ describe('User ROUTES', () => {
       it('should not perform a delete if supplied id is invalid', (done) => {
         request.delete('/users/100')
           .set({ Authorization: token1 })
-          .expect(404);
-        done();
+          .end((error, response) => {
+            expect(response.status).to.equal(404);
+            expect(response.body.message)
+              .to.equal('User not found');
+            done();
+          });
       });
       it('should not perform a delete on super admin', (done) => {
         request.delete('/users/1')
@@ -240,6 +261,30 @@ describe('User ROUTES', () => {
             done();
           });
       });
+      it('should not delete if requester is not user nor admin', (done) => {
+        request.delete('/users/2')
+          .set({ Authorization: token3 })
+          .end((error, response) => {
+            expect(response.status).to.equal(401);
+            expect(response.body.message)
+              .to.equal('You cannot delete this user');
+            done();
+          });
+      });
+      it('should not delete a user who still has documents', (done) => {
+        request.delete('/users/3')
+          .set({ Authorization: token1 })
+          .end((error, response) => {
+            expect(response.status).to.equal(409);
+            expect(response.body.message)
+              .to.equal('Cannot delete user while user still has documents');
+            models.User.count()
+              .then((userCount) => {
+                expect(userCount).to.equal(7);
+                done();
+              });
+          });
+      });
       it('should succesfully delete a user when provided valid id', (done) => {
         request.delete(`/users/${user1.id}`)
           .set({ Authorization: token1 })
@@ -247,13 +292,13 @@ describe('User ROUTES', () => {
             expect(response.status).to.equal(200);
             models.User.count()
               .then((userCount) => {
-                expect(userCount).to.equal(3);
+                expect(userCount).to.equal(6);
                 done();
               });
           });
       });
       it('should perform delete on request from admin', (done) => {
-        request.delete(`/users/${user2.id}`)
+        request.delete('/users/4')
         .set({ Authorization: token1 })
         .end((error, response) => {
           expect(response.status).to.equal(200);
@@ -343,6 +388,14 @@ describe('User ROUTES', () => {
             done();
           });
       });
+      it('should not find the profile of a user with invalid token', (done) => {
+        request.get('/users/profile')
+          .set({ Authorization: 'xyzhd321' })
+          .end((error, response) => {
+            expect(response.status).to.equal(401);
+            done();
+          });
+      });
     });
 
     describe('GET: (/users/admin) - GET ALL ADMIN', () => {
@@ -351,6 +404,16 @@ describe('User ROUTES', () => {
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(200);
+            done();
+          });
+      });
+      it('should not get admins if not admin making request', (done) => {
+        request.get('/users/admin')
+          .set({ Authorization: token5 })
+          .end((error, response) => {
+            expect(response.status).to.equal(403);
+            expect(response.body.message).to
+              .equal('You are not authorized to view this content');
             done();
           });
       });

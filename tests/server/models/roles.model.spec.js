@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-expressions */
 import chai from 'chai';
 import models from '../../../server/models';
-import helper from '../helper';
 
 const expect = chai.expect;
-const roleDetails = helper.admin;
+const roleDetails = { title: 'random' };
 
 describe('Role Model', () => {
   describe('Create Role', () => {
@@ -16,8 +15,10 @@ describe('Role Model', () => {
         done();
       });
     });
-    after(() => models.User.destroy({ where: {} }));
-    after(() => models.Roles.sequelize.sync({ force: true }));
+    after((done) => {
+      models.Roles.destroy({ where: { id: 3 } });
+      done();
+    });
 
     it('should be able to create role', (done) => {
       expect(role).to.exist;

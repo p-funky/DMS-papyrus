@@ -27,13 +27,17 @@ export default {
       }
     })
     .then((existingUser) => {
-      if (existingUser) {
+      if (existingUser && existingUser.email === req.body.email) {
         return res.status(409)
           .send({ message:
-            `Email: ${req.body.email} or Username: ` +
-            `${req.body.userName} is already in use` });
+            `Email: ${req.body.email} is already in use` });
       }
 
+      if (existingUser && existingUser.userName === req.body.userName) {
+        return res.status(409)
+          .send({ message:
+            `Username: ${req.body.userName} is already in use` });
+      }
       const createUser = () =>
         User.create(req.body)
           .then((newUser) => {
@@ -75,6 +79,7 @@ export default {
             userId: existingUser.id,
             roleId: existingUser.roleId
           }, secret, { expiresIn: '2 days' });
+          existingUser = userDetails(existingUser);
           return res.status(200)
             .send({
               message: 'Login successful',
@@ -107,7 +112,7 @@ export default {
   },
 
   getAllUsers(req, res) {
-    const limit = req.query.limit || '2';
+    const limit = req.query.limit || '8';
     const offset = req.query.offset || '0';
     User.findAndCountAll({
       limit,
@@ -128,8 +133,8 @@ export default {
   },
 
   getAllAdmin(req, res) {
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     User.findAndCountAll({
       limit,
       offset,
@@ -209,9 +214,15 @@ export default {
   },
 
   destroy(req, res) {
-    const id = req.params.id;
-    User.findById(id)
+    User.findById(req.params.id)
       .then((existingUser) => {
+        const id = req.params.id;
+        if (!existingUser) {
+          return res.status(404)
+            .send({
+              message: 'User not found'
+            });
+        }
         if (existingUser.id === 1) {
           return res.status(403)
             .send({
@@ -226,7 +237,7 @@ export default {
             });
         }
 
-        if (Number(id) !== existingUser.id && req.decoded.roleId !== 1) {
+        if (Number(id) !== req.decoded.userId && req.decoded.roleId !== 1) {
           return res.status(401)
             .send({
               message: 'You cannot delete this user'
@@ -260,13 +271,8 @@ export default {
   },
 
   find(req, res) {
-    const limit = req.query.limit || '10';
-    const offset = req.query.offset || '0';
-    if (req.query.limit < 0 || req.query.offset < 0) {
-      return res.status(400)
-        .send({ message: 'Offset and limit can only be positive integers.' });
-    }
-
+    const limit = req.query.limit > 0 ? req.query.limit : '2';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     const searchInfo = req.query.search;
     const query = {
       attributes: ['id', 'firstName', 'lastName',
@@ -289,11 +295,11 @@ export default {
 
     User.findAndCountAll(query)
       .then((users) => {
-        const settings = query.limit && query.offset
+        const settings = limit && offset
           ? {
             totalCount: users.count,
-            pages: Math.ceil(users.count / query.limit),
-            currentPage: Math.floor(query.offset / query.limit) + 1,
+            pages: Math.ceil(users.count / limit),
+            currentPage: Math.floor(offset / limit) + 1,
             pageSize: users.rows.length
           } : null;
         res.send({ users: users.rows, settings });

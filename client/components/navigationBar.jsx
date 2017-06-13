@@ -1,10 +1,15 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import {
+  withRouter,
+  Link,
+  Redirect
+} from 'react-router-dom';
+import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { logOutAction } from '../actions/userActions';
 
 
-class NavigationBar extends React.Component {
+export class NavigationBar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -26,10 +31,11 @@ class NavigationBar extends React.Component {
     }
 
     const token = localStorage.token;
-    const user = jwt.decode(token);
+    const user = token ? jwt.decode(token) : '';
+
     return (
       <div className="navbar-fixed blue lighten-2">
-        <nav className="blue lighten-2">
+        <nav className="blue lighten-2" style={{ padding: '0 10px' }}>
           <div className="nav-wrapper">
             <Link
               to="/"
@@ -38,21 +44,6 @@ class NavigationBar extends React.Component {
             Papyrus
             </Link>
             <ul id="nav-mobile" className="left hide-on-med-and-down">
-              {
-                (token)
-                ?
-                  <li>
-                    <Link
-                      to="/"
-                      className="grey-text text-darken-3 lighten-3"
-                      onClick={this.handleLogOut}
-                    >
-                    Log out
-                    </Link>
-                  </li>
-                :
-                  ''
-              }
               {
                 (!token)
                 ?
@@ -78,10 +69,11 @@ class NavigationBar extends React.Component {
                 ?
                   <li>
                     <Link
-                      to="/my-docs"
+                      to="/dashboard"
+                      id="menu-item"
                       className="grey-text text-darken-3 lighten-3"
                     >
-                      <i className="material-icons">library_books</i>
+                      <i className="material-icons">dashboard</i>Dashboard
                     </Link>
                   </li>
                 :
@@ -92,21 +84,14 @@ class NavigationBar extends React.Component {
                 ?
                   <li>
                     <Link
-                      to="/dashboard"
+                      to={{
+                        pathname: '/my-docs',
+                        state: { id: user.userId }
+                      }}
+                      id="menu-item"
                       className="grey-text text-darken-3 lighten-3"
                     >
-                      <i className="material-icons">dashboard</i>
-                    </Link>
-                  </li>
-                :
-                ''
-              }
-              {
-                (token)
-                ?
-                  <li>
-                    <Link to="/me" className="grey-text text-darken-3 lighten-3">
-                      <i className="material-icons">assignment_ind</i>
+                      <i className="material-icons">library_books</i> My Documents
                     </Link>
                   </li>
                 :
@@ -116,12 +101,42 @@ class NavigationBar extends React.Component {
                 (user && user.roleId === 1)
                 ?
                   <li>
-                    <Link to="/manage-users" className="grey-text text-darken-3 lighten-3">
-                      <i className="material-icons">supervisor_account</i>
+                    <Link
+                      id="menu-item"
+                      to="/manage-users"
+                      className="grey-text text-darken-3 lighten-3"
+                    >
+                      <i className="material-icons">supervisor_account</i> Users
                     </Link>
                   </li>
                 :
                 ''
+              }
+              {
+                (token)
+                ?
+                  <li>
+                    <Link id="menu-item" to="/me" className="grey-text text-darken-3 lighten-3">
+                      <i className="material-icons">assignment_ind</i> My Profile
+                    </Link>
+                  </li>
+                :
+                ''
+              }
+              {
+                (token)
+                ?
+                  <li>
+                    <Link
+                      to="/"
+                      className="grey-text text-darken-3 lighten-3"
+                      onClick={this.handleLogOut}
+                    >
+                    Log out
+                    </Link>
+                  </li>
+                :
+                  ''
               }
             </ul>
           </div>
@@ -131,4 +146,9 @@ class NavigationBar extends React.Component {
   }
 }
 
-export default NavigationBar;
+const mapStateToProps = state => ({
+  state
+});
+
+
+export default withRouter(connect(mapStateToProps, null)(NavigationBar));

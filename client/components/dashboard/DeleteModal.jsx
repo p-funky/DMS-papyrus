@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
 import { deleteDocumentAction } from '../../actions/documentActions';
 
-class DeleteModal extends React.Component {
+export class DeleteModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
@@ -18,7 +19,10 @@ class DeleteModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect red accent-4 white-text">
+          <button
+            className="btn-floating waves-effect white-text"
+            style={{ backgroundColor: '#ee6e73' }}
+          >
             <i className="material-icons">delete</i>
           </button>
         }
@@ -43,4 +47,4 @@ DeleteModal.propTypes = {
   document: PropTypes.object.isRequired
 };
 
-export default connect(null, { deleteDocumentAction })(DeleteModal);
+export default withRouter(connect(null, { deleteDocumentAction })(DeleteModal));

@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
 import jwt from 'jsonwebtoken';
 import { deleteUserAction } from '../../actions/userActions';
 
-class UserDeleteModal extends React.Component {
+export class UserDeleteModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
@@ -17,7 +18,7 @@ class UserDeleteModal extends React.Component {
 
   render() {
     const token = localStorage.token;
-    const user = jwt.decode(token);
+    const user = token ? jwt.decode(token) : '';
     return (
       <div>
         {
@@ -25,7 +26,10 @@ class UserDeleteModal extends React.Component {
           ?
             <Modal
               trigger={
-                <button className="btn-floating waves-effect red accent-4 white-text">
+                <button
+                  className="btn-floating waves-effect white-text"
+                  style={{ backgroundColor: '#ee6e73' }}
+                >
                   <i className="material-icons">delete</i>
                 </button>
               }
@@ -56,4 +60,4 @@ UserDeleteModal.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export default connect(null, { deleteUserAction })(UserDeleteModal);
+export default withRouter(connect(null, { deleteUserAction })(UserDeleteModal));

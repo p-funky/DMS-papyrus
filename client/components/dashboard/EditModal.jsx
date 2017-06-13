@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
 import { editDocumentAction } from '../../actions/documentActions';
 
 
-class EditModal extends React.Component {
+export class EditModal extends React.Component {
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
@@ -36,7 +37,7 @@ class EditModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect modal-trigger blue accent-4 white-text">
+          <button className="btn-floating waves-effect modal-trigger blue lighten-2 white-text">
             <i className="material-icons">mode_edit</i>
           </button>
           }
@@ -101,4 +102,4 @@ EditModal.propTypes = {
   document: PropTypes.object.isRequired
 };
 
-export default connect(null, { editDocumentAction })(EditModal);
+export default withRouter(connect(null, { editDocumentAction })(EditModal));

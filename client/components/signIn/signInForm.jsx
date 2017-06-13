@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
@@ -30,10 +31,13 @@ class SignInForm extends React.Component {
     this.props.userSignInRequest(data)
       .then(() => {
         this.setState({ loggedIn: true });
+      }).catch((error) => {
+        Materialize.toast(error, 3000, 'red');
       });
   }
 
   render() {
+    console.log(this.state);
     const { loggedIn } = this.state;
     if (loggedIn) {
       return (

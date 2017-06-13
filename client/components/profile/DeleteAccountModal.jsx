@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { deleteSelfAction } from '../../actions/userActions';
 
-class DeleteAccountModal extends React.Component {
+export class DeleteAccountModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loggedOut: false };
@@ -15,7 +15,6 @@ class DeleteAccountModal extends React.Component {
   handleDelete(userId) {
     this.props.deleteSelfAction(userId);
     this.setState = ({ loggedOut: true });
-    console.log('hit===========');
     return (
       <Redirect to="/" />
     );
@@ -32,7 +31,10 @@ class DeleteAccountModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect red accent-4 white-text">
+          <button
+            className="btn-floating waves-effect white-text"
+            style={{ backgroundColor: '#ee6e73' }}
+          >
             <i className="material-icons">delete</i>
           </button>
         }
@@ -57,4 +59,4 @@ DeleteAccountModal.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-export default connect(null, { deleteSelfAction })(DeleteAccountModal);
+export default withRouter(connect(null, { deleteSelfAction })(DeleteAccountModal));
