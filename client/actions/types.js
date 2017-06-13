@@ -8,7 +8,7 @@ export const DELETE_USER = 'DELETE_USER';
 export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 export const EDIT_USER_ROLE = 'EDIT_USER_ROLE';
 export const GET_MY_DOCUMENTS = 'GET_MY_DOCUMENTS';
-export const SEARCH_USER = 'SEARCH_USER';
-export const SEARCH_DOCUMENT = 'SEARCH_DOCUMENT';
+export const SEARCH_USERS = 'SEARCH_USERS';
+export const SEARCH_DOCUMENTS = 'SEARCH_DOCUMENTS';
 
 

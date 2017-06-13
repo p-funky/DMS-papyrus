@@ -1,8 +1,6 @@
 ## [DMS-papyrus](https://github.com/andela-aalabi/DMS-papyrus)
 
-[![Build Status](https://travis-ci.org/andela-aalabi/DMS-papyrus.svg?branch=feature/146281101/front-end-tasks)](https://travis-ci.org/andela-aalabi/DMS-papyrus)
-
-[![Coverage Status](https://coveralls.io/repos/github/andela-aalabi/DMS-papyrus/badge.svg?branch=feature%2F146281101%2Ffront-end-tasks)](https://coveralls.io/github/andela-aalabi/DMS-papyrus?branch=feature%2F146281101%2Ffront-end-tasks)
+[![Build Status](https://travis-ci.org/andela-aalabi/DMS-papyrus.svg?branch=feature/146281101/front-end-tasks)](https://travis-ci.org/andela-aalabi/DMS-papyrus) [![Coverage Status](https://coveralls.io/repos/github/andela-aalabi/DMS-papyrus/badge.svg?branch=feature%2F146281101%2Ffront-end-tasks)](https://coveralls.io/github/andela-aalabi/DMS-papyrus?branch=feature%2F146281101%2Ffront-end-tasks) [![Code Climate](https://codeclimate.com/github/andela-aalabi/DMS-papyrus/badges/gpa.svg)](https://codeclimate.com/github/andela-aalabi/DMS-papyrus)
 
 <img width="1280" alt="screen shot 2017-06-12 at 1 23 29 pm" src="https://user-images.githubusercontent.com/26273354/27033966-85cc09bc-4f73-11e7-9304-e0a22f3817ad.png">
 
