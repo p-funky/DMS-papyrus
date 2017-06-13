@@ -79,6 +79,7 @@ export default {
             userId: existingUser.id,
             roleId: existingUser.roleId
           }, secret, { expiresIn: '2 days' });
+          existingUser = userDetails(existingUser);
           return res.status(200)
             .send({
               message: 'Login successful',
