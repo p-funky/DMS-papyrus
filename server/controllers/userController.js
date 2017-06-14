@@ -44,7 +44,7 @@ export default {
             const token = jwt.sign({
               userId: newUser.id,
               roleId: newUser.roleId,
-              firstName: newUser.firstName,
+              userName: newUser.userName,
             }, secret, { expiresIn: '2 days' });
             newUser = userDetails(newUser);
             return res.status(201)

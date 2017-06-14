@@ -6,7 +6,7 @@ import { Pagination } from 'react-materialize';
 import { getmyDocumentsAction }
   from '../../actions/documentActions';
 import MyDocumentsCards from './MyDocumentsCards';
-import AddModal from '../dashboard/AddModal';
+import AddModal from './MyDocumentsAddModal';
 
 export class MyDocumentsTemplate extends React.Component {
 

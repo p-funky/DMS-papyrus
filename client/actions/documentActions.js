@@ -4,7 +4,8 @@ import {
   ADD_DOCUMENT,
   DELETE_DOCUMENT,
   GET_MY_DOCUMENTS,
-  SEARCH_DOCUMENTS
+  SEARCH_DOCUMENTS,
+  ADD_MY_DOCUMENT
 } from './types';
 
 export const getAllDocuments = allDocuments => ({
@@ -57,7 +58,7 @@ export const getMyDocuments = myDocuments => ({
 });
 
 
-export const getmyDocumentsAction = (userId, offset) => dispatch =>
+export const getmyDocumentsAction = (userId, offset = 0) => dispatch =>
   axios.get(`/users/${userId}/documents/?offset=${offset}`)
     .then((success) => {
       dispatch(getMyDocuments(success.data));
@@ -80,7 +81,19 @@ export const searchDocuments = documents => ({
 export const searchDocumentsAction = searchWord => dispatch =>
   axios.get(`/search/documents/?search=${searchWord}`)
     .then((success) => {
-      console.log('hit', success.data);
       dispatch(searchDocuments(success.data));
+    })
+    .catch(error => console.log(error));
+
+export const addMyDocumentSuccess = document => ({
+  type: ADD_MY_DOCUMENT,
+  document,
+});
+
+export const addMyDocumentAction = documentDetails => dispatch =>
+  axios.post('/documents/', documentDetails)
+    .then((success) => {
+      dispatch(addMyDocumentSuccess(success.data));
+      dispatch(getmyDocumentsAction(success.data.ownerId));
     })
     .catch(error => console.log(error));

@@ -37,7 +37,6 @@ class SignInForm extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     const { loggedIn } = this.state;
     if (loggedIn) {
       return (

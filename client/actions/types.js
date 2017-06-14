@@ -10,5 +10,7 @@ export const EDIT_USER_ROLE = 'EDIT_USER_ROLE';
 export const GET_MY_DOCUMENTS = 'GET_MY_DOCUMENTS';
 export const SEARCH_USERS = 'SEARCH_USERS';
 export const SEARCH_DOCUMENTS = 'SEARCH_DOCUMENTS';
+export const ADD_MY_DOCUMENT = 'ADD_MY_DOCUMENT';
+
 
 
