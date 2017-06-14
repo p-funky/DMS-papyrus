@@ -53,7 +53,10 @@ export default {
           .catch(error => res.status(400).json({ error }));
 
       createUser();
-    });
+    })
+    .catch(error => res.status(400).send({
+      message: error.message
+    }));
   },
 
   login(req, res) {
@@ -90,7 +93,10 @@ export default {
         }
         return res.status(401)
           .send({ message: 'Please double check email/username & password' });
-      });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
     } else {
       return res.status(400)
         .send({ message: 'Incomplete login details' });
@@ -148,7 +154,9 @@ export default {
         currentPage: Math.floor(offset / limit) + 1,
         pageSize: user.rows.length } : null;
       return res.status(200).send({ users: user.rows, settings });
-    });
+    }).catch(error => res.status(400).send({
+      message: error.message
+    }));
   },
 
   getUser(req, res) {
@@ -157,7 +165,10 @@ export default {
       .then((existingUser) => {
         existingUser = userDetails(existingUser);
         return res.status(200).send(existingUser);
-      });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
   },
 
   update(req, res) {
@@ -210,7 +221,10 @@ export default {
           .catch(error => res.status(400).send({
             Error: error.message
           }));
-      });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
   },
 
   destroy(req, res) {
@@ -267,7 +281,10 @@ export default {
                 })
               );
           });
-      });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
   },
 
   find(req, res) {

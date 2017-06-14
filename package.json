@@ -17,10 +17,10 @@
     "undo:test": "NODE_ENV=test babel-node tests/server/testHelper/resetTestData.js",
     "redo:test": "NODE_ENV=test babel-node tests/server/testHelper/seedTestData.js",
     "test:db": "NODE_ENV=test npm run undo:test && NODE_ENV=test npm run redo:test",
-    "test": "NODE_ENV=test npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/**/*.spec.js\" --timeout 10000 && npm run coverage-report",
+    "server:test": "NODE_ENV=test npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/**/*.spec.js\" --timeout 10000 && npm run coverage-report",
     "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
     "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all",
-    "heroku-postbuild": "npm run undo && npm run redo"
+    "test": "NODE_ENV=test npm run server:test"
   },
   "repository": {
     "type": "git",
