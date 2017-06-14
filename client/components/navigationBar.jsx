@@ -34,114 +34,211 @@ export class NavigationBar extends React.Component {
     const user = token ? jwt.decode(token) : '';
 
     return (
-      <div className="navbar-fixed blue lighten-2">
-        <nav className="blue lighten-2" style={{ padding: '0 10px' }}>
-          <div className="nav-wrapper">
-            <Link
-              to="/"
-              className="brand-logo right grey-text text-darken-3 lighten-3"
-            >
-            Papyrus
-            </Link>
-            <ul id="nav-mobile" className="left hide-on-med-and-down">
-              {
-                (!token)
-                ?
-                  <li><Link to="/signup" className="grey-text text-darken-3 lighten-3">
-                        Sign Up
-                      </Link>
-                  </li>
-                :
-                ''
-              }
-              {
-                (!token)
-                ?
-                  <li><Link to="/signin" className="grey-text text-darken-3 lighten-3">
-                        Sign In
-                      </Link>
-                  </li>
-                :
-                ''
-              }
-              {
-                (token)
-                ?
-                  <li>
-                    <Link
-                      to="/dashboard"
-                      id="menu-item"
-                      className="grey-text text-darken-3 lighten-3"
-                    >
-                      <i className="material-icons">dashboard</i>Dashboard
+      <nav className="blue lighten-2" style={{ padding: '0 10px' }}>
+        <div className="nav-wrapper">
+          <Link
+            to="/"
+            className="brand-logo right grey-text text-darken-3 lighten-3"
+          >
+          Papyrus
+          </Link>
+          <Link to="#" data-activates="mobile-demo" className="button-collapse">
+            <i className="material-icons">menu</i>
+          </Link>
+          <ul className="side-nav" id="mobile-demo">
+            {
+              (!token)
+              ?
+                <li><Link to="/signup" className="grey-text text-darken-3 lighten-3">
+                      Sign Up
                     </Link>
-                  </li>
-                :
-                ''
-              }
-              {
-                (token)
-                ?
-                  <li>
-                    <Link
-                      to={{
-                        pathname: '/my-docs',
-                        state: { id: user.userId }
-                      }}
-                      id="menu-item"
-                      className="grey-text text-darken-3 lighten-3"
-                    >
-                      <i className="material-icons">library_books</i> My Documents
+                </li>
+              :
+              ''
+            }
+            {
+              (!token)
+              ?
+                <li><Link to="/signin" className="grey-text text-darken-3 lighten-3">
+                      Sign In
                     </Link>
-                  </li>
-                :
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link
+                    to="/dashboard"
+                    id="menu-item"
+                    className="grey-text text-darken-3 lighten-3"
+                  >
+                    <i className="material-icons">dashboard</i>Dashboard
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link
+                    to={{
+                      pathname: '/my-docs',
+                      state: { id: user.userId }
+                    }}
+                    id="menu-item"
+                    className="grey-text text-darken-3 lighten-3"
+                  >
+                    <i className="material-icons">library_books</i> My Documents
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (user && user.roleId === 1)
+              ?
+                <li>
+                  <Link
+                    id="menu-item"
+                    to="/manage-users"
+                    className="grey-text text-darken-3 lighten-3"
+                  >
+                    <i className="material-icons">supervisor_account</i> Users
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link id="menu-item" to="/me" className="grey-text text-darken-3 lighten-3">
+                    <i className="material-icons">assignment_ind</i> My Profile
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link
+                    to="/"
+                    className="grey-text text-darken-3 lighten-3"
+                    onClick={this.handleLogOut}
+                  >
+                  Log out
+                  </Link>
+                </li>
+              :
                 ''
-              }
-              {
-                (user && user.roleId === 1)
-                ?
-                  <li>
-                    <Link
-                      id="menu-item"
-                      to="/manage-users"
-                      className="grey-text text-darken-3 lighten-3"
-                    >
-                      <i className="material-icons">supervisor_account</i> Users
+            }
+          </ul>
+          <ul id="nav-mobile" className="left hide-on-med-and-down">
+            {
+              (!token)
+              ?
+                <li><Link to="/signup" className="grey-text text-darken-3 lighten-3">
+                      Sign Up
                     </Link>
-                  </li>
-                :
+                </li>
+              :
+              ''
+            }
+            {
+              (!token)
+              ?
+                <li><Link to="/signin" className="grey-text text-darken-3 lighten-3">
+                      Sign In
+                    </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link
+                    to="/dashboard"
+                    id="menu-item"
+                    className="grey-text text-darken-3 lighten-3"
+                  >
+                    <i className="material-icons">dashboard</i>Dashboard
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link
+                    to={{
+                      pathname: '/my-docs',
+                      state: { id: user.userId }
+                    }}
+                    id="menu-item"
+                    className="grey-text text-darken-3 lighten-3"
+                  >
+                    <i className="material-icons">library_books</i> My Documents
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (user && user.roleId === 1)
+              ?
+                <li>
+                  <Link
+                    id="menu-item"
+                    to="/manage-users"
+                    className="grey-text text-darken-3 lighten-3"
+                  >
+                    <i className="material-icons">supervisor_account</i> Users
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link id="menu-item" to="/me" className="grey-text text-darken-3 lighten-3">
+                    <i className="material-icons">assignment_ind</i> My Profile
+                  </Link>
+                </li>
+              :
+              ''
+            }
+            {
+              (token)
+              ?
+                <li>
+                  <Link
+                    to="/"
+                    className="grey-text text-darken-3 lighten-3"
+                    onClick={this.handleLogOut}
+                  >
+                  Log out
+                  </Link>
+                </li>
+              :
                 ''
-              }
-              {
-                (token)
-                ?
-                  <li>
-                    <Link id="menu-item" to="/me" className="grey-text text-darken-3 lighten-3">
-                      <i className="material-icons">assignment_ind</i> My Profile
-                    </Link>
-                  </li>
-                :
-                ''
-              }
-              {
-                (token)
-                ?
-                  <li>
-                    <Link
-                      to="/"
-                      className="grey-text text-darken-3 lighten-3"
-                      onClick={this.handleLogOut}
-                    >
-                    Log out
-                    </Link>
-                  </li>
-                :
-                  ''
-              }
-            </ul>
-          </div>
-        </nav>
-      </div>
+            }
+          </ul>
+        </div>
+      </nav>
     );
   }
 }
