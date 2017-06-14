@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { searchDocumentsAction, getAllDocumentsAction }
+import { searchDocumentsAction }
   from '../../actions/documentActions';
 
 export class SearchDocuments extends React.Component {
@@ -15,9 +15,6 @@ export class SearchDocuments extends React.Component {
   onChange(event) {
     event.preventDefault();
     let word = event.target.value;
-    if (!word && word.length === 0) {
-      return getAllDocumentsAction();
-    }
     word = word.trim();
     this.props.searchDocumentsAction(word);
   }
