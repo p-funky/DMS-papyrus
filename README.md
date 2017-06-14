@@ -1,19 +1,20 @@
 ## [DMS-papyrus](https://github.com/andela-aalabi/DMS-papyrus)
 
-[![Build Status](https://travis-ci.org/andela-aalabi/DMS-papyrus.svg?branch=feature/146281101/front-end-tasks)](https://travis-ci.org/andela-aalabi/DMS-papyrus) [![Coverage Status](https://coveralls.io/repos/github/andela-aalabi/DMS-papyrus/badge.svg?branch=feature%2F146281101%2Ffront-end-tasks)](https://coveralls.io/github/andela-aalabi/DMS-papyrus?branch=feature%2F146281101%2Ffront-end-tasks) [![Code Climate](https://codeclimate.com/github/andela-aalabi/DMS-papyrus/badges/gpa.svg)](https://codeclimate.com/github/andela-aalabi/DMS-papyrus)
+[![Build Status](https://travis-ci.org/andela-aalabi/DMS-papyrus.svg?branch=staging)](https://travis-ci.org/andela-aalabi/DMS-papyrus) [![Coverage Status](https://coveralls.io/repos/github/andela-aalabi/DMS-papyrus/badge.svg?branch=feature%2F146281101%2Ffront-end-tasks)](https://coveralls.io/github/andela-aalabi/DMS-papyrus?branch=feature%2F146281101%2Ffront-end-tasks) [![Code Climate](https://codeclimate.com/github/andela-aalabi/DMS-papyrus/badges/gpa.svg)](https://codeclimate.com/github/andela-aalabi/DMS-papyrus)
 
 <img width="1280" alt="screen shot 2017-06-12 at 1 23 29 pm" src="https://user-images.githubusercontent.com/26273354/27033966-85cc09bc-4f73-11e7-9304-e0a22f3817ad.png">
-
-<img width="1272" alt="screen shot 2017-06-12 at 1 23 57 pm" src="https://user-images.githubusercontent.com/26273354/27033979-9002ecfc-4f73-11e7-9c2d-cbaf93d18192.png">
-
-<img width="1275" alt="screen shot 2017-06-12 at 1 23 42 pm" src="https://user-images.githubusercontent.com/26273354/27033981-91773e12-4f73-11e7-97a5-31cd3f7b6241.png">
 
 <img width="1265" alt="screen shot 2017-06-12 at 1 25 48 pm" src="https://user-images.githubusercontent.com/26273354/27033985-9380974e-4f73-11e7-9a5b-57a54a42f11e.png">
 
 
->########This document management system is a full stack application that manages documents, users and user roles. 
+## This document management system is a full stack application that manages documents, users and user roles. 
 
 It also provides restful APIs for users to create and manage documents giving different privileges based on user roles and managing authentication of users with JsonWebToken.
+
+
+## Hosted App on Heroku
+[Papyrus-DMS](https://papyrus-dms.herokuapp.com/)
+
 
 ## API Documentation
 -----
@@ -62,10 +63,6 @@ The following features make up the Document Management System API:
 - It allows admin to retrieve all documents that matches search term.
 - It allows admin to search users based on a specified search term
 
-
-## Hosted App on Heroku
-[Papyrus-DMS](https://papyrus-dms.herokuapp.com/)
-
 ---
 
 
@@ -93,10 +90,16 @@ PUT /documents/:id            			|Update document attributes.
 DELETE /documents/:id        			|Delete document.
 
 
-The following are some sample requests and responses from the API.
+## Keys to note
+- `Roles`
+  - roleId 1 is an *admin* role
+  - roleId 2 is a *regular* user
+- `Access`
+  - accessId 1 is *public*
+  - accessId 2 is *private*
+  - accessId 3 is *role*
 
-- [Roles](#roles)
-  - [Get roles](#get-roles)
+### The following are some sample requests and responses from the API.
 
 - [Users](#users)
   - [Create user](#create-user)

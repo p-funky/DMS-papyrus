@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { searchUserAction, getAllUsersAction } from '../../actions/userActions';
+import { searchUserAction } from '../../actions/userActions';
 
 export class SearchUsers extends React.Component {
 
@@ -15,9 +15,6 @@ export class SearchUsers extends React.Component {
   onChange(event) {
     event.preventDefault();
     let word = event.target.value;
-    if (!word && word.length === 0) {
-      return getAllUsersAction();
-    }
     word = word.trim();
     this.props.searchUserAction(word);
   }
