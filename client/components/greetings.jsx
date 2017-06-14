@@ -7,6 +7,7 @@ class Greetings extends React.Component {
   componentDidMount() {
     $(document).ready(() => {
       $('.parallax').parallax();
+      $('.button-collapse').sideNav();
     });
   }
   render() {

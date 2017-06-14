@@ -43,6 +43,9 @@ export class NavigationBar extends React.Component {
             >
             Papyrus
             </Link>
+            <a href="#" data-activates="mobile-demo" className="button-collapse">
+              <i className="material-icons">menu</i>
+            </a>
             <ul id="nav-mobile" className="left hide-on-med-and-down">
               {
                 (!token)
