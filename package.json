@@ -17,10 +17,10 @@
     "undo:test": "NODE_ENV=test babel-node tests/server/testHelper/resetTestData.js",
     "redo:test": "NODE_ENV=test babel-node tests/server/testHelper/seedTestData.js",
     "test:db": "NODE_ENV=test npm run undo:test && NODE_ENV=test npm run redo:test",
-    "test": "NODE_ENV=test npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/**/*.spec.js\" --timeout 10000 && npm run coverage-report",
+    "server:test": "NODE_ENV=test npm run test:db && NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha \"tests/server/**/*.spec.js\" --timeout 10000 && npm run coverage-report",
     "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
     "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all",
-    "heroku-postbuild": "npm run undo && npm run redo"
+    "test": "NODE_ENV=test npm run server:test"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "url": "https://github.com/andela-aalabi/DMS-papyrus/issues"
   },
   "homepage": "https://github.com/andela-aalabi/DMS-papyrus#readme",
+
   "dependencies": {
     "axios": "^0.16.1",
     "babel-cli": "^6.24.1",
@@ -60,6 +61,7 @@
     "faker": "^4.1.0",
     "file-loader": "^0.11.1",
     "fm-log": "^4.4.3",
+    "jsdom": "^7.2.2",
     "jsonwebtoken": "^7.4.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",
@@ -100,7 +102,6 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "istanbul": "^0.4.5",
-    "jsdom": "^8.5.0",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
     "react-addons-test-utils": "^15.5.0",

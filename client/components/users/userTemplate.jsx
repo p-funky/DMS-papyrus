@@ -19,7 +19,7 @@ export class UserTemplate extends React.Component {
   }
 
   onSelect(pageNumber) {
-    const offset = (pageNumber - 1) * 2;
+    const offset = (pageNumber - 1) * 8;
     this.props.getAllUsersAction(offset);
   }
 

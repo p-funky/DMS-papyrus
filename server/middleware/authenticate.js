@@ -21,7 +21,7 @@ const authorization = {
     const token = req.headers.authorization || req.headers['x-access-token'];
     if (!token) {
       return res.status(401)
-      .send({ message: 'You are not logged in' });
+      .send({ message: 'You are not authorized' });
     }
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {

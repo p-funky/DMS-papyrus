@@ -8,10 +8,10 @@ export const setCurrentUser = userInfo => ({
 });
 
 export const userSignupRequest = userData =>
-  dispatch => axios.post('users/', userData)
+  dispatch => axios.post('/users/', userData)
     .then((success) => {
       localStorage.setItem('token', success.data.token);
-      dispatch(setCurrentUser(success.data.existingUser));
+      dispatch(setCurrentUser(success.data.newUser));
       attachAuthorizationToken(
         success.data.token
         );

@@ -38,7 +38,10 @@ export default {
         .catch(error => res.status(400).send({
           message: error.message
         }));
-    });
+    })
+    .catch(error => res.status(400).send({
+      message: error.message
+    }));
   },
 
   list(req, res) {
@@ -154,7 +157,10 @@ export default {
                 .send({
                   message: 'You are not permitted to access this document.'
                 });
-            });
+            })
+            .catch(error => res.status(400).send({
+              message: error.message
+            }));
         }
       // if document is private and person requesting is neither owner nor admin
         return res.status(403)
@@ -195,7 +201,10 @@ export default {
                     documentInfo = document.dataValues;
                     documentInfo.User = userInfo;
                     res.status(200).send(documentInfo);
-                  });
+                  })
+                  .catch(error => res.status(400).send({
+                    message: error.message
+                  }));
             }
 
             const query = {
@@ -222,9 +231,18 @@ export default {
                     documentInfo = document.dataValues;
                     documentInfo.User = userInfo;
                     res.status(200).send(documentInfo);
-                  });
-              });
-          });
+                  })
+                  .catch(error => res.status(400).send({
+                    message: error.message
+                  }));
+              })
+              .catch(error => res.status(400).send({
+                message: error.message
+              }));
+          })
+          .catch(error => res.status(400).send({
+            message: error.message
+          }));
       })
       .catch(error => res.status(400).send({
         message: error.message
@@ -248,12 +266,18 @@ export default {
                 message: 'Document successfully deleted',
                 Document: document
               })
-            );
+            )
+            .catch(error => res.status(400).send({
+              message: error.message
+            }));
         } else {
           return res.status(403)
             .send({ message: 'You are not the owner of this document.' });
         }
-      });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
   },
 
   listByUser(req, res) {
@@ -313,11 +337,14 @@ export default {
             .status(401)
             .send({ message: 'You are not authorized to view this.' });
         }
-      });
+      })
+      .catch(error => res.status(400).send({
+        message: error.message
+      }));
   },
 
   find(req, res) {
-    const limit = req.query.limit > 0 ? req.query.limit : '3';
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
     const offset = req.query.offset > 0 ? req.query.offset : '0';
 
     const searchInfo = req.query.search;

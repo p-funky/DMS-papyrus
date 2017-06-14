@@ -10,30 +10,27 @@ export class SearchUsers extends React.Component {
     super(props);
     this.state = { search: '' };
     this.onChange = this.onChange.bind(this);
-    this.runSearch = this.runSearch.bind(this);
   }
 
   onChange(event) {
+    event.preventDefault();
     let word = event.target.value;
-    if (!word || word === '') {
+    if (!word && word.length === 0) {
       return getAllUsersAction();
     }
     word = word.trim();
-    this.setState({ [event.target.id]: word });
+    this.props.searchUserAction(word);
   }
 
-  runSearch(event) {
-    event.preventDefault();
-    this.props.searchUserAction(this.state.search);
-  }
   render() {
     return (
       <div>
-        <form onChange={this.onChange} onSubmit={this.runSearch}>
+        <form onChange={this.onChange}>
           <div className="input-field">
             <input
               id="search"
               type="search"
+              placeholder="search by name or username"
             />
             <label className="label-icon" htmlFor="search">
               <i className="material-icons">search</i>
