@@ -67,7 +67,7 @@ class SignInForm extends React.Component {
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
-                    <button className="btn blue lighten-2 waves-effect waves-light right" type="submit" name="action">Submit
+                    <button id="signInButton" className="btn blue lighten-2 waves-effect waves-light right" type="submit" name="action">Submit
                       <i className="mdi-content-send right" />
                     </button>
                   </div>

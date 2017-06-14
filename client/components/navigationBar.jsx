@@ -34,7 +34,7 @@ export class NavigationBar extends React.Component {
     const user = token ? jwt.decode(token) : '';
 
     return (
-      <nav className="blue lighten-2" style={{ padding: '0 10px' }}>
+      <nav id="navBar" className="blue lighten-2" style={{ padding: '0 10px' }}>
         <div className="nav-wrapper">
           <Link
             to="/"
@@ -118,7 +118,7 @@ export class NavigationBar extends React.Component {
               (token)
               ?
                 <li>
-                  <Link id="menu-item" to="/me" className="grey-text text-darken-3 lighten-3">
+                  <Link to="/me" className="grey-text text-darken-3 lighten-3">
                     <i className="material-icons">assignment_ind</i> My Profile
                   </Link>
                 </li>
@@ -131,6 +131,7 @@ export class NavigationBar extends React.Component {
                 <li>
                   <Link
                     to="/"
+                    id="logout"
                     className="grey-text text-darken-3 lighten-3"
                     onClick={this.handleLogOut}
                   >
@@ -145,7 +146,7 @@ export class NavigationBar extends React.Component {
             {
               (!token)
               ?
-                <li><Link to="/signup" className="grey-text text-darken-3 lighten-3">
+                <li><Link id="signUp" to="/signup" className="grey-text signUp text-darken-3 lighten-3">
                       Sign Up
                     </Link>
                 </li>
@@ -155,7 +156,7 @@ export class NavigationBar extends React.Component {
             {
               (!token)
               ?
-                <li><Link to="/signin" className="grey-text text-darken-3 lighten-3">
+                <li><Link id="signIn" to="/signin" className="grey-text text-darken-3 lighten-3">
                       Sign In
                     </Link>
                 </li>
@@ -215,7 +216,7 @@ export class NavigationBar extends React.Component {
               ?
                 <li>
                   <Link id="menu-item" to="/me" className="grey-text text-darken-3 lighten-3">
-                    <i className="material-icons">assignment_ind</i> My Profile
+                    <i id="menu-profile" className="material-icons">assignment_ind</i> My Profile
                   </Link>
                 </li>
               :

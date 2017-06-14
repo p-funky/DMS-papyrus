@@ -43,7 +43,7 @@ export class DashboardTemplate extends React.Component {
       <div className="row">
         <div className="col s12 m12 l12">
           <SearchDocuments />
-          <h5 className="center-align">All Documents</h5>
+          <h5 id="dashboardWelcome" className="center-align">All Documents</h5>
           {
             (this.props.documents.documents &&
             this.props.documents.documents.length > 0)

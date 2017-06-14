@@ -14,7 +14,7 @@ export class ProfileTemplate extends React.Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="container">
         <div className="col s6 m4 l3">
           <h3>My Profile</h3>
           <div id="my-profile" className="card">
@@ -25,26 +25,48 @@ export class ProfileTemplate extends React.Component {
               </h5>
             </div>
             <div className="card-content">
-              <p>
-                <i className="material-icons grey-text">class</i>
-                {this.props.profile.id}
-              </p>
-              <p id="my-profile">
-                <i className="material-icons grey-text">verified_user</i>
-                {this.props.profile.firstName} {this.props.profile.lastName}
-              </p>
-              <p id="my-profile">
-                <i className="material-icons grey-text">email</i>
-                {this.props.profile.email}</p>
-              <p id="my-profile"><i className="material-icons grey-text">label_outline</i>
-                {
-                  (this.props.profile.roleId === 1)
-                  ?
-                    'admin'
-                  :
-                    'regular'
-                }
-              </p>
+              <div className="left-align" id="my-profile">
+                <ul>
+                  <li>
+                    <p>
+                      <i className="material-icons grey-text">class</i>
+                      <span>{this.props.profile.id}</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <i className="material-icons grey-text">verified_user</i>
+                      <span>{this.props.profile.firstName} {this.props.profile.lastName}</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <i className="material-icons grey-text">email</i>
+                      <span>{this.props.profile.email}</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <i className="material-icons grey-text">verified_user</i>
+                      <span>{this.props.profile.firstName} {this.props.profile.lastName}</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <i className="material-icons grey-text">label_outline</i>
+                      <span>
+                        {
+                          (this.props.profile.roleId === 1)
+                          ?
+                            'admin'
+                          :
+                            'regular'
+                        }
+                      </span>
+                    </p>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <EditProfileModal profile={this.props.profile} />
