@@ -2,4 +2,7 @@ node_modules
 .DS_Store
 .nyc_output
 coverage
-.env
+reports
+bin
+selenium-debug.log
+package-lock.json

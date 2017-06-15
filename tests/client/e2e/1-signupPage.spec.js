@@ -7,7 +7,6 @@ module.exports = {
       .assert.title('Papyrus')
       .waitForElementVisible('.signUp', 10000)
       .click('.signUp')
-      .pause(5000)
       .waitForElementVisible('#signUpPage', 10000)
       .waitForElementVisible('#firstName', 10000)
       .setValue('#firstName', 'Segun')

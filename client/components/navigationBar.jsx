@@ -187,7 +187,7 @@ export class NavigationBar extends React.Component {
                       pathname: '/my-docs',
                       state: { id: user.userId }
                     }}
-                    id="menu-item"
+                    id="my-documents"
                     className="grey-text text-darken-3 lighten-3"
                   >
                     <i className="material-icons">library_books</i> My Documents
@@ -201,7 +201,7 @@ export class NavigationBar extends React.Component {
               ?
                 <li>
                   <Link
-                    id="menu-item"
+                    id="manage-users"
                     to="/manage-users"
                     className="grey-text text-darken-3 lighten-3"
                   >

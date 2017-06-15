@@ -1,0 +1,51 @@
+module.exports = {
+  beforeEach(client, done) {
+    client.resizeWindow(1280, 800, done);
+  },
+  'create document, edit and delete': (client) => {
+    client
+      .url('http://localhost:8000')
+      .assert.title('Papyrus')
+      .assert.urlEquals('http://localhost:8000/')
+      .waitForElementVisible('#navBar', 10000)
+      .waitForElementVisible('#signIn', 10000)
+      .click('#signIn')
+      .assert.urlEquals('http://localhost:8000/signin')
+      .setValue('input#credential', 'Olobe')
+      .setValue('input#password', 'olobe')
+      .waitForElementVisible('#signInButton', 10000)
+      .click('#signInButton')
+      .waitForElementVisible('#dashboardWelcome', 10000)
+      .assert.urlEquals('http://localhost:8000/dashboard')
+      .waitForElementVisible('#nav-mobile', 10000)
+      .waitForElementVisible('#add-document', 10000)
+      .click('#add-document')
+      .waitForElementVisible('form', 1000)
+      .setValue('input#title', 'The Fox')
+      .setValue('textarea#content', 'The quick brown fox jumps over the lazy dog')
+      .waitForElementVisible('#access', 10000)
+      .click('#access')
+      .waitForElementVisible('#private', 10000)
+      .click('#private')
+      .waitForElementVisible('#save', 10000)
+      .click('#save')
+      .waitForElementVisible('#nav-mobile', 10000)
+      .waitForElementVisible('#my-documents', 10000)
+      .click('#my-documents')
+      .waitForElementVisible('#view-document', 10000)
+      .click('#view-document')
+      .waitForElementVisible('#close-view', 1000)
+      .click('#close-view')
+      .waitForElementVisible('#edit-document', 10000)
+      .click('#edit-document')
+      .setValue('input#title', 'Curiousity')
+      .setValue('textarea#content', 'Curiousity kills the cat')
+      .click('div button[name="action"]')
+      .url('http://localhost:8000/my-docs')
+      .waitForElementVisible('#delete', 10000)
+      .click('#delete')
+      .waitForElementVisible('#delete-document', 10000)
+      .click('#delete-document')
+      .end();
+  },
+};

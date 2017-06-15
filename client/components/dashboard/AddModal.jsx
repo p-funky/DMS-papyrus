@@ -45,9 +45,9 @@ export class AddModal extends React.Component {
       <Modal
         trigger={
           <div className="fixed-action-btn">
-            <a className="btn-floating btn-large red">
+            <button id="add-document" className="btn-floating btn-large blue lighten-2">
               <i className="large material-icons blue lighten-2">add</i>
-            </a>
+            </button>
           </div>
         }
       >
@@ -57,6 +57,7 @@ export class AddModal extends React.Component {
               <div className="input-field col s6">
                 <i className="material-icons prefix">input</i>
                 <input
+                  id="title"
                   name="title"
                   type="text"
                   className="validate"
@@ -67,12 +68,13 @@ export class AddModal extends React.Component {
               </div>
               <div className="input-field col s6">
                 <select
+                  id="access"
                   className="browser-default"
                   value={this.state.accessId}
                   onChange={this.handleAccessChange}
                 >
                   <option value={1}>public</option>
-                  <option value={2}>private</option>
+                  <option id="private" value={2}>private</option>
                   <option value={3}>role</option>
                 </select>
               </div>
@@ -81,6 +83,7 @@ export class AddModal extends React.Component {
           <div className="input-field col s12">
             <i className="material-icons prefix">mode_edit</i>
             <textarea
+              id="content"
               name="content"
               className="material-text-area"
               value={this.state.content}
@@ -93,6 +96,7 @@ export class AddModal extends React.Component {
               className="modal-close btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"
+              id="save"
             >save
               <i className="mdi-content-send right" />
             </button>

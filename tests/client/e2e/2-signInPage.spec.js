@@ -15,12 +15,11 @@ module.exports = {
       .setValue('#password', 'olobe')
       .waitForElementVisible('#signInButton', 10000)
       .click('#signInButton')
-      .pause(2000)
-      .assert.urlContains('dashboard')
+      .waitForElementNotPresent('#signInButton', 10000)
+      .assert.urlEquals('http://localhost:8000/dashboard')
       .waitForElementVisible('#logout', 10000)
       .click('#logout')
       .assert.urlContains('')
-      .pause(2000)
       .end();
   },
 
@@ -36,9 +35,8 @@ module.exports = {
       .setValue('#password', 'Haram')
       .waitForElementVisible('#signInButton', 2000)
       .click('#signInButton')
-      .pause(2000)
-      .assert.urlContains('')
-      .pause(2000)
+      .assert.visible('#signInButton', 10000)
+      .assert.urlEquals('http://localhost:8000/signin')
       .end();
   }
 };

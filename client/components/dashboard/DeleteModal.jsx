@@ -21,6 +21,7 @@ export class DeleteModal extends React.Component {
         trigger={
           <button
             className="btn-floating waves-effect white-text"
+            id="delete"
             style={{ backgroundColor: '#ee6e73' }}
           >
             <i className="material-icons">delete</i>
@@ -31,6 +32,7 @@ export class DeleteModal extends React.Component {
             <Button
               onClick={() => this.handleDelete(this.props.document.id)}
               waves="light" className="modal-close red darken-2"
+              id="delete-document"
             >delete</Button>
             <Button flat modal="close" waves="light">dismiss</Button>
           </div>

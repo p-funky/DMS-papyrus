@@ -35,14 +35,14 @@ module.exports = {
       .clearValue('input#firstName')
       .setValue('input#firstName', 'Kakashi')
       .click('#update')
-      .pause(2000)
+      .waitForElementNotVisible('#update', 10000)
       .assert.urlEquals('http://localhost:8000/me')
       .waitForElementVisible('#delete-account', 20000)
       .click('#delete-account')
       .waitForElementVisible('#delete', 20000)
       .click('#delete')
-      .pause(10000)
-      .assert.urlContains('http://localhost:8000/')
+      .waitForElementNotVisible('#delete', 20000)
+      .assert.urlContains('http://localhost:8000/me')
       .end();
   },
 };
