@@ -30,6 +30,7 @@ export class EditUserButton extends React.Component {
           (this.props.user.id !== user.userId)
           ?
             <button
+              id="edit-role"
               className="waves-effect waves-light btn blue lighten-2"
               onClick={() => this.changeRole(this.props.user.id, this.props.user.roleId)}
             > {

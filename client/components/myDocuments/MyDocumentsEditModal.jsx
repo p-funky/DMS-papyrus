@@ -41,18 +41,18 @@ export class MyDocumentsEditModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect modal-trigger blue lighten-2white-text">
+          <button id="edit-document" className="btn-floating waves-effect modal-trigger blue lighten-2white-text">
             <i className="material-icons">mode_edit</i>
           </button>
           }
       >
-        <form className="col s12">
+        <form id="edit" className="col s12">
           <div className="row">
             <div className="row">
               <div className="input-field col s6">
                 <i className="material-icons prefix">input</i>
                 <input
-                  id="password"
+                  id="title"
                   type="text"
                   className="validate"
                   value={this.state.title}
@@ -63,6 +63,7 @@ export class MyDocumentsEditModal extends React.Component {
               </div>
               <div className="input-field col s6">
                 <select
+                  id="access"
                   className="browser-default"
                   name="accessId"
                   value={this.state.accessId}
@@ -78,7 +79,7 @@ export class MyDocumentsEditModal extends React.Component {
           <div className="input-field col s12">
             <i className="material-icons prefix">mode_edit</i>
             <textarea
-              id="textarea1"
+              id="content"
               className="material-text-area"
               value={this.state.content}
               onChange={this.onChange}

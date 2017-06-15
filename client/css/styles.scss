@@ -31,7 +31,7 @@ img {
   height: 600px;
 }
 
-#menu-item {
+#menu-item, #menu-profile, #my-documents, #manage-users {
   display: inline-flex;
 }
 
@@ -44,5 +44,6 @@ img {
 }
 
 #my-profile {
+  height: 400px;
   display: inline-flex;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'react-materialize';
+import { Modal, Button } from 'react-materialize';
 import PropTypes from 'prop-types';
 
 class ViewModal extends React.Component {
@@ -8,12 +8,17 @@ class ViewModal extends React.Component {
     return (
       <Modal
         trigger={
-          <div>
+          <div id="view-document">
             <button className="btn-floating waves-effect modal-trigger grey accent-4 white-text">
               <i className="large material-icons">visibility</i>
             </button>
           </div>
         }
+        actions={
+          <div>
+            <Button id="close-view" className="right" flat modal="close" waves="light">close</Button>
+          </div>
+          }
       >
         <h4>{this.props.document.title}</h4>
         {this.props.document.content}

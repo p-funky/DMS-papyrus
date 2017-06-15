@@ -34,7 +34,7 @@ class SignupForm extends React.Component {
       );
     }
     return (
-      <div>
+      <div id="signUpPage">
         <div className="col s12 m12 l6">
           <div className="card-panel">
             <h4 className="center">Register</h4>
@@ -78,7 +78,7 @@ class SignupForm extends React.Component {
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
-                    <button className="btn blue lighten-2 waves-effect waves-light right" type="submit" name="action">Submit
+                    <button id="signUpButton" className="btn blue lighten-2 waves-effect waves-light right" type="submit" name="action">Submit
                       <i className="mdi-content-send right" />
                     </button>
                   </div>
