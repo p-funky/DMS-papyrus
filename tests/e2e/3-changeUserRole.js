@@ -26,8 +26,8 @@ module.exports = {
       .pause(1000)
       .click('button#edit-role')
       .pause(1000)
-      .waitForElementVisible('#logout', 10000)
-      .click('#logout')
+      .waitForElementVisible('#nav-logout', 20000)
+      .click('#nav-logout')
       .end();
   },
 };

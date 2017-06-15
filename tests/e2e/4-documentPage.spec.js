@@ -23,7 +23,7 @@ module.exports = {
       .waitForElementVisible('form', 1000)
       .setValue('input#title', 'The Fox')
       .setValue('textarea#content', 'The quick brown fox jumps over the lazy dog')
-      .waitForElementVisible('#access', 10000)
+      .waitForElementVisible('#access', 20000)
       .click('#access')
       .waitForElementVisible('#private', 10000)
       .click('#private')

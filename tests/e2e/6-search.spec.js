@@ -32,7 +32,7 @@ module.exports = {
       .waitForElementVisible('h5', 10000)
       .assert.containsText('h5', 'Manage Users')
       .keys(client.Keys.ENTER)
-      .click('#logout')
+      .click('#nav-logout')
       .assert.urlContains('')
       .end();
   },
