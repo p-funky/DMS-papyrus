@@ -13,7 +13,7 @@ const userReducer = (state = {}, action = {}) => {
 
     case DELETE_USER:
       users = state.users
-        .filter(user => user.id !== action.user.Document.id);
+        .filter(user => user.id !== action.user.User.id);
       return {
         users,
         settings: state.settings
