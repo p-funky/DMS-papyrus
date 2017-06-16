@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: { args: true, msg: 'Note: Document with same title or exists' }
     },
     content: {
       type: DataTypes.TEXT,

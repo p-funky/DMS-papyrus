@@ -1,7 +1,8 @@
 import models from '../../models';
 import paginate from '../pagination';
 
-const Document = models.Documents;
+const Documents = models.Documents;
+const User = models.User;
 
 /**
  * This classs contains helpers methids for the document controller
@@ -15,37 +16,35 @@ class DocumentControllerHelper {
    *
    * @static
    * @param {object} req
-   * @returns
+   * @returns {object} query
    *
    * @memberof DocumentControllerHelper
    */
-  static createQueryForList(req) {
-    const limit = req.query.limit || 8;
-    const offset = req.query.offset || 0;
+  static getQueryList(req) {
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
     const query = {};
-    if (limit || offset) {
-      query.limit = limit;
-      query.offset = offset;
-    }
-    const hasDecodedProperty =
-    Object.prototype.hasOwnProperty.call(req, 'decoded');
-    if (hasDecodedProperty) {
-      const userId = req.decoded.data.id;
-      const roleId = req.decoded.data.roleId;
-      if (roleId === 1) {
-        query.where = {};
-      } else {
-        query.where = {
-          $or: [
-            { access: 'public' },
-            { userId },
-            { $and: [{ ownerRoleId: roleId }, { access: 'role' }] },
-          ],
-        };
-      }
+    query.limit = limit;
+    query.offset = offset;
+    const id = req.decoded.userId;
+    const roleId = req.decoded.roleId;
+    if (roleId === 1) {
+      query.where = {};
     } else {
       query.where = {
-        access: 'public',
+        $or: [
+          // public
+          { accessId: 1 },
+          // your own - private inclusive
+          { ownerId: id },
+          { $and: [
+            // role
+            { accessId: 3 },
+            // check if your role is same as document owner's role
+            { '$User.roleId$': roleId }
+          ]
+          },
+        ],
       };
     }
     return query;
@@ -60,110 +59,78 @@ class DocumentControllerHelper {
    * @param {res} res the response object
    * @param {limit} limit
    * @param {offset} offset
-   * @returns
+   * @returns {object} document and/or message
    *
    * @memberof DocumentControllerHelper
    */
-  static isDocumentList(document, res, limit, offset) {
-    let response = {};
-    if (!document) {
-      response = res.status(404)
-        .send({
-          message: 'Documents Not Found',
-        });
-    } else {
-      const documents = {
-        count: document.count,
-        rows: document.rows,
-        metaData: paginate(document.count, limit, offset),
-      };
-
-      response = res.status(200)
-        .json({
-          message: 'Document is shown below',
-          documents,
-        });
-    }
-    return response;
+  static listDocuments(document, res, limit, offset) {
+    const rows = document.rows;
+    const count = document.count;
+    const settings = paginate(rows, count, limit, offset);
+    return res.status(200).send({
+      documents: rows, settings
+    });
   }
 
   /**
    * This method returns only the documents a user is authorized
-   * to view from another user portfolio
+   * to view from another user's portfolio
    *
    * @static
    * @param {object} user
    * @param {object} res the response object
    * @param {object} req the request object
-   * @returns
+   * @param {object} id the document owner id
+   * @returns {object} document and/or message
    *
    * @memberof DocumentControllerHelper
    */
-  static isGetUserDocuments(user, res, req) {
-    let response = {};
-    const limit = req.query.limit || null;
-    const offset = req.query.offset || 0;
-    if (!user) {
-      response = res.status(404)
-        .json({
-
-          message: 'User not found',
-        });
-    } else {
-      const query = {
-        where: {
-          userId: req.params.userId,
-        },
-      };
-      let documentCount;
-      Document.count({ where: query.where }).then((countNumber) => {
-        documentCount = countNumber;
-        return documentCount;
-      });
-      return Document
-        .findAll({
-          where: query.where,
-          limit,
-          offset,
-          include: [{
-            model: models.Users,
-            attributes: ['fullname'] }],
-        })
-        .then((documents) => {
-          if (!documents) {
-            response = res.status(404)
-              .json({
-                message: 'User has no document.',
-              });
-          } else if (req.decoded.data.id === 1 ||
-          req.decoded.data.id === parseInt(req.params.userId, 10)) {
-            response = res.status(200)
-                .json({
-                  message: 'This is the user document(s).',
-                  count: documentCount,
-                  documents,
+  static getUserDocuments(user, res, req, id) {
+    const limit = req.query.limit > 0 ? req.query.limit : '8';
+    const offset = req.query.offset > 0 ? req.query.offset : '0';
+    let name;
+    let response;
+    User.findById(id)
+      .then((existingUser) => {
+        if (!existingUser) {
+          return res
+            .status(404)
+            .send({ message: `There is no user with id: ${id}` });
+        }
+        name = existingUser ? existingUser.userName : '';
+        // if admin or owner
+        if (req.decoded.roleId === 1 || Number(id) === req.decoded.userId) {
+          Documents.findAndCountAll({
+            include: [{
+              model: User,
+              attributes: ['userName', 'roleId']
+            }],
+            // all of the owner's documents
+            where: { ownerId: id },
+            limit,
+            offset,
+            order: '"createdAt" ASC'
+          })
+          .then((documents) => {
+            if (!documents.count) {
+              response = res
+                .status(404)
+                .send({
+                  message: `User ${name} with id: ${id}` +
+                  ' has no documents to view'
                 });
-          } else {
-            const authToViewDocuments = [];
-            documents.forEach((document) => {
-              if (document.access === 'public') {
-                authToViewDocuments.push(document);
-              }
-            });
-            response = res.status(200)
-                .json({
-                  message: 'This is the user document(s).',
-                  authToViewDocuments,
-                });
-          }
-          return response;
-        })
-        .catch(error => res.status(400)
-          .json({
-            message: 'Error retrieving document',
-            error,
-          }));
-    }
+            }
+            DocumentControllerHelper
+              .listDocuments(documents, res, limit, offset);
+          });
+        } else {
+          response = res
+            .status(401)
+            .send({ message: 'You are not authorized to view this.' });
+        }
+      })
+      .catch(error => res.status(400).send({ message: error.message }));
+    return response;
   }
 
   /**
@@ -174,69 +141,53 @@ class DocumentControllerHelper {
    * @param {object} document
    * @param {object} res the response object
    * @param {object} req the request object
-   * @returns
+   * @returns {object} status and message
    *
    * @memberof DocumentControllerHelper
    */
-  static isRetrieveDocuments(document, res, req) {
+  static retrieveDocuments(document, res, req) {
     let response = {};
-    if (!document) {
-      response = res.status(404)
-        .json({
-          message: 'Document Not Found',
-        });
-    } else {
-      const userId = req.decoded.data.id;
-      const roleId = req.decoded.data.roleId;
-      if (roleId !== 1) {
-        if (document.userId !== userId && document.access === 'private') {
-          response = res.status(403)
-            .json({
-              message: 'You dont have permission to view this document',
-            });
-        } else {
-          response = res.status(200)
-            .json({
-              message: 'This is your document.',
-              document,
-            });
-        }
-      } else {
-        response = res.status(200)
-          .json({
-            message: 'This is your document.',
-            document,
-          });
-      }
+    // if admin
+    if (req.decoded.roleId === 1) {
+      response = res.status(200)
+        .send(document);
     }
-    return response;
-  }
-
-  /**
-   * This method deletes a document from the database
-   *
-   * @static
-   * @param {object} document
-   * @param {object} res the response object
-   * @returns
-   *
-   * @memberof DocumentControllerHelper
-   */
-  static isDestroyDocuments(document, res) {
-    let response = {};
-    if (!document) {
-      response = res.status(404)
-        .json({
-          message: 'Document Not Found',
-        });
-    } else {
-      response = document
-        .destroy()
-        .then(() => res.status(200)
-          .json({
-            message: 'Document deleted successfully.',
-          }));
+    // if document is public
+    if (document.accessId === 1) {
+      response = res.status(200)
+        .send(document);
     }
+    // if document is private and person requesting is the owner
+    if ((document.accessId === 2) &&
+      (document.ownerId === req.decoded.userId)) {
+      response = res.status(200)
+        .send(document);
+    }
+    // if document has role acess
+    if (document.accessId === 3) {
+      response = User.findById(document.ownerId)
+        .then((owner) => {
+          // if owner role is same as requester's role
+          if (owner.roleId === req.decoded.roleId) {
+            return res.status(200)
+              .send(document);
+          }
+          // if owner role is different from requester's role
+          return res.status(403)
+            .send({
+              message: 'You are not permitted to access this document.'
+            });
+        })
+        .catch(error => res.status(400).send({
+          message: error.message
+        }));
+    }
+    // if document is private and person requesting is neither owner nor admin
+    response = res.status(403)
+      .send({
+        message: 'Private! You are not permitted to access this document. '
+        + 'Request access from admin'
+      });
     return response;
   }
 
@@ -247,31 +198,101 @@ class DocumentControllerHelper {
    * @param {object} document
    * @param {object} res the response object
    * @param {object} req the request object
-   * @returns
+   * @param {object} id the request object
+   * @returns {object} document and/or message
    *
    * @memberof DocumentControllerHelper
    */
-  static isUpdateDocuments(document, res, req) {
+  static updateDocument(document, res, req, id) {
     let response = {};
     if (!document) {
-      response = res.status(404)
-        .json({
-          message: 'Document Not Found',
-        });
-    } else {
-      response = document
-        .update({
-          title: req.body.title || document.title,
-          body: req.body.body || document.body,
-          access: req.body.access || document.access,
-        })
-        .then(() => res.status(200)
-          .json({
-            message: 'Document successfuly updated',
-            document,
-          }));
+      return res.status(404)
+        .send({ message: `There is no document with id: ${id}` });
     }
+    if (document.ownerId !== req.decoded.userId) {
+      return res.status(401).send({
+        message: 'You do not own this document'
+      });
+    }
+    const userInfo = {};
+    let documentInfo = {};
+    User.findById(document.ownerId)
+      .then((owner) => {
+        userInfo.userName = owner.userName;
+        userInfo.roleId = owner.roleId;
+        response = document.update(req.body, { fields: Object.keys(req.body) })
+          .then(() => {
+            documentInfo = document.dataValues;
+            documentInfo.User = userInfo;
+            res.status(200).send(documentInfo);
+          })
+          .catch(error => res.status(400).send({
+            message: error.message
+          }));
+      });
     return response;
+  }
+
+  /**
+   * The method dynamically creates the query for the document list controller
+   *
+   * @static
+   * @param {object} req
+   * @returns {object} query
+   *
+   * @memberof DocumentControllerHelper
+   */
+  static getQuerySearch(req) {
+    const searchInfo = req.query.search;
+    const query = DocumentControllerHelper.getQueryList(req);
+    if (searchInfo) {
+      if (req.decoded.roleId === 1) {
+        query.where = {
+          $or: [
+            { title: { $iLike: `%${searchInfo}%` } },
+            { content: { $iLike: `%${searchInfo}%` } }
+          ]
+        };
+      } else {
+        query.where.$and = [{
+          $or: [
+            { title: { $iLike: `%${searchInfo}%` } },
+            { content: { $iLike: `%${searchInfo}%` } }
+          ]
+        }];
+      }
+    }
+    return query;
+  }
+
+  /**
+   * The method extracts documents from the database
+   *
+   * @static
+   * @param {object} query
+   * @param {object} res
+   * @returns {object} documents
+   *
+   * @memberof DocumentControllerHelper
+   */
+  static extractDocuments(query, res) {
+    const limit = query.limit;
+    const offset = query.offset;
+    const where = query.where;
+    Documents.findAndCountAll({
+      include: [{
+        model: User,
+        attributes: ['userName', 'roleId'] }],
+      where,
+      limit,
+      offset,
+      order: '"createdAt" DESC'
+    })
+    .then((document) => {
+      const result = DocumentControllerHelper
+        .listDocuments(document, res, limit, offset);
+      return result;
+    });
   }
 }
 
