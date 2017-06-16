@@ -103,12 +103,21 @@ export default {
         order: '"createdAt" DESC'
       })
         .then((documents) => {
-          const settings = limit && offset ? {
-            totalCount: documents.count,
-            pages: Math.ceil(documents.count / limit),
-            currentPage: Math.floor(offset / limit) + 1,
-            pageSize: documents.rows.length
-          } : null;
+          // const settings = limit && offset ? {
+          //   totalCount: documents.count,
+          //   pages: Math.ceil(documents.count / limit),
+          //   currentPage: Math.floor(offset / limit) + 1,
+          //   pageSize: documents.rows.length
+          // } : null;
+          let settings;
+          if (limit && offset) {
+            settings = {
+              totalCount: documents.count,
+              pages: Math.ceil(documents.count / limit),
+              currentPage: Math.floor(offset / limit) + 1,
+              pageSize: documents.rows.length
+            };
+          }
           return res.status(200).send({
             documents: documents.rows, settings
           });
