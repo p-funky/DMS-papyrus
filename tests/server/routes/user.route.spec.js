@@ -66,9 +66,8 @@ describe('User ROUTES', () => {
       request.post('/users')
         .send(john)
         .end((error, response) => {
-          expect(response.status).to.equal(409);
-          expect(response.body.message).to.equal(
-        `Email: ${john.email} is already in use`);
+          expect(response.status).to.equal(400);
+          expect(response.body.message).to.equal('email already in use');
           done();
         });
     });
@@ -77,9 +76,8 @@ describe('User ROUTES', () => {
       request.post('/users')
         .send(john)
         .end((error, response) => {
-          expect(response.status).to.equal(409);
-          expect(response.body.message).to.equal(
-        `Username: ${john.userName} is already in use`);
+          expect(response.status).to.equal(400);
+          expect(response.body.message).to.equal('Username already in use');
           done();
         });
     });
@@ -169,7 +167,7 @@ describe('User ROUTES', () => {
           .end((error, response) => {
             expect(response.status).to.equal(401);
             expect(response.body.message)
-              .to.equal('You cannot edit this admin: the OGA at the top!!!');
+              .to.equal('You cannot edit this admin!!!');
             done();
           });
       });
@@ -393,27 +391,6 @@ describe('User ROUTES', () => {
           .set({ Authorization: 'xyzhd321' })
           .end((error, response) => {
             expect(response.status).to.equal(401);
-            done();
-          });
-      });
-    });
-
-    describe('GET: (/users/admin) - GET ALL ADMIN', () => {
-      it('should get all admins present', (done) => {
-        request.get('/users/admin')
-          .set({ Authorization: token1 })
-          .end((error, response) => {
-            expect(response.status).to.equal(200);
-            done();
-          });
-      });
-      it('should not get admins if not admin making request', (done) => {
-        request.get('/users/admin')
-          .set({ Authorization: token5 })
-          .end((error, response) => {
-            expect(response.status).to.equal(403);
-            expect(response.body.message).to
-              .equal('You are not authorized to view this content');
             done();
           });
       });

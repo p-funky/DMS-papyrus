@@ -113,14 +113,14 @@ class DocumentControllerHelper {
           })
           .then((documents) => {
             if (!documents.count) {
-              response = res
+              return res
                 .status(404)
                 .send({
                   message: `User ${name} with id: ${id}` +
                   ' has no documents to view'
                 });
             }
-            DocumentControllerHelper
+            response = DocumentControllerHelper
               .listDocuments(documents, res, limit, offset);
           });
         } else {
@@ -146,26 +146,25 @@ class DocumentControllerHelper {
    * @memberof DocumentControllerHelper
    */
   static retrieveDocuments(document, res, req) {
-    let response = {};
     // if admin
     if (req.decoded.roleId === 1) {
-      response = res.status(200)
+      return res.status(200)
         .send(document);
     }
     // if document is public
     if (document.accessId === 1) {
-      response = res.status(200)
+      return res.status(200)
         .send(document);
     }
     // if document is private and person requesting is the owner
     if ((document.accessId === 2) &&
       (document.ownerId === req.decoded.userId)) {
-      response = res.status(200)
+      return res.status(200)
         .send(document);
     }
     // if document has role acess
     if (document.accessId === 3) {
-      response = User.findById(document.ownerId)
+      User.findById(document.ownerId)
         .then((owner) => {
           // if owner role is same as requester's role
           if (owner.roleId === req.decoded.roleId) {
@@ -177,18 +176,15 @@ class DocumentControllerHelper {
             .send({
               message: 'You are not permitted to access this document.'
             });
-        })
-        .catch(error => res.status(400).send({
-          message: error.message
-        }));
+        });
+    } else {
+      // if document is private and person requesting is neither owner nor admin
+      return res.status(403)
+        .send({
+          message: 'Private! You are not permitted to access this document. '
+          + 'Request access from admin'
+        });
     }
-    // if document is private and person requesting is neither owner nor admin
-    response = res.status(403)
-      .send({
-        message: 'Private! You are not permitted to access this document. '
-        + 'Request access from admin'
-      });
-    return response;
   }
 
   /**

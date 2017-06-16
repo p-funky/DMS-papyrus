@@ -16,6 +16,9 @@ const regularUserParams3 = helper.kunle;
 const publicDocumentParams = helper.testDocument1;
 const privateDocumentParams = helper.testDocument2;
 const documentParams = helper.testDocument3;
+publicDocumentParams.title = 'One';
+privateDocumentParams.title = 'Two';
+documentParams.title = 'Three';
 
 const unusedDocs = helper.documentsCollection();
 
@@ -87,7 +90,10 @@ describe('DOCUMENT ROUTES', () => {
         request.post('/documents')
           .set({ Authorization: johnToken })
           .send(invalidDocument)
-          .expect(409, done);
+          .end((error) => {
+            expect(400, error);
+            done();
+          });
       });
     });
 
@@ -182,7 +188,7 @@ describe('DOCUMENT ROUTES', () => {
       it('should correctly edit document if valid id is provided',
         (done) => {
           const fieldToUpdate = {
-            title: 'Ojos de cielo', content: 'replace previous document'
+            title: 'Alakuko', content: 'replace previous document'
           };
           request.put(`/documents/${publicDocument.id}`)
             .set({ Authorization: johnToken })
@@ -216,7 +222,7 @@ describe('DOCUMENT ROUTES', () => {
             .set({ Authorization: johnToken })
             .send(fieldToUpdate)
             .end((error, response) => {
-              expect(response.status).to.equal(409);
+              expect(response.status).to.equal(400);
               done();
             });
         });
@@ -336,7 +342,7 @@ describe('DOCUMENT ROUTES', () => {
     describe('Requests for Documents with Access set to Role', () => {
       describe('GET: (/documents/:id - GET A DOCUMENT)', () => {
         before((done) => {
-          documentParams.title = 'Song in my sould';
+          documentParams.title = 'Song in my soul';
           documentParams.content = 'And you made me';
           documentParams.ownerId = privateUser2.id;
           documentParams.accessId = 3;
@@ -344,6 +350,7 @@ describe('DOCUMENT ROUTES', () => {
           models.Documents.create(documentParams)
             .then((createdDocument1) => {
               roleDocument = createdDocument1;
+              console.log('=====================>>>>>>>>>>>>>>>', roleDocument);
 
               const adminDocument = helper.testDocument4;
               models.Documents.create(adminDocument)
@@ -354,10 +361,11 @@ describe('DOCUMENT ROUTES', () => {
             });
         });
 
-        it('should return when user has same role as owner', (done) => {
+        it('should return document when user has same role as owner', (done) => {
           request.get(`/documents/${roleDocument.id}`)
             .set({ Authorization: segunToken })
             .end((errors, response) => {
+              console.log('=====================>>>>>>>>>>>>>>>', response.body);
               expect(response.status).to.equal(200);
               expect(response.body.title).to.equal(documentParams.title);
               expect(response.body.content).to.equal(documentParams.content);
