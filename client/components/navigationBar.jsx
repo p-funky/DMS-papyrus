@@ -131,7 +131,7 @@ export class NavigationBar extends React.Component {
                 <li>
                   <Link
                     to="/"
-                    id="logout"
+                    id="nav-logout"
                     className="grey-text text-darken-3 lighten-3"
                     onClick={this.handleLogOut}
                   >

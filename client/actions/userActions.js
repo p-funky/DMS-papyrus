@@ -17,7 +17,9 @@ export const getAllUsersAction = offset => dispatch =>
     .then((success) => {
       dispatch(getAllUsers(success.data));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const getProfile = profile => ({
   type: GET_PROFILE,
@@ -29,14 +31,18 @@ export const getProfileAction = () => dispatch =>
     .then((success) => {
       dispatch(getProfile(success.data));
     })
-    .catch(error => console.log(error.response.data.message));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const editProfileAction = (userId, userDetails) => dispatch =>
   axios.put(`/users/${userId}`, userDetails)
     .then(() => {
       dispatch(getProfileAction());
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const deleteUser = user => ({
   type: DELETE_USER,
@@ -48,14 +54,18 @@ export const deleteUserAction = userId => dispatch =>
     .then(() => {
       dispatch(getAllUsersAction());
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const editUserRoleAction = (userId, userDetails) => dispatch =>
   axios.put(`/users/${userId}`, userDetails)
     .then(() => {
       dispatch(getAllUsersAction(0));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const deleteSelf = profile => ({
   type: DELETE_ACCOUNT,
@@ -67,14 +77,18 @@ export const logOutAction = () =>
     .then(() => {
       localStorage.removeItem('token');
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const deleteSelfAction = userId => dispatch =>
   axios.delete(`/users/${userId}`)
     .then(() => {
       dispatch(logOutAction());
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 
 export const searchUsers = users => ({
@@ -87,4 +101,6 @@ export const searchUserAction = searchWord => dispatch =>
     .then((success) => {
       dispatch(searchUsers(success.data));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });

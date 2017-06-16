@@ -24,7 +24,7 @@ module.exports = {
       .waitForElementVisible('#my-profile', 10000)
       .waitForElementVisible('#edit-profile', 10000)
       .click('#edit-profile')
-      .waitForElementVisible('.modal-content', 10000)
+      .waitForElementVisible('.modal-content', 20000)
       .waitForElementVisible('input#userName', 10000)
       .waitForElementVisible('input#firstName', 10000)
       .waitForElementVisible('input#lastName', 10000)

@@ -18,7 +18,9 @@ export const getAllDocumentsAction = (offset = 0) => dispatch =>
     .then((success) => {
       dispatch(getAllDocuments(success.data));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const addDocumentSuccess = document => ({
   type: ADD_DOCUMENT,
@@ -31,7 +33,9 @@ export const addDocumentAction = documentDetails => dispatch =>
       dispatch(addDocumentSuccess(success.data));
       dispatch(getAllDocumentsAction());
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const deleteDocumentSuccess = document => ({
   type: DELETE_DOCUMENT,
@@ -43,14 +47,18 @@ export const deleteDocumentAction = documentId => dispatch =>
     .then((success) => {
       dispatch(deleteDocumentSuccess(success.data));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const editDocumentAction = (documentId, documentDetails) => dispatch =>
   axios.put(`/documents/${documentId}`, documentDetails)
     .then(() => {
       dispatch(getAllDocumentsAction());
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const getMyDocuments = myDocuments => ({
   type: GET_MY_DOCUMENTS,
@@ -63,7 +71,9 @@ export const getmyDocumentsAction = (userId, offset = 0) => dispatch =>
     .then((success) => {
       dispatch(getMyDocuments(success.data));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const myDocumentEditAction = (documentId, userId, documentDetails) =>
   dispatch =>
@@ -71,7 +81,9 @@ export const myDocumentEditAction = (documentId, userId, documentDetails) =>
       .then(() => {
         dispatch(getmyDocumentsAction(userId));
       })
-      .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const searchDocuments = documents => ({
   type: SEARCH_DOCUMENTS,
@@ -83,7 +95,9 @@ export const searchDocumentsAction = searchWord => dispatch =>
     .then((success) => {
       dispatch(searchDocuments(success.data));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });
 
 export const addMyDocumentSuccess = document => ({
   type: ADD_MY_DOCUMENT,
@@ -96,4 +110,6 @@ export const addMyDocumentAction = documentDetails => dispatch =>
       dispatch(addMyDocumentSuccess(success.data));
       dispatch(getmyDocumentsAction(success.data.ownerId));
     })
-    .catch(error => console.log(error));
+    .catch((error) => {
+      throw error.response.data.message;
+    });

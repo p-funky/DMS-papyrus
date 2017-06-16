@@ -17,8 +17,8 @@ module.exports = {
       .click('#signInButton')
       .waitForElementNotPresent('#signInButton', 10000)
       .assert.urlEquals('http://localhost:8000/dashboard')
-      .waitForElementVisible('#logout', 10000)
-      .click('#logout')
+      .waitForElementVisible('#nav-logout', 20000)
+      .click('#nav-logout')
       .assert.urlContains('')
       .end();
   },
