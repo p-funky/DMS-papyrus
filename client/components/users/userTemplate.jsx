@@ -4,8 +4,8 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllUsersAction } from '../../actions/userActions';
-import userCards from './userCards';
-import SearchUsers from './searchUsers';
+import UserCards from './UserCards';
+import SearchUsers from './SearchUsers';
 
 export class UserTemplate extends React.Component {
 
@@ -41,7 +41,7 @@ export class UserTemplate extends React.Component {
             (this.props.users.users &&
             this.props.users.users.length > 0)
             ?
-              this.props.users.users.map(userCards)
+              this.props.users.users.map(UserCards)
             :
               <h2 className="grey-text accent-4">You have no users to manage.</h2>
           }

@@ -1,5 +1,5 @@
 import React from 'react';
-import UserTemplate from './userTemplate';
+import UserTemplate from './UserTemplate';
 
 
 class UsersPage extends React.Component {
