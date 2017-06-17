@@ -3,7 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { SearchUsers }
-  from '../../../../client/components/users/searchUsers';
+  from '../../../../client/components/users/SearchUsers';
 
 const searchUserAction = sinon.spy(() => Promise.resolve());
 const props = {

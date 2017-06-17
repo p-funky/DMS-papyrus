@@ -1,7 +1,6 @@
 import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import ViewModal
   from '../../../../client/components/dashboard/ViewModal';
 

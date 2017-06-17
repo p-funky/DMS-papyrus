@@ -1,7 +1,7 @@
 import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import DocumentCards from '../../../../client/components/dashboard/documentCards';
+import DocumentCards from '../../../../client/components/dashboard/DocumentCards';
 
 function setup() {
   const document = {

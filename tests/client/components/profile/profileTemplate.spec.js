@@ -3,7 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { ProfileTemplate }
-  from '../../../../client/components/profile/profileTemplate';
+  from '../../../../client/components/profile/ProfileTemplate';
 
 const getProfileAction = sinon.spy(() => Promise.resolve());
 const props = {

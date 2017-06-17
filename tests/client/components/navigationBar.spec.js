@@ -1,7 +1,7 @@
 import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import { NavigationBar } from '../../../client/components/navigationBar';
+import { NavigationBar } from '../../../client/components/NavigationBar';
 
 function setup() {
   const props = {
