@@ -23,6 +23,13 @@ const userDetails = user => (
 
 export default {
 
+  /**
+   * This method creates a user
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user
+   */
   create(req, res) {
     User.create(req.body)
       .then((newUser) => {
@@ -40,6 +47,13 @@ export default {
       }));
   },
 
+  /**
+   * This method logs a user in
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user
+   */
   login(req, res) {
     if ((req.body.email || req.body.userName) && req.body.password) {
       User.findOne({
@@ -84,11 +98,25 @@ export default {
     }
   },
 
+  /**
+   * This method logs out a users
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} message
+   */
   logout(req, res) {
     return res.status(200)
       .send({ message: 'Logout successful' });
   },
 
+  /**
+   * This method gets a user's profile details
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user details
+   */
   profile(req, res) {
     const id = req.decoded.userId;
     User.findById(id)
@@ -98,11 +126,25 @@ export default {
       });
   },
 
+  /**
+   * This method gets all users
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user
+   */
   getAllUsers(req, res) {
     const result = extractUsers(req, res);
     return result;
   },
 
+  /**
+   * This method gets a user
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user
+   */
   getUser(req, res) {
     const id = req.params.id;
     User.findById(id)
@@ -115,6 +157,13 @@ export default {
       }));
   },
 
+  /**
+   * This method updates a user
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user
+   */
   update(req, res) {
     const id = req.params.id;
     User.findById(id)
@@ -128,6 +177,13 @@ export default {
       }));
   },
 
+  /**
+   * This method deletes a user
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} message
+   */
   destroy(req, res) {
     User.findById(req.params.id)
       .then((existingUser) => {
@@ -140,6 +196,13 @@ export default {
       }));
   },
 
+  /**
+   * This method searches for all users that match a search query
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user, message
+   */
   find(req, res) {
     const searchInfo = req.query.search;
     if (searchInfo) {

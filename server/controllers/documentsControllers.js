@@ -154,7 +154,7 @@ export default {
   },
 
   /**
-   * This method gets all documents for a specific user
+   * This method searches for all documents that match a search query
    *
    * @param {object} req
    * @param {object} res
