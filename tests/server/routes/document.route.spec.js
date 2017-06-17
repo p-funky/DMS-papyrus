@@ -350,7 +350,6 @@ describe('DOCUMENT ROUTES', () => {
           models.Documents.create(documentParams)
             .then((createdDocument1) => {
               roleDocument = createdDocument1;
-              console.log('=====================>>>>>>>>>>>>>>>', roleDocument);
 
               const adminDocument = helper.testDocument4;
               models.Documents.create(adminDocument)
@@ -365,7 +364,6 @@ describe('DOCUMENT ROUTES', () => {
           request.get(`/documents/${roleDocument.id}`)
             .set({ Authorization: segunToken })
             .end((errors, response) => {
-              console.log('=====================>>>>>>>>>>>>>>>', response.body);
               expect(response.status).to.equal(200);
               expect(response.body.title).to.equal(documentParams.title);
               expect(response.body.content).to.equal(documentParams.content);
