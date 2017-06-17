@@ -103,7 +103,7 @@ class DocumentControllerHelper {
           Documents.findAndCountAll({
             include: [{
               model: User,
-              attributes: ['userName', 'roleId']
+              attributes: ['userName', 'roleId', 'id']
             }],
             // all of the owner's documents
             where: { ownerId: id },
@@ -278,7 +278,7 @@ class DocumentControllerHelper {
     Documents.findAndCountAll({
       include: [{
         model: User,
-        attributes: ['userName', 'roleId'] }],
+        attributes: ['userName', 'roleId', 'id'] }],
       where,
       limit,
       offset,

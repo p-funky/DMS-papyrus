@@ -13,7 +13,7 @@ const canDelete = userControllerHelper.canDelete;
 const secret = process.env.SECRET_TOKEN;
 const userDetails = user => (
   {
-    id: user.id,
+    userId: user.id,
     userName: user.userName,
     firstName: user.firstName,
     lastName: user.lastName,

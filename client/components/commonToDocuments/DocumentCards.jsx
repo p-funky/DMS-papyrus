@@ -21,7 +21,7 @@ const accessDisplay = (accessId, roleId) => {
   }
 };
 
-const documentCards = document => (
+const documentCards = (document, userId) => (
   <div key={document.id} className="col s12 m4 l3">
     <div className="card">
       <div className="card-title white-text  blue lighten-2">
@@ -38,7 +38,13 @@ const documentCards = document => (
           <ViewModal document={document} />
         </div>
         <div className="col m4">
-          <EditModal document={document} />
+          {
+            userId === document.ownerId
+            ?
+              <EditModal document={document} />
+            :
+            ''
+          }
         </div>
         <div className="col m4">
           <DeleteModal document={document} />

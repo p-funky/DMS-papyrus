@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllDocumentsAction }
   from '../../actions/documentActions';
-import DocumentCards from './DocumentCards';
-import AddModal from './AddModal';
-import SearchDocuments from './SearchDocuments';
+import DocumentCards from '../commonToDocuments/DocumentCards';
+import AddDashboardModal from '../commonToDocuments/AddModal';
+import SearchDashboardDocuments from '../commonToDocuments/SearchDocuments';
 
 export class DashboardTemplate extends React.Component {
 
@@ -26,11 +26,13 @@ export class DashboardTemplate extends React.Component {
   }
 
   onSelect(pageNumber) {
+    const userId = this.props.user.userId;
     const offset = (pageNumber - 1) * 8;
-    this.props.getAllDocumentsAction(offset);
+    this.props.getAllDocumentsAction(userId, offset);
   }
 
   render() {
+    const userId = this.props.user.userId;
     let pageCount;
     let currentPage;
     const settings = this.props.documents.settings;
@@ -42,17 +44,18 @@ export class DashboardTemplate extends React.Component {
     return (
       <div className="row">
         <div className="col s12 m12 l12">
-          <SearchDocuments />
+          <SearchDashboardDocuments userId={this.props.user.userId} />
           <h5 id="dashboardWelcome" className="center-align">All Documents</h5>
           {
             (this.props.documents.documents &&
             this.props.documents.documents.length > 0)
             ?
-              this.props.documents.documents.map(DocumentCards)
+              this.props.documents.documents
+                .map(document => DocumentCards(document, userId))
             :
               <h2 className="grey-text accent-4">You have no documents to view</h2>
           }
-          <AddModal />
+          <AddDashboardModal />
         </div>
         <div className="center-align">
           {
@@ -74,13 +77,15 @@ export class DashboardTemplate extends React.Component {
 
 const mapStateToProps = state => ({
   documents: state.documents,
-  state
+  state,
+  user: state.authentication.userInfo,
 });
 
 DashboardTemplate.propTypes = {
   getAllDocumentsAction: PropTypes.func.isRequired,
   documents: PropTypes.object.isRequired,
-  state: PropTypes.object.isRequired
+  state: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default withRouter(connect(mapStateToProps, {

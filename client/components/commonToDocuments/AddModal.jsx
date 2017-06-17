@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
-import { addDocumentAction } from '../../actions/documentActions';
+import { addDocumentAction, addMyDocumentAction } from '../../actions/documentActions';
 
 export class AddModal extends React.Component {
   constructor(props) {
@@ -30,14 +30,25 @@ export class AddModal extends React.Component {
   }
 
   handleAdd() {
-    this.props.addDocumentAction(this.state)
-      .then(() => {
-        this.setState({
-          title: '',
-          content: '',
-          accessId: '1',
+    if (this.props.location.pathname === '/dashboard') {
+      this.props.addDocumentAction(this.state)
+        .then(() => {
+          this.setState({
+            title: '',
+            content: '',
+            accessId: '1',
+          });
         });
-      });
+    } else if (this.props.location.pathname === '/my-docs') {
+      this.props.addMyDocumentAction(this.state)
+        .then(() => {
+          this.setState({
+            title: '',
+            content: '',
+            accessId: '1',
+          });
+        });
+    }
   }
 
   render() {
@@ -108,7 +119,10 @@ export class AddModal extends React.Component {
 }
 
 AddModal.propTypes = {
-  addDocumentAction: PropTypes.func.isRequired
+  addDocumentAction: PropTypes.func.isRequired,
+  addMyDocumentAction: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
 };
 
-export default withRouter(connect(null, { addDocumentAction })(AddModal));
+export default withRouter(connect(null,
+  { addDocumentAction, addMyDocumentAction })(AddModal));

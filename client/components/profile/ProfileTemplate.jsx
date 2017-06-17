@@ -30,7 +30,7 @@ export class ProfileTemplate extends React.Component {
                   <li>
                     <p>
                       <i className="material-icons grey-text">class</i>
-                      <span>{this.props.profile.id}</span>
+                      <span>{this.props.profile.userId}</span>
                     </p>
                   </li>
                   <li>
@@ -43,12 +43,6 @@ export class ProfileTemplate extends React.Component {
                     <p>
                       <i className="material-icons grey-text">email</i>
                       <span>{this.props.profile.email}</span>
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      <i className="material-icons grey-text">verified_user</i>
-                      <span>{this.props.profile.firstName} {this.props.profile.lastName}</span>
                     </p>
                   </li>
                   <li>

@@ -3,21 +3,21 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
-import { addMyDocumentAction } from '../../actions/documentActions';
+import { editDocumentAction, myDocumentEditAction } from '../../actions/documentActions';
 
-export class MyDocumentsAddModal extends React.Component {
+
+export class EditModal extends React.Component {
   constructor(props) {
     super(props);
-    this.handleAdd = this.handleAdd.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     this.state = {
-      title: '',
-      content: '',
-      accessId: '1'
+      title: this.props.document.title,
+      content: this.props.document.content,
+      accessId: this.props.document.accessId
     };
 
     this.onChange = this.onChange.bind(this);
     this.handleAccessChange = this.handleAccessChange.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
   }
 
   onChange(event) {
@@ -29,27 +29,23 @@ export class MyDocumentsAddModal extends React.Component {
     this.setState({ accessId: access });
   }
 
-  handleAdd() {
-    this.props.addMyDocumentAction(this.state)
-      .then(() => {
-        this.setState({
-          title: '',
-          content: '',
-          accessId: '1',
-        });
-      });
+  handleEdit(documentId) {
+    if (this.props.location.pathname === '/dashboard') {
+      this.props.editDocumentAction(documentId, this.state);
+    } else if (this.props.location.pathname === '/my-docs') {
+      const userId = this.props.user.userId;
+      this.props.myDocumentEditAction(documentId, userId, this.state);
+    }
   }
 
   render() {
     return (
       <Modal
         trigger={
-          <div className="fixed-action-btn">
-            <a className="btn-floating btn-large red">
-              <i className="large material-icons blue lighten-2">add</i>
-            </a>
-          </div>
-        }
+          <button className="btn-floating waves-effect modal-trigger blue lighten-2 white-text">
+            <i className="material-icons">mode_edit</i>
+          </button>
+          }
       >
         <form className="col s12">
           <div className="row">
@@ -57,17 +53,19 @@ export class MyDocumentsAddModal extends React.Component {
               <div className="input-field col s6">
                 <i className="material-icons prefix">input</i>
                 <input
-                  name="title"
+                  id="password"
                   type="text"
                   className="validate"
                   value={this.state.title}
                   onChange={this.onChange}
+                  name="title"
                 />
-                <label className="active" htmlFor="title">title</label>
+                <label className="active" htmlFor="title">new title</label>
               </div>
               <div className="input-field col s6">
                 <select
                   className="browser-default"
+                  name="accessId"
                   value={this.state.accessId}
                   onChange={this.handleAccessChange}
                 >
@@ -81,20 +79,21 @@ export class MyDocumentsAddModal extends React.Component {
           <div className="input-field col s12">
             <i className="material-icons prefix">mode_edit</i>
             <textarea
-              name="content"
+              id="textarea1"
               className="material-text-area"
               value={this.state.content}
               onChange={this.onChange}
+              name="content"
             />
           </div>
           <div className="row">
             <button
-              onClick={this.handleAdd}
+              onClick={() => this.handleEdit(this.props.document.id)}
               className="modal-close btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"
-            >save
-              <i className="mdi-content-send right" />
+            >
+              Save<i className="mdi-content-send right" />
             </button>
           </div>
         </form>
@@ -103,8 +102,17 @@ export class MyDocumentsAddModal extends React.Component {
   }
 }
 
-MyDocumentsAddModal.propTypes = {
-  addMyDocumentAction: PropTypes.func.isRequired
+const mapStateToProps = state => ({
+  user: state.authentication.userInfo,
+});
+
+EditModal.propTypes = {
+  editDocumentAction: PropTypes.func.isRequired,
+  myDocumentEditAction: PropTypes.func.isRequired,
+  document: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
-export default withRouter(connect(null, { addMyDocumentAction })(MyDocumentsAddModal));
+export default withRouter(connect(mapStateToProps,
+  { editDocumentAction, myDocumentEditAction })(EditModal));

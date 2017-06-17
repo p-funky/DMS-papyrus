@@ -13,7 +13,7 @@ export const getAllDocuments = allDocuments => ({
   allDocuments,
 });
 
-export const getAllDocumentsAction = (offset = 0) => dispatch =>
+export const getAllDocumentsAction = (userId, offset = 0) => dispatch =>
   axios.get(`/documents/?offset=${offset}`)
     .then((success) => {
       dispatch(getAllDocuments(success.data));
@@ -90,9 +90,18 @@ export const searchDocuments = documents => ({
   documents
 });
 
-export const searchDocumentsAction = searchWord => dispatch =>
+export const searchDocumentsAction =
+(searchWord, userId, location) => dispatch =>
   axios.get(`/search/documents/?search=${searchWord}`)
     .then((success) => {
+      if (!searchWord && location === '/my-docs') {
+        return dispatch(getmyDocumentsAction(userId));
+      }
+      if (userId) {
+        success.data.documents = success.data.documents.filter(document =>
+          document.ownerId === userId
+        );
+      }
       dispatch(searchDocuments(success.data));
     })
     .catch((error) => {

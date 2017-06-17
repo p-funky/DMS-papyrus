@@ -16,7 +16,12 @@ export class SearchDocuments extends React.Component {
     event.preventDefault();
     let word = event.target.value;
     word = word.trim();
-    this.props.searchDocumentsAction(word);
+    const location = this.props.location.pathname;
+    if (location === '/my-docs') {
+      this.props.searchDocumentsAction(word, this.props.userId, location);
+    } else if (location === '/dashboard') {
+      this.props.searchDocumentsAction(word, false, location);
+    }
   }
 
   render() {
@@ -42,6 +47,8 @@ export class SearchDocuments extends React.Component {
 
 SearchDocuments.propTypes = {
   searchDocumentsAction: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  userId: PropTypes.number.isRequired
 };
 
 export default withRouter(connect(null,
