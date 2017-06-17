@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getmyDocumentsAction }
   from '../../actions/documentActions';
-import MyDocumentsCards from '../commonToDocuments/DocumentCards';
-import AddModal from '../commonToDocuments/AddModal';
-import SearchDocuments from '../commonToDocuments/SearchDocuments';
+import MyDocumentsCards from '../common/DocumentCards';
+import AddModal from '../common/AddModal';
+import SearchDocuments from '../common/Search';
 
 export class MyDocumentsTemplate extends React.Component {
 
@@ -84,7 +84,6 @@ export class MyDocumentsTemplate extends React.Component {
 
 const mapStateToProps = state => ({
   documents: state.documents,
-  profile: state.profile,
   user: state.authentication.userInfo,
   state
 });

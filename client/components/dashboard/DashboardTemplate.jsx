@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllDocumentsAction }
   from '../../actions/documentActions';
-import DocumentCards from '../commonToDocuments/DocumentCards';
-import AddDashboardModal from '../commonToDocuments/AddModal';
-import SearchDashboardDocuments from '../commonToDocuments/SearchDocuments';
+import DocumentCards from '../common/DocumentCards';
+import AddDashboardModal from '../common/AddModal';
+import SearchDashboardDocuments from '../common/Search';
 
 export class DashboardTemplate extends React.Component {
 
@@ -44,7 +44,9 @@ export class DashboardTemplate extends React.Component {
     return (
       <div className="row">
         <div className="col s12 m12 l12">
-          <SearchDashboardDocuments userId={this.props.user.userId} />
+          <SearchDashboardDocuments
+            userId={this.props.user.userId}
+          />
           <h5 id="dashboardWelcome" className="center-align">All Documents</h5>
           {
             (this.props.documents.documents &&
@@ -78,7 +80,7 @@ export class DashboardTemplate extends React.Component {
 const mapStateToProps = state => ({
   documents: state.documents,
   state,
-  user: state.authentication.userInfo,
+  user: state.authentication.userInfo
 });
 
 DashboardTemplate.propTypes = {

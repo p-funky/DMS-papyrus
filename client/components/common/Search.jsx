@@ -4,8 +4,10 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { searchDocumentsAction }
   from '../../actions/documentActions';
+import { searchUserAction }
+  from '../../actions/userActions';
 
-export class SearchDocuments extends React.Component {
+export class Search extends React.Component {
 
   constructor(props) {
     super(props);
@@ -21,10 +23,19 @@ export class SearchDocuments extends React.Component {
       this.props.searchDocumentsAction(word, this.props.userId, location);
     } else if (location === '/dashboard') {
       this.props.searchDocumentsAction(word, false, location);
+    } else if (location === '/manage-users') {
+      this.props.searchUserAction(word, false);
     }
   }
 
   render() {
+    const location = this.props.location.pathname;
+    let placeholder;
+    if (location === '/manage-users') {
+      placeholder = 'search by name or username';
+    } else {
+      placeholder = 'search by title or content';
+    }
     return (
       <div>
         <form onChange={this.onChange}>
@@ -32,7 +43,7 @@ export class SearchDocuments extends React.Component {
             <input
               id="search"
               type="search"
-              placeholder="search by title or content"
+              placeholder={placeholder}
             />
             <label className="label-icon" htmlFor="search">
               <i className="material-icons">search</i>
@@ -45,11 +56,12 @@ export class SearchDocuments extends React.Component {
   }
 }
 
-SearchDocuments.propTypes = {
+Search.propTypes = {
   searchDocumentsAction: PropTypes.func.isRequired,
+  searchUserAction: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   userId: PropTypes.number.isRequired
 };
 
 export default withRouter(connect(null,
-  { searchDocumentsAction })(SearchDocuments));
+  { searchDocumentsAction, searchUserAction })(Search));
