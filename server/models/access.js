@@ -2,7 +2,19 @@ module.exports = (sequelize, DataTypes) => {
   const Access = sequelize.define('Access', {
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: {
+        msg: 'Access title must be unique'
+      },
+      validate: {
+        is: {
+          args: ['^[a-z]+$', 'i'],
+          msg: 'access can only contain letters'
+        },
+        notEmpty: {
+          msg: 'field must not be empty'
+        }
+      }
     }
   }, {
     classMethods: {

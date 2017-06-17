@@ -40,6 +40,36 @@ describe('Access Model', () => {
     });
   });
 
+  describe('validations', () => {
+    it('should return `unique constraint error` if access name already exists`', (done) => {
+      db.Access.create({ title: 'facilitator' })
+        .catch((error) => {
+          expect(error.errors[0].message).to.eql('Access title must be unique');
+          expect(error.errors[0].type).to.eql('unique violation');
+          expect(error.name).to.eql('SequelizeUniqueConstraintError');
+          done();
+        });
+    });
+    it('should return `validation error` if access name contains numbers`', (done) => {
+      db.Access.create({ title: '123random' })
+        .catch((error) => {
+          expect(error.errors[0].message).to.eql('access can only contain letters');
+          expect(error.errors[0].type).to.eql('Validation error');
+          expect(error.name).to.eql('SequelizeValidationError');
+          done();
+        });
+    });
+    it('should return `not null error` if access name is null`', (done) => {
+      db.Access.create({ title: null })
+        .catch((error) => {
+          expect(error.errors[0].message).to.eql('title cannot be null');
+          expect(error.errors[0].type).to.eql('notNull Violation');
+          expect(error.name).to.eql('SequelizeValidationError');
+          done();
+        });
+    });
+  });
+
   describe('Delete Access', () => {
     it('should delete a created access', (done) => {
       db.Access.destroy({ where: { id: 4 } })

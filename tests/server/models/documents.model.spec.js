@@ -19,6 +19,42 @@ describe('Documents Model', () => {
     });
     done();
   });
+  describe('Validation', () => {
+    it('should require a title field to create a document', () => {
+      db.Documents.create({ content: 'honey' })
+        .catch((error) => {
+          expect(/notNull Violation: title cannot be null/
+            .test(error.message)).to.be.true;
+        });
+    });
+
+    it('should require a unique title field to create a document', () => {
+      db.Documents.create({ title: '777' })
+        .catch((error) => {
+          expect(/SequelizeUniqueConstraintError/
+            .test(error.name)).to.be.true;
+          expect(error.errors[0].message)
+            .to.eql('Note: Document with same title or exists');
+        });
+    });
+
+    it('should require valid access as integer', () => {
+      db.Documents.create({ title: 'Invalid access', accessId: '2' })
+        .catch((error) => {
+          expect(/SequelizeDatabaseError/
+            .test(error.message)).to.be.true;
+        });
+    });
+
+    it('should ensure title cannot be empty', (done) => {
+      db.Documents.create({ title: '' })
+        .catch((error) => {
+          expect(/Validation error: Validation notEmpty failed/
+            .test(error.message)).to.be.false;
+        });
+      done();
+    });
+  });
 
   describe('Create Document', () => {
     it('should create a new document', (done) => {
