@@ -1,7 +1,7 @@
 /* eslint-env browser */
 import React from 'react';
-import UserDeleteModal from './userDeleteModal';
-import EditUserButton from './editUserButton';
+import UserDeleteModal from './UserDeleteModal';
+import EditUserButton from './EditUserButton';
 
 const userCards = user => (
   <div key={user.id} className="col s12 m4 l3">
