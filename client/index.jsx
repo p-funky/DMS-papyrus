@@ -9,7 +9,7 @@ import { setCurrentUser } from './actions/signInActions';
 import store from './store/configureStore';
 
 import './css/styles.scss';
-import routes from './routes';
+import Routes from './Routes';
 
 if (localStorage.token) {
   attachAuthorizationToken(
@@ -24,7 +24,7 @@ if (localStorage.token) {
 render(
   <Provider store={store}>
     <Router>
-      { routes }
+      { Routes }
     </Router>
   </Provider>
   ,

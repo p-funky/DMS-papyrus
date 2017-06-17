@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardTemplate from './dashboardTemplate';
+import DashboardTemplate from './DashboardTemplate';
 
 
 class DashboardPage extends React.Component {

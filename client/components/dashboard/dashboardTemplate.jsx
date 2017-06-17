@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import { getAllDocumentsAction }
   from '../../actions/documentActions';
-import documentCards from './documentCards';
+import DocumentCards from './DocumentCards';
 import AddModal from './AddModal';
-import SearchDocuments from './searchDocuments';
+import SearchDocuments from './SearchDocuments';
 
 export class DashboardTemplate extends React.Component {
 
@@ -48,7 +48,7 @@ export class DashboardTemplate extends React.Component {
             (this.props.documents.documents &&
             this.props.documents.documents.length > 0)
             ?
-              this.props.documents.documents.map(documentCards)
+              this.props.documents.documents.map(DocumentCards)
             :
               <h2 className="grey-text accent-4">You have no documents to view</h2>
           }

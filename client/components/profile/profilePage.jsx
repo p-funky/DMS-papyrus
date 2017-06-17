@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileTemplate from './profileTemplate';
+import ProfileTemplate from './ProfileTemplate';
 
 class ProfilePage extends React.Component {
   render() {
