@@ -45,8 +45,8 @@ describe('DOCUMENT ROUTES', () => {
                 privateUser2 = res.body.existingUser;
                 doeToken = res.body.token;
 
-                documentParams.ownerId = adminUser.id;
-                publicDocumentParams.ownerId = adminUser.id;
+                documentParams.ownerId = adminUser.userId;
+                publicDocumentParams.ownerId = adminUser.userId;
 
                 models.Documents.create(publicDocumentParams)
                   .then((createdPublicDocument) => {
@@ -344,7 +344,7 @@ describe('DOCUMENT ROUTES', () => {
         before((done) => {
           documentParams.title = 'Song in my soul';
           documentParams.content = 'And you made me';
-          documentParams.ownerId = privateUser2.id;
+          documentParams.ownerId = privateUser2.userId;
           documentParams.accessId = 3;
 
           models.Documents.create(documentParams)

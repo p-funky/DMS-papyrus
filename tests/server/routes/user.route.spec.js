@@ -130,7 +130,8 @@ describe('User ROUTES', () => {
           firstName: 'Shegzy',
           lastName: 'Olobe'
         };
-        request.put(`/users/${user1.id}`)
+        console.log('===================+>>>>>>>>>>>>>>>>>>>>>>>>>>>', user1);
+        request.put(`/users/${user1.userId}`)
           .set({ Authorization: token1 })
           .send(fieldsToUpdate)
           .end((error, response) => {
@@ -284,7 +285,7 @@ describe('User ROUTES', () => {
           });
       });
       it('should succesfully delete a user when provided valid id', (done) => {
-        request.delete(`/users/${user1.id}`)
+        request.delete(`/users/${user1.userId}`)
           .set({ Authorization: token1 })
           .end((error, response) => {
             expect(response.status).to.equal(200);
