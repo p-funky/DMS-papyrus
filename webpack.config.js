@@ -19,8 +19,6 @@ module.exports = {
   },
   plugins: [
     new UglifyJSPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new ExtractTextPlugin({ // define where to save the file
       filename: '[name].css',
       allChunks: true,
