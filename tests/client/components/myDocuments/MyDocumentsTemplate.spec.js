@@ -1,20 +1,28 @@
 import expect from 'expect';
 import React from 'react';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { MyDocumentsTemplate }
   from '../../../../client/components/myDocuments/MyDocumentsTemplate';
 
+const getmyDocumentsAction = sinon.spy(() => Promise.resolve());
 const props = {
-  id: '',
-  authentication: {
-    userInfo: '',
-    id: '',
+  user: {
+    userId: ''
+  },
+  userId: '',
+  state: {
+    authentication: {
+      userInfo: '',
+      id: '',
+    }
   },
   location: '',
   documents: {
     settings: '',
     documents: ''
-  }
+  },
+  getmyDocumentsAction
 };
 
 function setup() {

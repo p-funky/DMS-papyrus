@@ -3,7 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { DeleteModal }
-  from '../../../../client/components/dashboard/DeleteModal';
+  from '../../../../client/components/common/DeleteModal';
 
 const deleteDocumentAction = sinon.spy(() => Promise.resolve());
 const props = {

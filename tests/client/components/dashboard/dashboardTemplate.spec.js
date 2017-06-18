@@ -12,6 +12,9 @@ const props = {
     userInfo: '',
     id: '',
   },
+  user: {
+    userId: ''
+  },
   location: '',
   documents: {
     settings: '',
@@ -24,7 +27,7 @@ function setup() {
   return shallow(<DashboardTemplate {...props} />);
 }
 
-describe('MyDocumentsTemplate', () => {
+describe('DashboardTemplate', () => {
   it('renders the h5 tag', () => {
     const wrapper = setup();
     expect(wrapper.find('h5').length).toEqual(1);

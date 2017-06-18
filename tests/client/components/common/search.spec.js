@@ -2,21 +2,26 @@ import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { SearchUsers }
-  from '../../../../client/components/users/SearchUsers';
+import { Search }
+  from '../../../../client/components/common/Search';
 
+const searchDocumentsAction = sinon.spy(() => Promise.resolve());
 const searchUserAction = sinon.spy(() => Promise.resolve());
+
 const props = {
+  searchDocumentsAction,
   searchUserAction,
+  location: '',
   onChange: () => {},
   runSearch: () => {},
+  profile: { id: '' }
 };
 
 function setup() {
-  return shallow(<SearchUsers {...props} />);
+  return shallow(<Search {...props} />);
 }
 
-describe('SearchUsers', () => {
+describe('SearchDocuments', () => {
   it('renders a form', () => {
     const wrapper = setup();
     expect(wrapper.find('form').length).toEqual(1);

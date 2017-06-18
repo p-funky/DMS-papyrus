@@ -2,7 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
 import ViewModal
-  from '../../../../client/components/dashboard/ViewModal';
+  from '../../../../client/components/common/ViewModal';
 
 const props = {
   document: {
