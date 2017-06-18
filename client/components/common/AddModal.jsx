@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
+import Form from './Form';
 import { addDocumentAction, addMyDocumentAction } from '../../actions/documentActions';
 
 export class AddModal extends React.Component {
@@ -12,7 +13,8 @@ export class AddModal extends React.Component {
     this.state = {
       title: '',
       content: '',
-      accessId: '1'
+      accessId: '1',
+      documentId: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -62,57 +64,15 @@ export class AddModal extends React.Component {
           </div>
         }
       >
-        <form className="col s12">
-          <div className="row">
-            <div className="row">
-              <div className="input-field col s6">
-                <i className="material-icons prefix">input</i>
-                <input
-                  id="title"
-                  name="title"
-                  type="text"
-                  className="validate"
-                  value={this.state.title}
-                  onChange={this.onChange}
-                />
-                <label className="active" htmlFor="title">title</label>
-              </div>
-              <div className="input-field col s6">
-                <select
-                  id="access"
-                  className="browser-default"
-                  value={this.state.accessId}
-                  onChange={this.handleAccessChange}
-                >
-                  <option value={1}>public</option>
-                  <option id="private" value={2}>private</option>
-                  <option value={3}>role</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="input-field col s12">
-            <i className="material-icons prefix">mode_edit</i>
-            <textarea
-              id="content"
-              name="content"
-              className="material-text-area"
-              value={this.state.content}
-              onChange={this.onChange}
-            />
-          </div>
-          <div className="row">
-            <button
-              onClick={this.handleAdd}
-              className="modal-close btn blue lighten-2 waves-effect waves-light right"
-              type="button"
-              name="action"
-              id="save"
-            >save
-              <i className="mdi-content-send right" />
-            </button>
-          </div>
-        </form>
+        <Form
+          title={this.state.title}
+          accessId={this.state.accessId}
+          content={this.state.content}
+          onChange={this.onChange}
+          handleAccessChange={this.handleAccessChange}
+          onSubmit={this.handleAdd}
+          documentId=""
+        />
       </Modal>
     );
   }

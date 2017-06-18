@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-materialize';
+import Form from './Form';
 import { editDocumentAction, myDocumentEditAction } from '../../actions/documentActions';
 
 
@@ -13,7 +14,8 @@ export class EditModal extends React.Component {
     this.state = {
       title: this.props.document.title,
       content: this.props.document.content,
-      accessId: this.props.document.accessId
+      accessId: this.props.document.accessId,
+      documentId: this.props.document.id
     };
 
     this.onChange = this.onChange.bind(this);
@@ -47,56 +49,15 @@ export class EditModal extends React.Component {
           </button>
           }
       >
-        <form className="col s12">
-          <div className="row">
-            <div className="row">
-              <div className="input-field col s6">
-                <i className="material-icons prefix">input</i>
-                <input
-                  id="password"
-                  type="text"
-                  className="validate"
-                  value={this.state.title}
-                  onChange={this.onChange}
-                  name="title"
-                />
-                <label className="active" htmlFor="title">new title</label>
-              </div>
-              <div className="input-field col s6">
-                <select
-                  className="browser-default"
-                  name="accessId"
-                  value={this.state.accessId}
-                  onChange={this.handleAccessChange}
-                >
-                  <option value={1}>public</option>
-                  <option value={2}>private</option>
-                  <option value={3}>role</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="input-field col s12">
-            <i className="material-icons prefix">mode_edit</i>
-            <textarea
-              id="textarea1"
-              className="material-text-area"
-              value={this.state.content}
-              onChange={this.onChange}
-              name="content"
-            />
-          </div>
-          <div className="row">
-            <button
-              onClick={() => this.handleEdit(this.props.document.id)}
-              className="modal-close btn blue lighten-2 waves-effect waves-light right"
-              type="button"
-              name="action"
-            >
-              Save<i className="mdi-content-send right" />
-            </button>
-          </div>
-        </form>
+        <Form
+          title={this.state.title}
+          accessId={this.state.accessId}
+          content={this.state.content}
+          onChange={this.onChange}
+          handleAccessChange={this.handleAccessChange}
+          onSubmit={this.handleEdit}
+          documentId={this.props.document.id}
+        />
       </Modal>
     );
   }
