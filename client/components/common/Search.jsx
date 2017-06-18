@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -20,11 +21,17 @@ export class Search extends React.Component {
     word = word.trim();
     const location = this.props.location.pathname;
     if (location === '/my-docs') {
-      this.props.searchDocumentsAction(word, this.props.userId, location);
+      this.props.searchDocumentsAction(word, this.props.userId, location)
+      .catch((error) => {
+        Materialize.toast(error, 3000, 'red');
+      });
     } else if (location === '/dashboard') {
       this.props.searchDocumentsAction(word, false, location);
     } else if (location === '/manage-users') {
-      this.props.searchUserAction(word, false);
+      this.props.searchUserAction(word, false)
+      .catch((error) => {
+        Materialize.toast(error, 3000, 'red');
+      });
     }
   }
 

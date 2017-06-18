@@ -1,4 +1,5 @@
 /* eslint-env browser */
+/* global Materialize */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -54,6 +55,8 @@ export class EditProfileModal extends React.Component {
           email: this.props.profile.email,
           password: ' '
         });
+      }).catch((error) => {
+        Materialize.toast(error, 3000, 'red');
       });
   }
 
@@ -149,7 +152,7 @@ export class EditProfileModal extends React.Component {
           </div>
           <div className="row">
             <button
-              onClick={() => this.handleUpdate(this.props.profile.id)}
+              onClick={() => this.handleUpdate(this.props.profile.userId)}
               className="modal-close btn blue lighten-2 waves-effect waves-light right"
               type="button"
               name="action"

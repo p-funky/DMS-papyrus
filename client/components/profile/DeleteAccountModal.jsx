@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,11 +14,14 @@ export class DeleteAccountModal extends React.Component {
   }
 
   handleDelete(userId) {
-    this.props.deleteSelfAction(userId);
-    this.setState = ({ loggedOut: true });
-    return (
-      <Redirect to="/" />
-    );
+    this.props.deleteSelfAction(userId).then(() => {
+      this.setState = ({ loggedOut: true });
+      return (
+        <Redirect to="/" />
+      );
+    }).catch((error) => {
+      Materialize.toast(error, 3000, 'red');
+    });
   }
 
   render() {
@@ -42,7 +46,7 @@ export class DeleteAccountModal extends React.Component {
         actions={
           <div>
             <Button
-              onClick={() => this.handleDelete(this.props.profile.id)}
+              onClick={() => this.handleDelete(this.props.profile.userId)}
               waves="light" className="modal-close red darken-2" id="delete"
             >delete</Button>
             <Button flat modal="close" waves="light">dismiss</Button>

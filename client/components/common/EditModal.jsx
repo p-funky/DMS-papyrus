@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -33,10 +34,16 @@ export class EditModal extends React.Component {
 
   handleEdit(documentId) {
     if (this.props.location.pathname === '/dashboard') {
-      this.props.editDocumentAction(documentId, this.state);
+      this.props.editDocumentAction(documentId, this.state)
+      .catch((error) => {
+        Materialize.toast(error, 3000, 'red');
+      });
     } else if (this.props.location.pathname === '/my-docs') {
       const userId = this.props.user.userId;
-      this.props.myDocumentEditAction(documentId, userId, this.state);
+      this.props.myDocumentEditAction(documentId, userId, this.state)
+      .catch((error) => {
+        Materialize.toast(error, 3000, 'red');
+      });
     }
   }
 

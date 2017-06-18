@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -12,7 +13,10 @@ export class DeleteModal extends React.Component {
   }
 
   handleDelete(documentId) {
-    this.props.deleteDocumentAction(documentId);
+    this.props.deleteDocumentAction(documentId)
+    .catch((error) => {
+      Materialize.toast(error, 3000, 'red');
+    });
   }
 
   render() {

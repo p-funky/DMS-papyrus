@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -40,6 +41,8 @@ export class AddModal extends React.Component {
             content: '',
             accessId: '1',
           });
+        }).catch((error) => {
+          Materialize.toast(error, 3000, 'red');
         });
     } else if (this.props.location.pathname === '/my-docs') {
       this.props.addMyDocumentAction(this.state)
@@ -49,6 +52,8 @@ export class AddModal extends React.Component {
             content: '',
             accessId: '1',
           });
+        }).catch((error) => {
+          Materialize.toast(error, 3000, 'red');
         });
     }
   }

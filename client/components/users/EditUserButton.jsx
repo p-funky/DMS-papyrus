@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -18,7 +19,10 @@ export class EditUserButton extends React.Component {
     } else {
       newRoleId = 1;
     }
-    this.props.editUserRoleAction(userId, { roleId: newRoleId });
+    this.props.editUserRoleAction(userId, { roleId: newRoleId })
+    .catch((error) => {
+      Materialize.toast(error, 3000, 'red');
+    });
   }
 
   render() {
