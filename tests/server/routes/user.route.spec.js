@@ -130,7 +130,6 @@ describe('User ROUTES', () => {
           firstName: 'Shegzy',
           lastName: 'Olobe'
         };
-        console.log('===================+>>>>>>>>>>>>>>>>>>>>>>>>>>>', user1);
         request.put(`/users/${user1.userId}`)
           .set({ Authorization: token1 })
           .send(fieldsToUpdate)
