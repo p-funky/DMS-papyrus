@@ -6,7 +6,7 @@ import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 module.exports = {
   entry: [
     'eventsource-polyfill',
-    path.join(__dirname, './client/index.jsx'),
+    path.join(__dirname, './client/Index.jsx'),
   ],
   target: 'web',
   output: {
