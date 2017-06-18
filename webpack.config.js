@@ -1,6 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+import webpack from 'webpack';
+import path from 'path';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 
 module.exports = {
   entry: [
@@ -17,6 +18,9 @@ module.exports = {
     contentBase: './client'
   },
   plugins: [
+    new UglifyJSPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new ExtractTextPlugin({ // define where to save the file
       filename: '[name].css',
       allChunks: true,

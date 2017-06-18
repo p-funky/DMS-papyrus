@@ -31,7 +31,7 @@ img {
   height: 600px;
 }
 
-#menu-item {
+#menu-item, #menu-profile, #my-documents, #manage-users {
   display: inline-flex;
 }
 
@@ -44,5 +44,26 @@ img {
 }
 
 #my-profile {
+  height: 400px;
   display: inline-flex;
+}
+
+.landing-page {
+  height: 85vh;
+  background-image: url('../images/documentImage.jpg');
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 60px;
+  width: 100%;
+
+  .landing-page-text {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    h3, h4 { color: #fff }
+  }
 }

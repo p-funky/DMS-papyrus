@@ -98,7 +98,7 @@ describe('User model- ', () => {
 
     describe('Mail Validation', () => {
       it('requires user mail to be authentic', () => {
-        user.email = 'damibad.com';
+        user.email = 'sugarbad.com';
         return user.save()
           .catch((error) => {
             expect(/ValidationError/.test(error.name)).to.be.true;

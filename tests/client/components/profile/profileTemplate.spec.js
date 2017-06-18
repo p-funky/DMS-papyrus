@@ -3,7 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { ProfileTemplate }
-  from '../../../../client/components/profile/profileTemplate';
+  from '../../../../client/components/profile/ProfileTemplate';
 
 const getProfileAction = sinon.spy(() => Promise.resolve());
 const props = {
@@ -29,7 +29,7 @@ describe('ProfileTemplate', () => {
   });
   it('renders the divs', () => {
     const wrapper = setup();
-    expect(wrapper.find('div').length).toEqual(5);
+    expect(wrapper.find('div').length).toEqual(6);
   });
   it('renders paragraph tags', () => {
     const wrapper = setup();

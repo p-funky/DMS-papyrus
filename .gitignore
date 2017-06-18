@@ -5,3 +5,8 @@ coverage
 .env
 package-lock.json
 npm-debug.log
+reports
+bin
+selenium-debug.log
+package-lock.json
+.env

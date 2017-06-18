@@ -1,7 +1,7 @@
 import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import Greetings from '../../../client/components/greetings';
+import Greetings from '../../../client/components/Greetings';
 
 function setup() {
   return shallow(<Greetings />);

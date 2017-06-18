@@ -3,7 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { EditUserButton }
-  from '../../../../client/components/users/editUserButton';
+  from '../../../../client/components/users/EditUserButton';
 
 const editUserRoleAction = sinon.spy(() => Promise.resolve());
 const props = {
