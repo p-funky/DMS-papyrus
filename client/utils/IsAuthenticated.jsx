@@ -15,9 +15,8 @@ export default (ComposedComponent) => {
   class isAuthenticated extends React.Component {
     /**
      *
-     *
-     *
      * @memberof isAuthenticated
+     * @returns {path} path redirection
      */
     componentWillMount() {
       if (!this.props.isAuthenticated) {

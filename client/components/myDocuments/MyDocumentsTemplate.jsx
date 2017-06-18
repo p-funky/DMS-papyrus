@@ -9,8 +9,18 @@ import MyDocumentsCards from '../common/DocumentCards';
 import AddModal from '../common/AddModal';
 import SearchDocuments from '../common/Search';
 
+/**
+ * render the document page template
+ * @class MyDocumentsTemplate
+ * @extends {React.Component}
+ */
 export class MyDocumentsTemplate extends React.Component {
-
+  /**
+   * Creates an instance of MyDocumentsTemplate.
+   * @param {object} props
+   *
+   * @memberOf MyDocumentsTemplate
+   */
   constructor(props) {
     super(props);
 
@@ -26,18 +36,37 @@ export class MyDocumentsTemplate extends React.Component {
     this.onSelect = this.onSelect.bind(this);
   }
 
+  /**
+   * This method runs when the components mounts
+   * 
+   * @memberof MyDocumentsTemplate
+   */
   componentDidMount() {
     const offset = 0;
     const userId = this.props.user.userId;
     this.props.getmyDocumentsAction(userId, offset);
   }
 
+ /**
+   * This method getting users by pagination
+   *
+   * @param {integer} pageNumber
+   *
+   * @memberof MyDocumentsTemplate
+   */
   onSelect(pageNumber) {
     const userId = this.props.user.userId;
     const offset = (pageNumber - 1) * 8;
     this.props.getmyDocumentsAction(userId, offset);
   }
 
+  /**
+   * renders the my documents template
+   * 
+   * @returns {template} my documents template
+   * 
+   * @memberof MyDocumentsTemplate
+   */
   render() {
     let pageCount;
     let currentPage = 0;
@@ -82,6 +111,12 @@ export class MyDocumentsTemplate extends React.Component {
   }
 }
 
+/**
+ * mapStateToProps
+ *
+ * @param {object} state
+ * @returns {object} documents, user, state
+ */
 const mapStateToProps = state => ({
   documents: state.documents,
   user: state.authentication.userInfo,

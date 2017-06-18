@@ -8,9 +8,18 @@ import { Modal } from 'react-materialize';
 import lodash from 'lodash';
 import { editProfileAction } from '../../actions/userActions';
 
-
+/**
+ * render edit profile modal
+ * @class EditProfileModal
+ * @extends {React.Component}
+ */
 export class EditProfileModal extends React.Component {
-
+  /**
+   * Creates an instance of NavigationBar.
+   * @param {object} props
+   *
+   * @memberOf EditProfileModal
+   */
   constructor(props) {
     super(props);
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -24,6 +33,11 @@ export class EditProfileModal extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  /**
+   * This method runs when the components receives props
+   * 
+   * @memberof EditProfileModal
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({
       userName: nextProps.profile.userName,
@@ -32,11 +46,23 @@ export class EditProfileModal extends React.Component {
       email: nextProps.profile.email
     });
   }
-
+  /**
+   * This method changes in the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof EditProfileModal
+   */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
+  /**
+   * This method updates the user's details
+   *
+   * @param {integer} userId
+   *
+   * @memberof EditProfileModal
+   */
   handleUpdate(userId) {
     let suppliedDetails;
     suppliedDetails = lodash.pickBy(this.state, lodash.identity);
@@ -59,7 +85,13 @@ export class EditProfileModal extends React.Component {
         Materialize.toast(error, 3000, 'red');
       });
   }
-
+  /**
+   * renders the edit profile modal
+   * 
+   * @returns {modal} edit profile modal
+   * 
+   * @memberof EditProfileModal
+   */
   render() {
     return (
       <Modal

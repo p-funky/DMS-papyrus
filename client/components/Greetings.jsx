@@ -3,13 +3,31 @@ import React from 'react';
 import image1 from '../images/documentImage.jpg';
 import image2 from '../images/documents.jpg';
 
+/**
+ * render landing page
+ * @class Greetings
+ * @extends {React.Component}
+ */
 class Greetings extends React.Component {
+
+  /**
+   * This method runs when the components mounts
+   * 
+   * @memberof Greetings
+   */
   componentDidMount() {
     $(document).ready(() => {
       $('.parallax').parallax();
       $('.button-collapse').sideNav();
     });
   }
+  /**
+   * renders landing page
+   * 
+   * @returns {path} landing page
+   * 
+   * @memberof Greetings
+   */
   render() {
     return (
       <div>

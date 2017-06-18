@@ -8,20 +8,42 @@ import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { logOutAction } from '../actions/userActions';
 
-
+/**
+ * render landing page
+ * @class NavigationBar
+ * @extends {React.Component}
+ */
 export class NavigationBar extends React.Component {
-
+  /**
+   * Creates an instance of NavigationBar.
+   * @param {object} props
+   *
+   * @memberOf NavigationBar
+   */
   constructor(props) {
     super(props);
     this.state = { loggedOut: false };
   }
 
+  /**
+   * This method handles logout
+   *
+   * @param {object} event
+   *
+   * @memberof NavigationBar
+   */
   handleLogOut() {
     event.preventDefault();
     logOutAction();
     this.setState = ({ loggedOut: true });
   }
-
+  /**
+   * renders the navigation bar
+   * 
+   * @returns {path} navigation bar
+   * 
+   * @memberof NavigationBar
+   */
   render() {
     const { loggedOut } = this.state;
     if (loggedOut) {
@@ -244,6 +266,12 @@ export class NavigationBar extends React.Component {
   }
 }
 
+/**
+ * mapStateToProps
+ *
+ * @param {object} state
+ * @returns {object} state
+ */
 const mapStateToProps = state => ({
   state
 });

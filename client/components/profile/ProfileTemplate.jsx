@@ -6,12 +6,27 @@ import { getProfileAction } from '../../actions/userActions';
 import EditProfileModal from './EditProfileModal';
 import DeleteAccountModal from './DeleteAccountModal';
 
+/**
+ * render profile template
+ * @class ProfileTemplate
+ * @extends {React.Component}
+ */
 export class ProfileTemplate extends React.Component {
-
+  /**
+   * This method runs when the components mounts
+   * 
+   * @memberof ProfileTemplate
+   */
   componentWillMount() {
     this.props.getProfileAction();
   }
-
+  /**
+   * renders the profile template
+   * 
+   * @returns {template} profile template
+   * 
+   * @memberof ProfileTemplate
+   */
   render() {
     return (
       <div className="container">

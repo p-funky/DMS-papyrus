@@ -6,19 +6,39 @@ import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-materialize';
 import { deleteDocumentAction } from '../../actions/documentActions';
 
+/**
+ * @class DeleteModal
+ * @extends {React.Component}
+ */
 export class DeleteModal extends React.Component {
+  /**
+   * Creates an instance of DeleteModal.
+   * @param {object} props
+   *
+   * @memberOf DeleteModal
+   */
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
   }
-
+  /**
+   * This method handles deleting of document
+   *
+   * @memberof DeleteModal
+   */
   handleDelete(documentId) {
     this.props.deleteDocumentAction(documentId)
     .catch((error) => {
       Materialize.toast(error, 3000, 'red');
     });
   }
-
+  /**
+   * renders the delete modal
+   * 
+   * @returns {object} jsx modal
+   * 
+   * @memberof DeleteModal
+   */
   render() {
     return (
       <Modal

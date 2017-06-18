@@ -6,13 +6,24 @@ import PropTypes from 'prop-types';
 import jwt from 'jsonwebtoken';
 import { editUserRoleAction } from '../../actions/userActions';
 
-
+/**
+ * render edit user role button
+ * @class EditUserButton
+ * @extends {React.Component}
+ */
 export class EditUserButton extends React.Component {
   constructor(props) {
     super(props);
     this.changeRole = this.changeRole.bind(this);
   }
-
+  /**
+   * This method updates the user's details
+   *
+   * @param {integer} userId
+   * @param {integer} newRoleId
+   *
+   * @memberof EditUserButton
+   */
   changeRole(userId, newRoleId) {
     if (newRoleId === 1) {
       newRoleId = 2;
@@ -24,7 +35,13 @@ export class EditUserButton extends React.Component {
       Materialize.toast(error, 3000, 'red');
     });
   }
-
+  /**
+   * renders the navigation bar
+   * 
+   * @returns {path} navigation bar
+   * 
+   * @memberof EditUserButton
+   */
   render() {
     const token = localStorage.token;
     const user = token ? jwt.decode(token) : '';

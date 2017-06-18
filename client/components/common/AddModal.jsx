@@ -7,7 +7,17 @@ import { Modal } from 'react-materialize';
 import Form from './Form';
 import { addDocumentAction, addMyDocumentAction } from '../../actions/documentActions';
 
+/**
+ * @class AddModal
+ * @extends {React.Component}
+ */
 export class AddModal extends React.Component {
+  /**
+   * Creates an instance of AddModal.
+   * @param {object} props
+   *
+   * @memberOf AddModal
+   */
   constructor(props) {
     super(props);
     this.handleAdd = this.handleAdd.bind(this);
@@ -22,16 +32,32 @@ export class AddModal extends React.Component {
     this.handleAccessChange = this.handleAccessChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
   }
-
+  /**
+   * This method changes in the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof AddModal
+   */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
+ /**
+   * This method updates the state of the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof AddModal
+   */
   handleAccessChange(event) {
     const access = event.target.value;
     this.setState({ accessId: access });
   }
-
+  /**
+   * This method handles adding of documents
+   *
+   * @memberof AddModal
+   */
   handleAdd() {
     if (this.props.location.pathname === '/dashboard') {
       this.props.addDocumentAction(this.state)
@@ -57,7 +83,13 @@ export class AddModal extends React.Component {
         });
     }
   }
-
+  /**
+   * renders the add modal
+   * 
+   * @returns {object} jsx modal
+   * 
+   * @memberof AddModal
+   */
   render() {
     return (
       <Modal

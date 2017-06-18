@@ -5,9 +5,18 @@ import { Redirect } from 'react-router-dom';
 import isEmail from '../../utils/helper';
 import papyrus from '../../images/papyrus-ex.png';
 
-
+/**
+ * render login form
+ * @class SignInForm
+ * @extends {React.Component}
+ */
 class SignInForm extends React.Component {
-
+  /**
+   * Creates an instance of SignInForm.
+   * @param {object} props
+   *
+   * @memberOf SignInForm
+   */
   constructor(props) {
     super(props);
     this.state = { loggedIn: false };
@@ -15,9 +24,24 @@ class SignInForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * This method changes in the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof SignInForm
+   */
   onChange(event) {
     this.setState({ [event.target.id]: event.target.value });
   }
+
+  /**
+   * This method submits the state of the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof SignInForm
+   */
   onSubmit(event) {
     event.preventDefault();
     const data = {};
@@ -36,6 +60,13 @@ class SignInForm extends React.Component {
       });
   }
 
+  /**
+   * renders the login form
+   * 
+   * @returns {from} login form
+   * 
+   * @memberof SignInForm
+   */
   render() {
     const { loggedIn } = this.state;
     if (loggedIn) {

@@ -5,7 +5,19 @@ import { withRouter } from 'react-router-dom';
 import SignupForm from './SignupForm';
 import { userSignupRequest } from '../../actions/signupActions';
 
+/**
+ * render signup page
+ * @class SignupPage
+ * @extends {React.Component}
+ */
 class SignupPage extends React.Component {
+  /**
+   * renders the signup page
+   * 
+   * @returns {page} signup page
+   * 
+   * @memberof SignupPage
+   */
   render() {
     const userSignup = this.props.userSignupRequest;
     return (

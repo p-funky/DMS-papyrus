@@ -4,8 +4,18 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import papyrus from '../../images/papyrus-ex.png';
 
+/**
+ * render singup form
+ * @class SignupForm
+ * @extends {React.Component}
+ */
 class SignupForm extends React.Component {
-
+  /**
+   * Creates an instance of SignupForm.
+   * @param {object} props
+   *
+   * @memberOf SignupForm
+   */
   constructor(props) {
     super(props);
     this.state = { loggedIn: false };
@@ -13,9 +23,24 @@ class SignupForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * This method changes in the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof SignupForm
+   */
   onChange(event) {
     this.setState({ [event.target.id]: event.target.value });
   }
+
+  /**
+   * This method submits the state of the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof SignupForm
+   */
   onSubmit(event) {
     event.preventDefault();
     this.props.userSignupRequest(this.state)
@@ -26,6 +51,13 @@ class SignupForm extends React.Component {
       });
   }
 
+  /**
+   * renders the signup form
+   * 
+   * @returns {from} signup form
+   * 
+   * @memberof SignupForm
+   */
   render() {
     const { loggedIn } = this.state;
     if (loggedIn) {

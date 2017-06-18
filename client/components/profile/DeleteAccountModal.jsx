@@ -6,13 +6,24 @@ import { Modal, Button } from 'react-materialize';
 import { Redirect, withRouter } from 'react-router-dom';
 import { deleteSelfAction } from '../../actions/userActions';
 
+/**
+ * render the delete modal
+ * @class DeleteAccountModal
+ * @extends {React.Component}
+ */
 export class DeleteAccountModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loggedOut: false };
     this.handleDelete = this.handleDelete.bind(this);
   }
-
+  /**
+   * This method deletes the user
+   *
+   * @param {integer} userId
+   *
+   * @memberof DeleteAccountModal
+   */
   handleDelete(userId) {
     this.props.deleteSelfAction(userId).then(() => {
       this.setState = ({ loggedOut: true });
@@ -23,7 +34,13 @@ export class DeleteAccountModal extends React.Component {
       Materialize.toast(error, 3000, 'red');
     });
   }
-
+  /**
+   * renders the delete modal
+   * 
+   * @returns {modal} delete modal
+   * 
+   * @memberof DeleteAccountModal
+   */
   render() {
     const { loggedOut } = this.state;
     if (loggedOut) {

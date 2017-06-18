@@ -7,8 +7,17 @@ import { Modal } from 'react-materialize';
 import Form from './Form';
 import { editDocumentAction, myDocumentEditAction } from '../../actions/documentActions';
 
-
+/**
+ * @class EditModal
+ * @extends {React.Component}
+ */
 export class EditModal extends React.Component {
+  /**
+   * Creates an instance of EditModal.
+   * @param {object} props
+   *
+   * @memberOf EditModal
+   */
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
@@ -22,16 +31,32 @@ export class EditModal extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleAccessChange = this.handleAccessChange.bind(this);
   }
-
+  /**
+   * This method changes in the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof EditModal
+   */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
+ /**
+   * This method updates the state of the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof EditModal
+   */
   handleAccessChange(event) {
     const access = event.target.value;
     this.setState({ accessId: access });
   }
-
+  /**
+   * This method handles editing of documents
+   *
+   * @memberof EditModal
+   */
   handleEdit(documentId) {
     if (this.props.location.pathname === '/dashboard') {
       this.props.editDocumentAction(documentId, this.state)
@@ -46,7 +71,13 @@ export class EditModal extends React.Component {
       });
     }
   }
-
+  /**
+   * renders the edit modal
+   * 
+   * @returns {object} jsx modal
+   * 
+   * @memberof EditModal
+   */
   render() {
     return (
       <Modal
@@ -70,6 +101,12 @@ export class EditModal extends React.Component {
   }
 }
 
+/**
+ * mapStateToProps
+ *
+ * @param {object} state
+ * @returns {object} user
+ */
 const mapStateToProps = state => ({
   user: state.authentication.userInfo,
 });

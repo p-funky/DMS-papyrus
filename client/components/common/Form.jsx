@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 /**
  * Form Input
  *
- * @param {Object} props { name, label, onChange, value, error, icon = 'user', type = 'text' }
+ * @param {Object} props { title, accessId, onChange, content, handleAccessChange, onSubmit, documentId }
  * @returns {Object} jsx object
  */
 const Form = ({ title, accessId, onChange, content, handleAccessChange, onSubmit, documentId }) =>

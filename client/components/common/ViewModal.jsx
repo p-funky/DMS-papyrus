@@ -2,8 +2,18 @@ import React from 'react';
 import { Modal, Button } from 'react-materialize';
 import PropTypes from 'prop-types';
 
+/**
+ * @class ViewModal
+ * @extends {React.Component}
+ */
 class ViewModal extends React.Component {
-
+  /**
+   * renders the view modal
+   * 
+   * @returns {object} jsx modal
+   * 
+   * @memberof ViewModal
+   */
   render() {
     return (
       <Modal

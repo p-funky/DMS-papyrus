@@ -7,22 +7,50 @@ import { getAllUsersAction } from '../../actions/userActions';
 import UserCards from './UserCards';
 import SearchUsers from '../common/Search';
 
+/**
+ * render the user template
+ * @class UserTemplate
+ * @extends {React.Component}
+ */
 export class UserTemplate extends React.Component {
-
+  /**
+   * Creates an instance of UserTemplate.
+   * @param {object} props
+   *
+   * @memberOf UserTemplate
+   */
   constructor(props) {
     super(props);
     this.onSelect = this.onSelect.bind(this);
   }
-
+  /**
+   * This method runs when the components mounts
+   * 
+   * @memberof Greetings
+   */
   componentWillMount() {
     this.props.getAllUsersAction(0);
   }
 
+  /**
+   * This method getting users by pagination
+   *
+   * @param {integer} pageNumber
+   *
+   * @memberof UserTemplate
+   */
   onSelect(pageNumber) {
     const offset = (pageNumber - 1) * 8;
     this.props.getAllUsersAction(offset);
   }
 
+  /**
+   * renders the user page template
+   * 
+   * @returns {template} user page
+   * 
+   * @memberof UserTemplate
+   */
   render() {
     let pageCount;
     let currentPage = 0;
@@ -64,6 +92,12 @@ export class UserTemplate extends React.Component {
   }
 }
 
+/**
+ * mapStateToProps
+ *
+ * @param {object} state
+ * @returns {object} users
+ */
 const mapStateToProps = state => ({
   users: state.users,
 });

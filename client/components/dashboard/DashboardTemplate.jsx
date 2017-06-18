@@ -9,28 +9,62 @@ import DocumentCards from '../common/DocumentCards';
 import AddDashboardModal from '../common/AddModal';
 import SearchDashboardDocuments from '../common/Search';
 
+/**
+ * render the dasshboard page template
+ * @class DashboardTemplate
+ * @extends {React.Component}
+ */
 export class DashboardTemplate extends React.Component {
-
+  /**
+   * Creates an instance of DashboardTemplate.
+   * @param {object} props
+   *
+   * @memberOf DashboardTemplate
+   */
   constructor(props) {
     super(props);
     this.onSelect = this.onSelect.bind(this);
   }
 
+  /**
+   * This method runs when the components mounts
+   * 
+   * @memberof DashboardTemplate
+   */
   componentWillMount() {
     const offset = 0;
     this.props.getAllDocumentsAction(offset);
   }
 
+  /**
+   * This method runs when the components unmounts
+   * 
+   * @memberof DashboardTemplate
+   */
   componentWillUnmount() {
     this.props.state.documents = { documents: [], settings: {} };
   }
 
+ /**
+   * This method getting users by pagination
+   *
+   * @param {integer} pageNumber
+   *
+   * @memberof DashboardTemplate
+   */
   onSelect(pageNumber) {
     const userId = this.props.user.userId;
     const offset = (pageNumber - 1) * 8;
     this.props.getAllDocumentsAction(userId, offset);
   }
 
+  /**
+   * renders the dahsboard template
+   * 
+   * @returns {template} dahboard template
+   * 
+   * @memberof DashboardTemplate
+   */
   render() {
     const userId = this.props.user.userId;
     let pageCount;
@@ -77,10 +111,16 @@ export class DashboardTemplate extends React.Component {
   }
 }
 
+/**
+ * mapStateToProps
+ *
+ * @param {object} state
+ * @returns {object} documents, user, state
+ */
 const mapStateToProps = state => ({
   documents: state.documents,
-  state,
-  user: state.authentication.userInfo
+  user: state.authentication.userInfo,
+  state
 });
 
 DashboardTemplate.propTypes = {

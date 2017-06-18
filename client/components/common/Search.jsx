@@ -8,13 +8,28 @@ import { searchDocumentsAction }
 import { searchUserAction }
   from '../../actions/userActions';
 
+/**
+ * @class Search
+ * @extends {React.Component}
+ */
 export class Search extends React.Component {
-
+  /**
+   * Creates an instance of Search.
+   * @param {object} props
+   *
+   * @memberOf Search
+   */
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
   }
-
+  /**
+   * This method changes in the input fields
+   *
+   * @param {object} event
+   *
+   * @memberof Search
+   */
   onChange(event) {
     event.preventDefault();
     let word = event.target.value;
@@ -34,7 +49,13 @@ export class Search extends React.Component {
       });
     }
   }
-
+  /**
+   * renders the search results
+   * 
+   * @returns {object} jsx modal
+   * 
+   * @memberof Search
+   */
   render() {
     const location = this.props.location.pathname;
     let placeholder;
