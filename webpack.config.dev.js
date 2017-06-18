@@ -21,7 +21,7 @@ export default {
     contentBase: './client'
   },
   plugins: [
-    new UglifyJSPlugin(),
+    // new UglifyJSPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new ExtractTextPlugin({ // define where to save the file
