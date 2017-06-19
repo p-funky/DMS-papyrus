@@ -27,7 +27,8 @@
     "clean": "rm -rf lib",
     "build": "npm run clean && npm run build:server && npm run build:client",
     "build:server": "babel server -d lib/server",
-    "build:client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js --progress --profile --colors"
+    "build:client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js --progress --profile --colors",
+    "herokupostbuild": "npm run build"
   },
   "repository": {
     "type": "git",
