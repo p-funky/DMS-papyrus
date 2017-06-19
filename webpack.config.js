@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-// import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 
 module.exports = {
   entry: [
@@ -23,7 +23,7 @@ module.exports = {
     //     NODE_ENV: JSON.stringify('production')
     //   }
     // }),
-    // new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin({ // define where to save the file
       filename: '[name].css',
       allChunks: true,
