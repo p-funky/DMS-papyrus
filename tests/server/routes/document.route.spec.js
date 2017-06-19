@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import chai from 'chai';
 import supertest from 'supertest';
-import app from '../../../server';
+import app from '../../../server/server';
 import helper from '../testHelper/testData';
 import models from '../../../server/models';
 

@@ -8,3 +8,4 @@ bin
 selenium-debug.log
 package-lock.json
 .env
+lib

@@ -11,7 +11,8 @@
     "instrument": false
   },
   "scripts": {
-    "start": "nodemon server.js --exec babel-node",
+    "start": "NODE_ENV=production nodemon --watch server --exec babel-node -- lib/server/app.js",
+    "start:dev": "nodemon --watch server --exec babel-node -- server/app.js",
     "client:test": "NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=html mocha tests/client/setup.js \"tests/client/**/*.spec.js\" --timeout 5000",
     "coverage-report": "cat ./coverage/lcov.info | coveralls",
     "documentation": "rimraf docs/ && jsdoc -r -c ./conf.json --readme ./server/documentation/README.md --destination documentation",
@@ -22,7 +23,11 @@
     "undo": "NODE_ENV=development sequelize db:seed:undo:all && sequelize db:migrate:undo:all",
     "redo": "NODE_ENV=development sequelize db:migrate && sequelize db:seed:all",
     "test": "NODE_ENV=test npm run server:test",
-    "test-e2e": "nightwatch"
+    "test-e2e": "nightwatch",
+    "clean": "rm -rf lib",
+    "build": "npm run clean && npm run build:server && npm run build:client",
+    "build:server": "babel server -d lib/server",
+    "build:client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js --progress --profile --colors"
   },
   "repository": {
     "type": "git",

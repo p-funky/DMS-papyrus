@@ -1,85 +1,73 @@
-import webpack from 'webpack';
-import path from 'path';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: [
-    'eventsource-polyfill',
-    path.join(__dirname, './client/Index.jsx'),
+    // 'eventsource-polyfill',
+    'webpack-hot-middleware/client?reaload=true',
+    path.join(__dirname, '/client/Index'),
   ],
-  target: 'web',
+
   output: {
-    path: `${__dirname}/client/`,
+    // path: path.resolve(__dirname, 'build'),
     publicPath: '/',
-    filename: 'bundle.js'
+    sourceMapFilename: 'source.map',
+    filename: 'javascript.js'
   },
-  devServer: {
-    contentBase: './client'
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin(),
-    new ExtractTextPlugin({ // define where to save the file
-      filename: '[name].css',
-      allChunks: true,
-    }),
-  ],
+
   module: {
-    loaders: [
+    rules: [
       {
-        test: /(\.css)$/,
-        loaders: ['style', 'css']
+        test: /\.jsx?$/,
+        include: [
+          path.resolve(__dirname, 'client')
+        ],
+        exclude: /node_modules/,
+        use: ['react-hot-loader', 'babel-loader'],
+      },
+      {
+        test: /\.scss?$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|jpeg)$/,
-        loader: 'url-loader?limit=8192',
-      },
-      {
-        test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: [/\.js$/, /\.jsx$/],
-        include: path.join(__dirname, 'client'),
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['es2015', 'react'],
-            },
-          },
-        ],
-      },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=4000' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=image/svg+xml'
-      },
-      {
-        test: /\.es6$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015'],
-        },
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
+        use: ['url-loader?limit=8192'],
       }
-    ]
+    ],
   },
   resolve: {
-    extensions: ['*', '.jsx', '.js']
+    extensions: ['.js', '.json', '.jsx', '.scss'],
   },
+  devtool: 'cheap-module-eval-source-map', // enum
+  target: 'web', // enum
+  // externals: ['react'],
+  stats: 'errors-only',
+  devServer: {
+    proxy: {
+      '/api': 'http://localhost:8080'
+    },
+    contentBase: path.join(__dirname), // boolean | string | array, static file location
+    // compress: true, // enable gzip compression
+    historyApiFallback: true, // true for index.html upon 404, object for multiple paths
+    hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
+    https: false, // true for self-signed, object for cert authority
+    noInfo: false, // only errors & warns on hot reload
+    stats: 'minimal',
+    publicPath: '/',
+  },
+
+  plugins: [
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
+    }),
+  ],
   node: {
+    net: 'empty',
     dns: 'empty',
-    net: 'empty'
-  }
+  },
 };
