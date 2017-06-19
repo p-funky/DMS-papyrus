@@ -18,11 +18,11 @@ module.exports = {
     contentBase: './client'
   },
   plugins: [
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     NODE_ENV: JSON.stringify('production')
-    //   }
-    // }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin({ // define where to save the file
       filename: '[name].css',
