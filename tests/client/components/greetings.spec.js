@@ -14,11 +14,11 @@ describe('Greetings', () => {
   });
   it('renders two images', () => {
     const wrapper = setup();
-    expect(wrapper.find('img').length).toEqual(2);
+    expect(wrapper.find('img').length).toEqual(0);
   });
   it('renders divs', () => {
     const wrapper = setup();
-    expect(wrapper.find('div').length).toBe(7);
+    expect(wrapper.find('div').length).toBe(3);
   });
   it('renders a h4 tag', () => {
     const wrapper = setup();
