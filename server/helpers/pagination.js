@@ -9,7 +9,9 @@
  * @param {Number} offset the offset
  * @returns {Object} pagination metaData
  */
-export default function paginate(rows, count, limit, offset) {
+export default function paginate(rows, count, req) {
+  const limit = req.query.limit > 0 ? req.query.limit : '8';
+  const offset = req.query.offset > 0 ? req.query.offset : '0';
   return {
     totalCount: count,
     pages: Math.ceil(count / limit),

@@ -21,11 +21,7 @@ class DocumentControllerHelper {
    * @memberof DocumentControllerHelper
    */
   static getQueryList(req) {
-    const limit = req.query.limit > 0 ? req.query.limit : '8';
-    const offset = req.query.offset > 0 ? req.query.offset : '0';
     const query = {};
-    query.limit = limit;
-    query.offset = offset;
     const id = req.decoded.userId;
     const roleId = req.decoded.roleId;
     if (roleId === 1) {
@@ -57,16 +53,15 @@ class DocumentControllerHelper {
    * @static
    * @param {object} document
    * @param {res} res the response object
-   * @param {limit} limit
-   * @param {offset} offset
+   * @param {req} req
    * @returns {object} document and/or message
    *
    * @memberof DocumentControllerHelper
    */
-  static listDocuments(document, res, limit, offset) {
+  static listDocuments(document, res, req) {
     const rows = document.rows;
     const count = document.count;
-    const settings = paginate(rows, count, limit, offset);
+    const settings = paginate(rows, count, req);
     return res.status(200).send({
       documents: rows, settings
     });
@@ -86,8 +81,6 @@ class DocumentControllerHelper {
    * @memberof DocumentControllerHelper
    */
   static getUserDocuments(user, res, req, id) {
-    const limit = req.query.limit > 0 ? req.query.limit : '8';
-    const offset = req.query.offset > 0 ? req.query.offset : '0';
     let name;
     let response;
     User.findById(id)
@@ -107,8 +100,6 @@ class DocumentControllerHelper {
             }],
             // all of the owner's documents
             where: { ownerId: id },
-            limit,
-            offset,
             order: '"createdAt" ASC'
           })
           .then((documents) => {
@@ -121,7 +112,7 @@ class DocumentControllerHelper {
                 });
             }
             response = DocumentControllerHelper
-              .listDocuments(documents, res, limit, offset);
+              .listDocuments(documents, res, req);
           });
         } else {
           response = res
@@ -267,26 +258,23 @@ class DocumentControllerHelper {
    * @static
    * @param {object} query
    * @param {object} res
+   * @param {object} req
    * @returns {object} documents
    *
    * @memberof DocumentControllerHelper
    */
-  static extractDocuments(query, res) {
-    const limit = query.limit;
-    const offset = query.offset;
+  static extractDocuments(query, res, req) {
     const where = query.where;
     Documents.findAndCountAll({
       include: [{
         model: User,
         attributes: ['userName', 'roleId', 'id'] }],
       where,
-      limit,
-      offset,
       order: '"createdAt" DESC'
     })
     .then((document) => {
       const result = DocumentControllerHelper
-        .listDocuments(document, res, limit, offset);
+        .listDocuments(document, res, req);
       return result;
     });
   }

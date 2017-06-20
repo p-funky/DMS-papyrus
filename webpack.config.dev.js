@@ -1,8 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import BabiliPlugin from 'babili-webpack-plugin';
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 
 export default {
   devtool: 'cheap-module-eval-source-map',
@@ -21,7 +19,6 @@ export default {
     contentBase: './client'
   },
   plugins: [
-    // new UglifyJSPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new ExtractTextPlugin({ // define where to save the file

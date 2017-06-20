@@ -48,7 +48,7 @@ export default {
    */
   list(req, res) {
     const query = getQueryList(req);
-    const result = extractDocuments(query, res);
+    const result = extractDocuments(query, res, req);
     return result;
   },
 
@@ -162,7 +162,7 @@ export default {
    */
   find(req, res) {
     const query = getQuerySearch(req);
-    const result = extractDocuments(query, res);
+    const result = extractDocuments(query, res, req);
     return result;
   }
 };

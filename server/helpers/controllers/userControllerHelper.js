@@ -23,10 +23,10 @@ class UserControllerHelper {
    *
    * @memberof UserControllerHelper
    */
-  static listUsers(user, res, limit, offset) {
+  static listUsers(user, res, req) {
     const rows = user.rows;
     const count = user.count;
-    const settings = paginate(rows, count, limit, offset);
+    const settings = paginate(rows, count, req);
     return res.status(200).send({
       users: rows, settings
     });
@@ -43,20 +43,16 @@ class UserControllerHelper {
    * @memberof UserControllerHelper
    */
   static extractUsers(req, res) {
-    const limit = req.query.limit > 0 ? req.query.limit : '8';
-    const offset = req.query.offset > 0 ? req.query.offset : '0';
     const where = req.where ? req.where : {};
     User.findAndCountAll({
       attributes: ['id', 'firstName', 'lastName',
         'email', 'userName', 'roleId'],
       where,
-      limit,
-      offset,
       order: '"createdAt" ASC'
     })
     .then((user) => {
       const result = UserControllerHelper
-        .listUsers(user, res, limit, offset);
+        .listUsers(user, res, req);
       return result;
     });
   }
