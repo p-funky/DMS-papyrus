@@ -18,3 +18,4 @@ languages:
   JavaScript: true
 exclude_paths:
   -server/models/index.js
+  -tests
