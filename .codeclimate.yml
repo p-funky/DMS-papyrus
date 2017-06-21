@@ -19,3 +19,4 @@ languages:
 exclude_paths:
   -server/models/index.js
   -tests
+  -documentation
