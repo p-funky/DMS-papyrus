@@ -9,7 +9,7 @@ import UsersPage from './components/users/UsersPage';
 import Footer from './components/Footer';
 import ProfilePage from './components/profile/ProfilePage';
 import MyDocumentsPage from './components/myDocuments/MyDocumentsPage';
-import IsAuthenticated from './utils/IsAuthenticated';
+import IsAuthenticated from './utils/isAuthenticated';
 
 
 

@@ -82,7 +82,7 @@ export class EditModal extends React.Component {
     return (
       <Modal
         trigger={
-          <button className="btn-floating waves-effect modal-trigger blue lighten-2 white-text">
+          <button id="edit-document" className="btn-floating waves-effect modal-trigger blue lighten-2 white-text">
             <i className="material-icons">mode_edit</i>
           </button>
           }

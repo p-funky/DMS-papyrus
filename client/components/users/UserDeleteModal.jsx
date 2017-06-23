@@ -38,9 +38,9 @@ export class UserDeleteModal extends React.Component {
   }
   /**
    * renders the user delete modal bar
-   * 
+   *
    * @returns {modal} delete modal
-   * 
+   *
    * @memberof UserDeleteModal
    */
   render() {
