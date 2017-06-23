@@ -17,8 +17,6 @@ ratings:
 languages:
   JavaScript: true
 exclude_paths:
-  -server/models/index.js
-  -tests/**
-  -tests/**/**
-  -documentation/**
-  -documentation/**/**
+  - server/models/index.js
+  - tests/
+  - documentation/
