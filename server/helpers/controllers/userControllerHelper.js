@@ -17,8 +17,7 @@ class UserControllerHelper {
    * @static
    * @param {object} user
    * @param {res} res the response object
-   * @param {limit} limit
-   * @param {offset} offset
+   * @param {req} req
    * @returns {object} user and/or message
    *
    * @memberof UserControllerHelper
