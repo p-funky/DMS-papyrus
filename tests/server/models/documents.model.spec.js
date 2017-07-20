@@ -20,7 +20,7 @@ describe('Documents Model', () => {
     done();
   });
   describe('Validation', () => {
-    it('should require a title field to create a document', () => {
+    it('should require a title to create a document', () => {
       db.Documents.create({ content: 'honey' })
         .catch((error) => {
           expect(/notNull Violation: title cannot be null/
@@ -28,7 +28,7 @@ describe('Documents Model', () => {
         });
     });
 
-    it('should require a unique title field to create a document', () => {
+    it('should require a unique title to create a document', () => {
       db.Documents.create({ title: '777' })
         .catch((error) => {
           expect(/SequelizeUniqueConstraintError/
@@ -38,7 +38,7 @@ describe('Documents Model', () => {
         });
     });
 
-    it('should require valid access as integer', () => {
+    it('should require valid access id as integer', () => {
       db.Documents.create({ title: 'Invalid access', accessId: '2' })
         .catch((error) => {
           expect(/SequelizeDatabaseError/
