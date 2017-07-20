@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -5,21 +6,41 @@ import { Modal, Button } from 'react-materialize';
 import { Redirect, withRouter } from 'react-router-dom';
 import { deleteSelfAction } from '../../actions/userActions';
 
+/**
+ * render the delete modal
+ * @class DeleteAccountModal
+ * @extends {React.Component}
+ */
 export class DeleteAccountModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loggedOut: false };
     this.handleDelete = this.handleDelete.bind(this);
   }
-
+  /**
+   * This method deletes the user
+   *
+   * @param {integer} userId
+   *
+   * @memberof DeleteAccountModal
+   */
   handleDelete(userId) {
-    this.props.deleteSelfAction(userId);
-    this.setState = ({ loggedOut: true });
-    return (
-      <Redirect to="/" />
-    );
+    this.props.deleteSelfAction(userId).then(() => {
+      this.setState = ({ loggedOut: true });
+      return (
+        <Redirect to="/" />
+      );
+    }).catch((error) => {
+      Materialize.toast(error, 3000, 'red');
+    });
   }
-
+  /**
+   * renders the delete modal
+   * 
+   * @returns {modal} delete modal
+   * 
+   * @memberof DeleteAccountModal
+   */
   render() {
     const { loggedOut } = this.state;
     if (loggedOut) {
@@ -42,7 +63,7 @@ export class DeleteAccountModal extends React.Component {
         actions={
           <div>
             <Button
-              onClick={() => this.handleDelete(this.props.profile.id)}
+              onClick={() => this.handleDelete(this.props.profile.userId)}
               waves="light" className="modal-close red darken-2" id="delete"
             >delete</Button>
             <Button flat modal="close" waves="light">dismiss</Button>

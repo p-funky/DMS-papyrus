@@ -3,7 +3,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { UserTemplate }
-  from '../../../../client/components/users/userTemplate';
+  from '../../../../client/components/users/UserTemplate';
 
 const getAllUsersAction = sinon.spy(() => Promise.resolve());
 const props = {

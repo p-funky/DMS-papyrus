@@ -3,7 +3,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { DashboardTemplate }
-  from '../../../../client/components/dashboard/dashboardTemplate';
+  from '../../../../client/components/dashboard/DashboardTemplate';
 
 const getAllDocumentsAction = sinon.spy(() => Promise.resolve());
 const props = {
@@ -11,6 +11,9 @@ const props = {
   authentication: {
     userInfo: '',
     id: '',
+  },
+  user: {
+    userId: ''
   },
   location: '',
   documents: {
@@ -24,7 +27,7 @@ function setup() {
   return shallow(<DashboardTemplate {...props} />);
 }
 
-describe('MyDocumentsTemplate', () => {
+describe('DashboardTemplate', () => {
   it('renders the h5 tag', () => {
     const wrapper = setup();
     expect(wrapper.find('h5').length).toEqual(1);

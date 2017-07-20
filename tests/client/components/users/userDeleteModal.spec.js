@@ -3,7 +3,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { UserDeleteModal }
-  from '../../../../client/components/users/userDeleteModal';
+  from '../../../../client/components/users/UserDeleteModal';
 
 const deleteUserAction = sinon.spy(() => Promise.resolve());
 
